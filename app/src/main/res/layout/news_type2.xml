@@ -8,16 +8,18 @@
         android:layout_width="wrap_content"
         android:layout_height="100sp"
         android:adjustViewBounds="true"
-        android:layout_marginLeft="5sp"
+        android:layout_marginLeft="16sp"
         android:layout_marginRight="5sp"
         android:layout_marginBottom="5sp"
         android:layout_marginTop="5sp"
+        android:src="@drawable/tb09_3"
         />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical" >
+
         <TextView
             android:id="@+id/news_title"
             android:layout_width="wrap_content"
@@ -27,16 +29,16 @@
             android:textStyle="bold"
             android:layout_marginLeft="16sp"
             android:layout_marginTop="20sp"
+            android:text="Title"
             />
 
         <TextView
             android:id="@+id/news_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:textColor="#545454"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="8sp"
             android:layout_marginLeft="20sp"
             android:text="作者"
             />
@@ -47,29 +49,13 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/news_author"
             android:layout_alignParentBottom="true"
-            android:textSize="10sp"
+            android:textSize="12sp"
             android:textColor="#545454"
-            android:layout_marginBottom="8sp"
             android:layout_marginLeft="10sp"
             android:text="发布时间"
             />
+
     </RelativeLayout>
+
 </LinearLayout>
-
-<!--    -->
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:layout_marginLeft="@dimen/cardview_compat_inset_shadow"-->
-<!--        android:layout_toLeftOf="@+id/news_image"-->
-<!--        android:orientation="vertical"-->
-<!--        android:id="@+id/news_list_item1">-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/news_title"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_vertical"/>-->
-<!--    </LinearLayout>-->
 
