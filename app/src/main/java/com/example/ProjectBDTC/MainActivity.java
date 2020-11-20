@@ -1,6 +1,8 @@
 package com.example.ProjectBDTC;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ListView;
@@ -16,19 +18,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //可选的隐藏标题栏选项
-        //ActionBar actionbar = getSupportActionBar();
-        //if (actionbar != null) {
-        //actionbar.hide();
-        //}
+        /*可选的隐藏标题栏选项
+        ActionBar actionbar = getSupportActionBar();
+        if (actionbar != null) {
+        actionbar.hide();
+        }
+        */
 
         //初始化新闻数据，用于测试
         initNews();
-
-        //将得到的新闻list传入自定义的Adapter，然后使用listView的setAdapater方法进行展示
-        custAdapter adapter = new custAdapter(MainActivity.this, R.layout.news_type2, newsList);
-        ListView listView  = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(adapter);
+        RecyclerView newsView = (RecyclerView) findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(this);
+        newsView.setLayoutManager(linearLayout);
+        newsView.addItemDecoration(new RecycleViewDivider(
+                this, LinearLayoutManager.VERTICAL, 5, getResources().getColor(R.color.gray1)));
+        recyclerAdapter adapter  = new recyclerAdapter(newsList);
+        newsView.setAdapter(adapter);
     }
 
     //直接把新闻内容写在这里，用于测试显示效果
