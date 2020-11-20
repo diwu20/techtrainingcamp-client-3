@@ -1,4 +1,5 @@
-# project-BDTC
+# 使用ListView完成的基础功能部分，不再更新
+# project-BDTC 
  project-BDTC client 
 
 ### 2020.11.14 更新
