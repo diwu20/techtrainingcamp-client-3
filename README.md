@@ -1,7 +1,7 @@
 # project-BDTC 
  project-BDTC client  
 
-### 2020.11.21 更新 
+### 2020.11.21 更新 —— WD
 1.使用RecyclerView替换了ListView  
 2.重写了新的Adapter，适配RecyclerView  
 3.由于RecyclerView没有默认的分割线，添加了新类用于自定义分割线样式  
@@ -15,7 +15,7 @@
 4.其他功能  
 
  
-### 2020.11.14 更新  
+### 2020.11.14 更新 —— WD
 1.使用粗糙的方法写了要求的四种布局  
 2.重写Adapter，使用listView进行新闻列表的展示，根据News对象的type字段选择不同的显示布局  
 #### 待解决  
