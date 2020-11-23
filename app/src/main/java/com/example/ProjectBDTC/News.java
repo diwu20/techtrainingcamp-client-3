@@ -14,7 +14,7 @@ public class News {
     private String author;
     private String publishTime;
 
-    //imageID为drawable内对应的图片id，仅用于测试展示，后期应当改成根据cover内的字符串读取本地图片文件
+    /*//imageID为drawable内对应的图片id，仅用于测试展示，后期应当改成根据cover内的字符串读取本地图片文件
     private int[] imageId;
 
     //无图type0的构造方法
@@ -37,7 +37,7 @@ public class News {
         this.publishTime = time;
         this.covers = covers;
         this.imageId = imageId;
-    }
+    }*/
 
     public String getTitle() {
         return title;
@@ -60,12 +60,12 @@ public class News {
     public int getType() {
         return type;
     }
-    public int[] getImageId() {
+    /*public int[] getImageId() {
         return imageId;
-    }
+    }*/
 
-    //测试使用，利用Cover名称获取图片id，代替网络图片读取功能
-    public int[] getCoverId() {
+    //测试使用，现已移除，利用Cover名称获取图片id，代替网络图片读取功能
+    /*public int[] getCoverId() {
         if (getCover() == null && getCovers() == null) {
             return null;
         }
@@ -85,5 +85,5 @@ public class News {
             return new int[] {R.drawable.teambuilding_04};
         }
         else return null;
-    }
+    }*/
 }

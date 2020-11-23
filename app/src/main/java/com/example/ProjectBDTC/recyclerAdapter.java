@@ -127,7 +127,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
         //存储四个ImageView，以供循环使用
         ImageView[] imageViews = {holder.newsImage1,holder.newsImage2,holder.newsImage3,holder.newsImage4};
 
-        if (peice.getCoverId() != null) {
+        if (peice.getCover() != null || peice.getCover() != null) {
             //根据图片数量的不同，调用getImage，并使用handler返回数据
             if(peice.getType() == 4) {
                 //多个图片的情况下，使用循环依次get所需的图片
