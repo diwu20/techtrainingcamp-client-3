@@ -1,6 +1,15 @@
 # project-BDTC 
  project-BDTC client  
 
+### 2020.11.23更新
+1.增加了GSON和OkHttp3依赖，增加了network-security-config.xml用于在高版本android中支持http  
+2.去除手动添加的测试方法，主活动中通过OkHttp从服务器获取json到本地，并使用GSON进行解析，存入List中  
+3.使用多线程，网络服务在子线程中进行，最终在主线程中更新UI  
+
+#### 待解决  
+1.通过http服务获取图片的功能
+2.其他进阶功能
+
 ### 2020.11.21 更新
 1.使用RecyclerView替换了ListView  
 2.重写了新的Adapter，适配RecyclerView  
