@@ -12,7 +12,7 @@ public class News {
     private String cover;
     private List<String> covers;
     private String author;
-    private String time;
+    private String publishTime;
 
     //imageID为drawable内对应的图片id，仅用于测试展示，后期应当改成根据cover内的字符串读取本地图片文件
     private int[] imageId;
@@ -23,7 +23,7 @@ public class News {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.time = time;
+        this.publishTime = time;
         this.cover = cover;
         this.imageId = imageId;
     }
@@ -34,7 +34,7 @@ public class News {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.time = time;
+        this.publishTime = time;
         this.covers = covers;
         this.imageId = imageId;
     }
@@ -49,7 +49,7 @@ public class News {
         return author;
     }
     public String getTime() {
-        return time;
+        return publishTime;
     }
     public String getCover() {
         return cover;

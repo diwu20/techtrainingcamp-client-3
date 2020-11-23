@@ -1,12 +1,15 @@
 package com.example.ProjectBDTC;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,18 +28,22 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     private List<News> newsList = new ArrayList<>();
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*可选的隐藏标题栏选项
+        //可选的隐藏标题栏选项
         ActionBar actionbar = getSupportActionBar();
         if (actionbar != null) {
         actionbar.hide();
         }
-        */
 
+        //布局
+
+        TextView mainText = (TextView) findViewById(R.id.main_title);
+        mainText.setBackgroundResource(R.color.pink);
         RecyclerView newsView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         newsView.setLayoutManager(linearLayout);
@@ -71,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
     //调用getNews方法发送请求
     private void initNews(okhttp3.Callback callback) {
-        String jsonURL = "http://192.168.1.106//metadata.json";
+        //String jsonURL = "http://192.168.1.106/metadata.json";
+        String jsonURL = "http://cdn.skyletter.cn/metadata.json";
         getNews(jsonURL, callback);
         Log.d("initNews","get ok");
     }
@@ -84,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         client.newCall(request).enqueue(callback);
     }
 
-    //调用Gson解析获取的json,此方法已经经过完整测试
+    //调用GSON解析获取的json,此方法已经经过完整测试
     private void parseJSONWhithGson(String jsonData) {
         Log.d("MainActivity","getting newsList");
         Gson gson = new Gson();

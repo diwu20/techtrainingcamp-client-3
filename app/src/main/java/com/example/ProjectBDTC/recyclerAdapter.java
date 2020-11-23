@@ -1,17 +1,27 @@
 package com.example.ProjectBDTC;
 
-import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.constraintlayout.motion.widget.KeyCycle;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.IOException;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
 
@@ -113,19 +123,73 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
         holder.newsTitle.setText(peice.getTitle());
         holder.newsAuthor.setText(peice.getAuthor());
         holder.newsTime.setText(peice.getTime());
+
+        //存储四个ImageView，以供循环使用
+        ImageView[] imageViews = {holder.newsImage1,holder.newsImage2,holder.newsImage3,holder.newsImage4};
+
         if (peice.getCoverId() != null) {
+            //根据图片数量的不同，调用getImage，并使用handler返回数据
             if(peice.getType() == 4) {
-//                holder.newsImage1.setImageResource(peice.getImageId()[0]);
-//                holder.newsImage2.setImageResource(peice.getImageId()[1]);
-//                holder.newsImage3.setImageResource(peice.getImageId()[2]);
-//                holder.newsImage4.setImageResource(peice.getImageId()[3]);
-//
-                holder.newsImage1.setImageResource(peice.getCoverId()[0]);
+                //多个图片的情况下，使用循环依次get所需的图片
+                String[] URLs = new String[4];
+                for (int i = 0; i < 4; i++) {
+                    URLs[i] = "http://192.168.1.106/" + peice.getCovers().get(i);
+                }
+                for (int i = 0; i < 4; i++) {
+                    int finalI = i;
+                    Handler handler = new Handler(new Handler.Callback() {
+                        @Override
+                        public boolean handleMessage(Message msg) {
+                            switch (msg.what) {
+                                case 1://成功
+                                    byte[] result = (byte[]) msg.obj;
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
+                                    //使用ScaleBitmap进行裁剪和缩放
+                                    ScaleBitmap cut = new ScaleBitmap();
+                                    bitmap = cut.scaleBitmap(bitmap,60,40);
+                                    Log.d("Bitmap", "Bitmap长度是" + result.length);
+                                    //setImage
+                                    imageViews[finalI].setImageBitmap(bitmap);
+                                    return true;
+                            }
+                            return false;
+                        }
+                    });
+                    getImage(URLs[i],handler);
+                }
+                //之前的测试方案，暂且保留
+                /*holder.newsImage1.setImageResource(peice.getCoverId()[0]);
                 holder.newsImage2.setImageResource(peice.getCoverId()[1]);
                 holder.newsImage3.setImageResource(peice.getCoverId()[2]);
-                holder.newsImage4.setImageResource(peice.getCoverId()[3]);
+                holder.newsImage4.setImageResource(peice.getCoverId()[3]);*/
             } else {
-                holder.newsImage.setImageResource(peice.getCoverId()[0]);
+                //单个图片的情况下，只需要发起一次网络请求
+                //String URL = "http://192.168.1.106/" + peice.getCover();
+                String URL = "http://cdn.skyletter.cn/" + peice.getCover();
+                Handler handler = new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+                        switch (msg.what) {
+                            case 1://成功
+                                byte[] result = (byte[]) msg.obj;
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
+                                Log.d("Bitmap", "Bitmap长度是" + result.length);
+                                //根据不同新闻类型进行图片裁剪与缩放
+                                ScaleBitmap cut = new ScaleBitmap();
+                                if (peice.getType() == 3) {
+                                    bitmap = cut.zoomBitMap(bitmap,0.2);
+                                } else {
+                                    bitmap = cut.zoomBitMap(bitmap,0.2);
+                                }
+                                holder.newsImage.setImageBitmap(bitmap);
+                                return true;
+                        }
+                        return false;
+                    }
+                });
+                getImage(URL,handler);
+                //之前的测试方案，暂且保留
+                 /*holder.newsImage.setImageResource(peice.getCoverId()[0]);*/
             }
         }
     }
@@ -152,6 +216,40 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 return R.layout.news_type2;
         }
     }
+
+    private void getImage(String URL, Handler handler) {
+        //实例化
+        OkHttpClient client=new OkHttpClient();
+        //传入图片网址
+        final Request request = new Request.Builder().url(URL).build();
+        //实例化一个call的对象
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("onFailure","fail a lot");
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                //声明
+                Message message= handler.obtainMessage();
+                if (response.isSuccessful()){
+                    Log.e("YF", "onResponse: "+"YES" );
+                    //设置成功的指令为1
+                    message.what=1;
+                    //带入图片的数据
+                    message.obj=response.body().bytes();
+                    //将指令和数据传出去
+                    handler.sendMessage(message);
+                }else{//失败
+                    Log.e("YF", "onResponse: "+"NO" );
+                    handler.sendEmptyMessage(0);
+                }
+            }
+        });
+    }
+
+
+
 }
 
 

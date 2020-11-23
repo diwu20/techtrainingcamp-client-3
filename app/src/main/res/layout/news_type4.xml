@@ -79,6 +79,7 @@
         android:textColor="#545454"
         android:layout_marginStart="18sp"
         android:layout_marginLeft="18sp"
+        android:layout_marginBottom="10sp"
         android:text="作者"
         />
 
@@ -90,6 +91,7 @@
         android:textColor="#545454"
         android:layout_marginStart="18sp"
         android:layout_marginLeft="18sp"
+        android:layout_marginBottom="10sp"
         android:text="发布时间"
         />
 

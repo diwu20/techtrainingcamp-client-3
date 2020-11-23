@@ -22,8 +22,9 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:textColor="#545454"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:layout_marginBottom="8sp"
+            android:layout_marginTop="70sp"
             android:layout_marginLeft="18sp"
             android:text="作者"
             />
@@ -33,11 +34,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/news_author"
-            android:layout_alignParentBottom="true"
+            android:layout_alignParentBottom="false"
             android:textSize="12sp"
             android:textColor="#545454"
             android:layout_marginBottom="10sp"
             android:layout_marginLeft="10sp"
+            android:layout_marginTop="70sp"
             android:text="发布时间"
             />
 
