@@ -113,14 +113,19 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
         holder.newsTitle.setText(peice.getTitle());
         holder.newsAuthor.setText(peice.getAuthor());
         holder.newsTime.setText(peice.getTime());
-        if (peice.getImageId() != null) {
+        if (peice.getCoverId() != null) {
             if(peice.getType() == 4) {
-                holder.newsImage1.setImageResource(peice.getImageId()[0]);
-                holder.newsImage2.setImageResource(peice.getImageId()[1]);
-                holder.newsImage3.setImageResource(peice.getImageId()[2]);
-                holder.newsImage4.setImageResource(peice.getImageId()[3]);
+//                holder.newsImage1.setImageResource(peice.getImageId()[0]);
+//                holder.newsImage2.setImageResource(peice.getImageId()[1]);
+//                holder.newsImage3.setImageResource(peice.getImageId()[2]);
+//                holder.newsImage4.setImageResource(peice.getImageId()[3]);
+//
+                holder.newsImage1.setImageResource(peice.getCoverId()[0]);
+                holder.newsImage2.setImageResource(peice.getCoverId()[1]);
+                holder.newsImage3.setImageResource(peice.getCoverId()[2]);
+                holder.newsImage4.setImageResource(peice.getCoverId()[3]);
             } else {
-                holder.newsImage.setImageResource(peice.getImageId()[0]);
+                holder.newsImage.setImageResource(peice.getCoverId()[0]);
             }
         }
     }
