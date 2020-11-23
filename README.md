@@ -1,6 +1,14 @@
 # project-BDTC 
  project-BDTC client  
 
+### 2020.11.23更新2
+1.图片获取方式从本地读取更改为通过HTTP服务获取
+2.增加ScaleBitmap类，添加两种图片处理方法，分别是裁剪缩放和缩放，用于处理得到的不同大小的图片，优化内存占用
+3.微调RecyclerView对应的四种布局，以及main布局，调制app背景颜色，图标等
+
+#### 待解决  
+其他进阶功能
+
 ### 2020.11.23更新
 1.增加了GSON和OkHttp3依赖，增加了network-security-config.xml用于在高版本android中支持http  
 2.去除手动添加的测试方法，主活动中通过OkHttp从服务器获取json到本地，并使用GSON进行解析，存入List中  
