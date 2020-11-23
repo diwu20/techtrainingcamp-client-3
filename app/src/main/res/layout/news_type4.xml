@@ -29,7 +29,7 @@
         android:layout_marginLeft="10sp"
         android:layout_marginRight="5sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/tb09_1"
+        android:src="@drawable/ic_launcher"
         />
 
     <ImageView
@@ -40,7 +40,7 @@
         android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/tb09_2"
+        android:src="@drawable/ic_launcher"
         />
 
     <ImageView
@@ -51,7 +51,7 @@
         android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/tb09_3"
+        android:src="@drawable/ic_launcher"
         />
 
     <ImageView
@@ -62,7 +62,7 @@
         android:layout_marginLeft="5sp"
         android:layout_marginRight="10sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/tb09_4"
+        android:src="@drawable/ic_launcher"
         />
 
     </LinearLayout>

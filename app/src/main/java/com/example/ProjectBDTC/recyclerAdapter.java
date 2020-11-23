@@ -127,13 +127,13 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
         //存储四个ImageView，以供循环使用
         ImageView[] imageViews = {holder.newsImage1,holder.newsImage2,holder.newsImage3,holder.newsImage4};
 
-        if (peice.getCover() != null || peice.getCover() != null) {
+        if (peice.getCover() != null || peice.getCovers() != null) {
             //根据图片数量的不同，调用getImage，并使用handler返回数据
             if(peice.getType() == 4) {
                 //多个图片的情况下，使用循环依次get所需的图片
                 String[] URLs = new String[4];
                 for (int i = 0; i < 4; i++) {
-                    URLs[i] = "http://192.168.1.106/" + peice.getCovers().get(i);
+                    URLs[i] = "http://cdn.skyletter.cn/" + peice.getCovers().get(i);
                 }
                 for (int i = 0; i < 4; i++) {
                     int finalI = i;
@@ -146,7 +146,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                                     Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
                                     //使用ScaleBitmap进行裁剪和缩放
                                     ScaleBitmap cut = new ScaleBitmap();
-                                    bitmap = cut.scaleBitmap(bitmap,60,40);
+                                    bitmap = cut.scaleBitmap(bitmap,50,30);
                                     Log.d("Bitmap", "Bitmap长度是" + result.length);
                                     //setImage
                                     imageViews[finalI].setImageBitmap(bitmap);
@@ -247,8 +247,6 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
             }
         });
     }
-
-
 
 }
 
