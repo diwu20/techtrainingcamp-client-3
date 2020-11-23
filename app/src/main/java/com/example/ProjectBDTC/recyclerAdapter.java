@@ -146,7 +146,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                                     Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
                                     //使用ScaleBitmap进行裁剪和缩放
                                     ScaleBitmap cut = new ScaleBitmap();
-                                    bitmap = cut.scaleBitmap(bitmap,50,30);
+                                    bitmap = cut.scaleBitmap(bitmap,100,60);
                                     Log.d("Bitmap", "Bitmap长度是" + result.length);
                                     //setImage
                                     imageViews[finalI].setImageBitmap(bitmap);
@@ -177,9 +177,9 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                                 //根据不同新闻类型进行图片裁剪与缩放
                                 ScaleBitmap cut = new ScaleBitmap();
                                 if (peice.getType() == 3) {
-                                    bitmap = cut.zoomBitMap(bitmap,0.2);
+                                    bitmap = cut.zoomBitMap(bitmap,0.4);
                                 } else {
-                                    bitmap = cut.zoomBitMap(bitmap,0.2);
+                                    bitmap = cut.zoomBitMap(bitmap,0.4);
                                 }
                                 holder.newsImage.setImageBitmap(bitmap);
                                 return true;
