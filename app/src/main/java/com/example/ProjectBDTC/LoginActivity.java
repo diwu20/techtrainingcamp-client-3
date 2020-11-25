@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -26,21 +27,44 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class LoginActivity extends BaseActivity {
+    protected static int code = 100;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         EditText username = (EditText) findViewById(R.id.username);
         EditText password = (EditText) findViewById(R.id.password);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress_bar_login);
+        progressBar.setVisibility(View.INVISIBLE);
         Button button_login = (Button) findViewById(R.id.button_login);
         button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendPostRequestWithHttpURLConnection(username.getText().toString(),
                         password.getText().toString().hashCode());
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                intent.putExtra("username",username.getText().toString());
-                startActivity(intent);
+                int i = 0;
+                progressBar.setVisibility(View.VISIBLE);
+                while (code == 100) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    i = i + 1;
+                    if (i > 90) {
+                        break;
+                    }
+                }
+                progressBar.setVisibility(View.INVISIBLE);
+                if (code == 0) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("username", username.getText().toString());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(LoginActivity.this, "哎呀，出了些问题哦",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -67,7 +91,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void sendPostRequestWithHttpURLConnection(String username, int password) {
-        //开启线程发起网络请求
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -78,31 +101,32 @@ public class LoginActivity extends BaseActivity {
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-                    out.writeBytes("username="+username+"&password="+password);
+                    out.writeBytes("username=" + username + "&password=" + password);
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
                     InputStream in = connection.getInputStream();
                     reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();
                     String line;
-                    while((line = reader.readLine())!=null){
+                    while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
                     String response_str = response.toString();
-                    Log.d("LoginActivity", "run: "+response_str);
+                    Log.d("LoginActivity", "run: " + response_str);
                     JSONObject jsonObject = new JSONObject(response_str);
                     ActivityCollector.token = jsonObject.get("token").toString();
+                    LoginActivity.code = (int) jsonObject.get("code");
                 } catch (Exception e) {
                     e.printStackTrace();
-                }finally {
-                    if(reader!=null){
-                        try{
+                } finally {
+                    if (reader != null) {
+                        try {
                             reader.close();
-                        }catch (IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
-                    if(connection!= null){
+                    if (connection != null) {
                         connection.disconnect();
                     }
                 }

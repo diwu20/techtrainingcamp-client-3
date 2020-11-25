@@ -1,97 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@drawable/login_bg">
+    android:background="@drawable/login_bg"
+    android:orientation="vertical">
 
 <!--    <android.support.v7.widget.Toolbar-->
-<!--        android:id = '@+id/toolbar'-->
+<!--        android:id='@+id/toolbar'-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="?attr/actionBarSize"-->
-<!--        android:backgroud="?attr/colorPrimary"-->
 <!--        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
-<!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
-<!--        />-->
+<!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+<!--        android:backgroud="?attr/colorPrimary" />-->
 
     <ImageView
         android:layout_width="100sp"
         android:layout_height="100sp"
         android:layout_marginTop="100sp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_launcher"/>
+        android:layout_marginTop="50sp"
+        android:src="@drawable/ic_launcher" />
 
-<!--        用户名-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100sp"
-            android:layout_marginLeft="20sp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4sp"
-                android:text="用户名:"
-                android:textSize="18dp"
-                android:textColor="@color/white"
-                />
-            <EditText
-                android:id="@+id/username"
-                android:layout_width="250sp"
-                android:layout_height="40sp"
-                android:layout_marginLeft="8sp"
-                android:maxLength="20"
-                android:hint="请输入用户名"
-                android:background="@drawable/bg_edittext"
-                android:paddingLeft="10sp"
-                android:paddingTop="5sp"
-                android:paddingBottom="5sp"
-                android:textColor="@color/white"/>
-        </LinearLayout>
+    <!--        用户名-->
+    <ProgressBar
+        android:id="@+id/progress_bar_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-<!--        密码-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:layout_marginLeft="20sp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4sp"
-                android:layout_marginLeft="18sp"
-                android:text="密码:"
-                android:textSize="18dp"
-                android:textColor="@color/white"
-                />
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="250sp"
-                android:layout_height="40sp"
-                android:layout_marginLeft="8sp"
-                android:maxLength="20"
-                android:hint="请输入密码"
-                android:background="@drawable/bg_edittext"
-                android:paddingLeft="10sp"
-                android:inputType="textPassword"
-                android:paddingTop="5sp"
-                android:paddingBottom="5sp"
-                android:textColor="@color/white"/>
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="100sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4sp"
+            android:text="用户名:"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="250sp"
+            android:layout_height="40sp"
+            android:layout_marginLeft="8sp"
+            android:background="@drawable/bg_edittext"
+            android:hint="请输入用户名"
+            android:maxLength="20"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!--        密码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="20sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="18sp"
+            android:layout_marginTop="4sp"
+            android:text="密码:"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="250sp"
+            android:layout_height="40sp"
+            android:layout_marginLeft="8sp"
+            android:background="@drawable/bg_edittext"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/button_login"
         android:layout_width="100sp"
         android:layout_height="50sp"
+        android:layout_gravity="center"
         android:layout_marginTop="50sp"
+        android:background="@drawable/bg_button"
         android:text="登录"
         android:textColor="@color/PeachPuff"
-        android:textSize="20dp"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_button"/>
+        android:textSize="20dp" />
 
 
 </LinearLayout>
