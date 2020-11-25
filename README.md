@@ -1,7 +1,13 @@
 # project-BDTC 
  project-BDTC client  
 
+### 2020.11.25更新
+
+1.增加了loginActivity
+2.将username传入MainActivity
+
 ### 2020.11.23更新2
+
 1.图片获取方式从本地读取更改为通过HTTP服务获取
 2.增加ScaleBitmap类，添加两种图片处理方法，分别是裁剪缩放和缩放，用于处理得到的不同大小的图片，优化内存占用
 3.微调RecyclerView对应的四种布局，以及main布局，调制app背景颜色，图标等
@@ -31,7 +37,7 @@
 3.正文文本展示对应的Activity以及文章内容的传递  
 4.其他功能  
 
- 
+
 ### 2020.11.14 更新
 1.使用粗糙的方法写了要求的四种布局  
 2.重写Adapter，使用listView进行新闻列表的展示，根据News对象的type字段选择不同的显示布局  
