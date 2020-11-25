@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import org.json.JSONObject;
 
@@ -30,6 +31,9 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        //让toolbar支持ActionBar操作
+        Toolbar toolbar = findViewById(R.id.login_toolbar);
+        setSupportActionBar(toolbar);
         EditText username = (EditText) findViewById(R.id.username);
         EditText password = (EditText) findViewById(R.id.password);
         Button button_login = (Button) findViewById(R.id.button_login);
@@ -48,7 +52,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -58,12 +62,12 @@ public class LoginActivity extends BaseActivity {
                 ActivityCollector.finishAll();
                 break;
             case R.id.about_item:
-                Toast.makeText(this, "作者：吴迪，王龙逊",
+                Toast.makeText(this, "作者: Group3 吴迪 & 王龙逊",
                         Toast.LENGTH_LONG).show();
                 break;
             default:
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private void sendPostRequestWithHttpURLConnection(String username, int password) {
