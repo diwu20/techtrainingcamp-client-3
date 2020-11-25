@@ -1,6 +1,7 @@
 <<<<<<< Updated upstream
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
     <style name="Theme.BDTC" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
@@ -16,6 +17,9 @@
 =======
     <style name="Theme.BDTC" parent="Theme.AppCompat.Light">
 >>>>>>> Stashed changes
+=======
+    <style name="Theme.BDTC" parent="Theme.AppCompat.Light.NoActionBar">
+>>>>>>> parent of d623c15... UI adjustments
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/pink</item>
         <item name="colorPrimaryVariant">@color/pink</item>
