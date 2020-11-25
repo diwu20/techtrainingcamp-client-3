@@ -1,5 +1,17 @@
 # project-BDTC 
  project-BDTC client  
+ 
+### 2020.11.25更新
+
+1.增加了loginActivity
+2.密码先进行加密再进行传输
+3.将username传入MainActivity
+4.将所有Activity变为BaseActivity的子类，由ActivityControlor统一管理
+5.Token存储在ActivityControlor的token变量下，供调用
+
+### 待解决
+1.MainActivity中状态栏显示用户名
+2.
 
 ### 2020.11.23更新2
 1.图片获取方式从本地读取更改为通过HTTP服务获取
