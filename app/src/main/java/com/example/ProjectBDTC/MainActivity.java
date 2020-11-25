@@ -1,5 +1,6 @@
 package com.example.ProjectBDTC;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,7 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private List<News> newsList = new ArrayList<>();
 
     @SuppressLint("ResourceAsColor")
@@ -35,15 +39,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //可选的隐藏标题栏选项
-        ActionBar actionbar = getSupportActionBar();
-        if (actionbar != null) {
-        actionbar.hide();
-        }
+//        ActionBar actionbar = getSupportActionBar();
+//        if (actionbar != null) {
+//        actionbar.hide();
+//        }
 
         //布局
 
-        TextView mainText = (TextView) findViewById(R.id.main_title);
-        mainText.setBackgroundResource(R.color.pink);
+//        TextView mainText = (TextView) findViewById(R.id.main_title);
+//        mainText.setBackgroundResource(R.color.pink);
         RecyclerView newsView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         newsView.setLayoutManager(linearLayout);
@@ -74,6 +78,27 @@ public class MainActivity extends AppCompatActivity {
 
         //初始化新闻列表
         initNews(callback);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.exit_item:
+                ActivityCollector.finishAll();
+                break;
+            case R.id.about_item:
+                Toast.makeText(this, "作者：吴迪，王龙逊",
+                        Toast.LENGTH_LONG).show();
+                break;
+            default:
+        }
+        return true;
     }
 
     //调用getNews方法发送请求

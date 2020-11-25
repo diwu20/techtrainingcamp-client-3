@@ -16,6 +16,13 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+//    android.applicationVariants.all{
+//        variants->
+//            variants.outputs.all{
+//                outputFileName = "公告板.apk"
+//            }
+//    }
+
     buildTypes {
         release {
             minifyEnabled false
