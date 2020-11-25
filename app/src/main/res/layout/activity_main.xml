@@ -7,6 +7,7 @@
     <TextView
         android:id="@+id/main_title"
         android:layout_width="match_parent"
+<<<<<<< Updated upstream
         android:layout_height="wrap_content"
         android:text="新闻公告板"
         android:height="40sp"
@@ -15,6 +16,25 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         />
+=======
+        android:layout_height="100sp"
+        android:background="@color/pink"
+        app:showAsAction="always"
+        android:fitsSystemWindows="true">
+         <TextView
+             android:id="@+id/main_title"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="标题"
+             android:textSize="15sp"
+             android:textColor="@color/white"
+             android:layout_centerInParent="true"
+             android:gravity="center_horizontal">
+         </TextView>
+
+    </androidx.appcompat.widget.Toolbar>
+
+>>>>>>> Stashed changes
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@id/main_title"

@@ -1,15 +1,26 @@
 package com.example.ProjectBDTC;
 
+<<<<<<< Updated upstream
+=======
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+>>>>>>> Stashed changes
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
+<<<<<<< Updated upstream
+=======
+import android.widget.Toast;
+import android.widget.Toolbar;
+>>>>>>> Stashed changes
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +39,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     private List<News> newsList = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
         //布局
 
+<<<<<<< Updated upstream
         TextView mainText = (TextView) findViewById(R.id.main_title);
         mainText.setBackgroundResource(R.color.pink);
+=======
+        //TextView mainText = (TextView) findViewById(R.id.main_title);
+        //mainText.setBackgroundResource(R.color.pink);
+>>>>>>> Stashed changes
         RecyclerView newsView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         newsView.setLayoutManager(linearLayout);
@@ -76,6 +93,32 @@ public class MainActivity extends AppCompatActivity {
         initNews(callback);
     }
 
+<<<<<<< Updated upstream
+=======
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.exit_item:
+                ActivityCollector.finishAll();
+                break;
+            case R.id.about_item:
+                Toast.makeText(this, "作者：吴迪，王龙逊",
+                        Toast.LENGTH_LONG).show();
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+>>>>>>> Stashed changes
     //调用getNews方法发送请求
     private void initNews(okhttp3.Callback callback) {
         //String jsonURL = "http://192.168.1.106/metadata.json";
