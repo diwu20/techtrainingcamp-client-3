@@ -8,6 +8,7 @@
         android:id="@+id/main_title"
         android:layout_width="match_parent"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         android:layout_height="wrap_content"
         android:text="新闻公告板"
         android:height="40sp"
@@ -18,6 +19,9 @@
         />
 =======
         android:layout_height="100sp"
+=======
+        android:layout_height="wrap_content"
+>>>>>>> Stashed changes
         android:background="@color/pink"
         app:showAsAction="always"
         android:fitsSystemWindows="true">

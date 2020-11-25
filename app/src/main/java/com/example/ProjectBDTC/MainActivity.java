@@ -19,7 +19,11 @@ import android.widget.TextView;
 <<<<<<< Updated upstream
 =======
 import android.widget.Toast;
+<<<<<<< Updated upstream
 import android.widget.Toolbar;
+>>>>>>> Stashed changes
+=======
+import androidx.appcompat.widget.Toolbar;
 >>>>>>> Stashed changes
 
 import com.google.gson.Gson;
@@ -45,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //让toolbar支持ActionBar操作
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
 
         //可选的隐藏标题栏选项
         ActionBar actionbar = getSupportActionBar();
@@ -94,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 
 
@@ -119,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     //调用getNews方法发送请求
     private void initNews(okhttp3.Callback callback) {
         //String jsonURL = "http://192.168.1.106/metadata.json";
@@ -140,5 +150,26 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity","getting newsList");
         Gson gson = new Gson();
         newsList = gson.fromJson(jsonData, new TypeToken<List<News>>(){}.getType());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_login, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.exit_item:
+                ActivityCollector.finishAll();
+                break;
+            case R.id.about_item:
+                Toast.makeText(this, "Group3 吴迪 & 王龙逊",
+                        Toast.LENGTH_LONG).show();
+                break;
+            default:
+        }
+        return true;
     }
 }

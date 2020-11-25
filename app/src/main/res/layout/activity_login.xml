@@ -12,15 +12,33 @@
 <!--        android:layout_height="?attr/actionBarSize"-->
 <!--        android:backgroud="?attr/colorPrimary"-->
 <!--        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+<<<<<<< Updated upstream
 <!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
 <!--        />-->
+=======
+<!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+<!--        android:backgroud="?attr/colorPrimary" />-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/login_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:title="登陆"
+        app:titleTextColor="@color/white">
+    </androidx.appcompat.widget.Toolbar>
+>>>>>>> Stashed changes
 
     <ImageView
         android:layout_width="100sp"
         android:layout_height="100sp"
-        android:layout_marginTop="100sp"
+        android:layout_marginTop="35sp"
         android:layout_gravity="center_horizontal"
+<<<<<<< Updated upstream
         android:src="@drawable/ic_launcher"/>
+=======
+        android:src="@drawable/ic_launcher" />
+>>>>>>> Stashed changes
 
 <!--        用户名-->
         <LinearLayout
@@ -57,14 +75,56 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20sp"
         android:layout_marginLeft="20sp"
+<<<<<<< Updated upstream
+=======
+        android:layout_marginTop="30sp"
+>>>>>>> Stashed changes
         android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="4sp"
+<<<<<<< Updated upstream
             android:layout_marginLeft="18sp"
             android:text="密码:"
             android:textSize="18dp"
+=======
+            android:layout_marginLeft="10sp"
+            android:text="用户名:"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="250sp"
+            android:layout_height="40sp"
+            android:layout_marginLeft="8sp"
+            android:background="@drawable/bg_edittext"
+            android:hint="请输入用户名"
+            android:textColorHint="@color/gray1"
+            android:maxLength="20"
+            android:paddingLeft="10sp"
+            android:paddingTop="5sp"
+            android:paddingBottom="5sp"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!--        密码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="20sp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+            android:layout_marginTop="4sp"
+            android:layout_marginLeft="10sp"
+            android:text="密    码:"
+>>>>>>> Stashed changes
             android:textColor="@color/white"
             />
         <EditText
@@ -72,6 +132,13 @@
             android:layout_width="250sp"
             android:layout_height="40sp"
             android:layout_marginLeft="8sp"
+<<<<<<< Updated upstream
+=======
+            android:background="@drawable/bg_edittext"
+            android:hint="请输入密码"
+            android:textColorHint="@color/gray1"
+            android:inputType="textPassword"
+>>>>>>> Stashed changes
             android:maxLength="20"
             android:hint="请输入密码"
             android:background="@drawable/bg_edittext"
@@ -86,12 +153,22 @@
         android:id="@+id/button_login"
         android:layout_width="100sp"
         android:layout_height="50sp"
+<<<<<<< Updated upstream
         android:layout_marginTop="50sp"
         android:text="登录"
         android:textColor="@color/PeachPuff"
         android:textSize="20dp"
         android:layout_gravity="center"
         android:background="@drawable/bg_button"/>
+=======
+        android:layout_gravity="center"
+        android:layout_marginTop="40sp"
+        android:background="@drawable/bg_button"
+        android:text="登录"
+        android:textColor="@color/PeachPuff"
+        android:textStyle="bold"
+        android:textSize="20dp" />
+>>>>>>> Stashed changes
 
 
 </LinearLayout>
