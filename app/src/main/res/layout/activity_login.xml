@@ -18,7 +18,7 @@
     <ImageView
         android:layout_width="100sp"
         android:layout_height="100sp"
-        android:layout_marginTop="50sp"
+        android:layout_marginTop="100sp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ic_launcher"/>
 
