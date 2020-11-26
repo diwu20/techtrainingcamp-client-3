@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -38,16 +39,12 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //可选的隐藏标题栏选项
-//        ActionBar actionbar = getSupportActionBar();
-//        if (actionbar != null) {
-//        actionbar.hide();
-//        }
-
+        //让toolbar支持ActionBar操作
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
         //布局
-
-//        TextView mainText = (TextView) findViewById(R.id.main_title);
-//        mainText.setBackgroundResource(R.color.pink);
+        //TextView mainText = (TextView) findViewById(R.id.main_title);
+        //mainText.setBackgroundResource(R.color.pink);
         RecyclerView newsView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(this);
         newsView.setLayoutManager(linearLayout);
@@ -83,7 +80,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -93,12 +90,12 @@ public class MainActivity extends BaseActivity {
                 ActivityCollector.finishAll();
                 break;
             case R.id.about_item:
-                Toast.makeText(this, "作者：吴迪，王龙逊",
+                Toast.makeText(this, "作者: Group3 吴迪 & 王龙逊",
                         Toast.LENGTH_LONG).show();
                 break;
             default:
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     //调用getNews方法发送请求
