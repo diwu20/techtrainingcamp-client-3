@@ -13,12 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.BDTC">
-        <activity android:name=".NoticeActivity">
-            <intent-filter>
-                <action android:name="com.example.ProjectBDTC.NOTICE_START"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
