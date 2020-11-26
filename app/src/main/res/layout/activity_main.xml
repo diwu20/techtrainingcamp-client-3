@@ -7,6 +7,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 <!--    <TextView-->
@@ -20,9 +21,27 @@
 <!--        android:textStyle="bold"-->
 <!--        android:textColor="@color/white"-->
 <!--        />-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="100sp"
+        android:background="@color/pink"
+        android:fitsSystemWindows="true">
+         <TextView
+             android:id="@+id/main_title"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="标题"
+             android:textSize="15sp"
+             android:textColor="@color/white"
+             android:layout_centerInParent="true"
+             android:gravity="center_horizontal">
+         </TextView>
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <androidx.recyclerview.widget.RecyclerView
-
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
