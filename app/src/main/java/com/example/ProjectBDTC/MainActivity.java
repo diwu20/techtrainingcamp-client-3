@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity {
                 //主线程操作
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
-                        recyclerAdapter adapter  = new recyclerAdapter(newsList);
+                        recyclerAdapter adapter  = new recyclerAdapter(newsList,MainActivity.this);
                         newsView.setAdapter(adapter);
                     }
                 });
