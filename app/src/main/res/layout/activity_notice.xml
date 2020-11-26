@@ -27,13 +27,13 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:text="文章正文"
+            android:textColor="@color/Pinlan"
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView
         android:id="@+id/notice_scroll"
         android:layout_below="@id/notice_toolbar"
-        android:fadingEdge="vertical"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

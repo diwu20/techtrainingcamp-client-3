@@ -31,6 +31,7 @@
              android:id="@+id/main_title"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
+             android:textColor="@color/Pinlan"
              android:text="新闻列表"
              android:textSize="20sp"
              android:layout_gravity="center">

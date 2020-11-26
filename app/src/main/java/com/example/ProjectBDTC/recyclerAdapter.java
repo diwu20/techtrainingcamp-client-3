@@ -38,6 +38,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
 
     static private int code = 100;
     static private Context NowActivity = null;
+    static public boolean ifSendData;
 
     //储存传入的新闻列表
     private List<News> newsList;
@@ -98,10 +99,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
             public void onClick(View v) {
                 int position = holder.getAbsoluteAdapterPosition();
                 News newsPeice = newsList.get(position);
-
+                //重置flag
+                recyclerAdapter.ifSendData = false;
                 sendGetRequestWithHttpURLConnection(newsPeice.getId());
                 int i = 0;
-                while (code == 100) {
+                //添加对数据是否发送的判断
+                while (code == 100 && ifSendData) {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -116,6 +119,8 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                     NoticeActivity.newsPeice = newsPeice;
                     Intent intent = new Intent("com.example.ProjectBDTC.NOTICE_START");
                     NowActivity.startActivity(intent);
+
+                    Log.d("flag",String.valueOf(ifSendData));
                 }else{
                     Toast.makeText(NowActivity,"哎呀出了些问题",Toast.LENGTH_LONG).show();
                 }
@@ -310,6 +315,9 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                     JSONObject jsonObject = new JSONObject(response_str);
                     recyclerAdapter.code = (int) jsonObject.get("code");
                     NoticeActivity.data = response_str;
+                    //由于存在延迟，导致内容展示顺序错乱，添加flag用于判断
+                    recyclerAdapter.ifSendData = true;
+                    Log.d("AdapterToNotice",response_str);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

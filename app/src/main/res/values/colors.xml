@@ -14,4 +14,5 @@
     <color name="Gold1">#FFD700</color>
     <color name="Pinlan">#2b73af</color>
     <color name="Blackgray">#3c3c3c</color>
+    <color name="Blackgrayshadow">#6c6c6c</color>
 </resources>
