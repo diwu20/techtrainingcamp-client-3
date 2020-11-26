@@ -23,7 +23,7 @@
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@id/news_image"
         android:textSize="17sp"
-        android:textColor="#fd7299"
+        android:textColor="@color/Blackgray"
         android:textStyle="bold"
         android:layout_marginLeft="16sp"
         android:layout_marginTop="22sp"

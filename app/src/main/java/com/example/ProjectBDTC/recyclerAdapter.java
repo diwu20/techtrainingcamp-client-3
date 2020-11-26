@@ -98,7 +98,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
             public void onClick(View v) {
                 int position = holder.getAbsoluteAdapterPosition();
                 News newsPeice = newsList.get(position);
-                Toast.makeText(v.getContext(), "测试，你点击了id为" + newsPeice.getId() + "的新闻", Toast.LENGTH_LONG).show();
+
                 sendGetRequestWithHttpURLConnection(newsPeice.getId());
                 int i = 0;
                 while (code == 100) {
@@ -113,6 +113,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                     }
                 }
                 if (code == 0) {
+                    NoticeActivity.newsPeice = newsPeice;
                     Intent intent = new Intent("com.example.ProjectBDTC.NOTICE_START");
                     NowActivity.startActivity(intent);
                 }else{
@@ -120,24 +121,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 }
             }
         });
-        //点击标题的事件
-        holder.newsTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAbsoluteAdapterPosition();
-                News newsPeice = newsList.get(position);
-                Toast.makeText(v.getContext(), "你点击了新闻标题，新闻id为" + newsPeice.getId() + "的新闻", Toast.LENGTH_LONG).show();
-            }
-        });
-        //点击日期事件
-        holder.newsTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAbsoluteAdapterPosition();
-                News newsPeice = newsList.get(position);
-                Toast.makeText(v.getContext(), "日期为" + newsPeice.getTime(), Toast.LENGTH_LONG).show();
-            }
-        });
+
         //点击作者事件
         holder.newsAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,31 +150,44 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
             if (peice.getType() == 4) {
                 //多个图片的情况下，使用循环依次get所需的图片
                 String[] URLs = new String[4];
+                //用于存入News对象的Bitmap数组
+                Bitmap[] bm = new Bitmap[4];
                 for (int i = 0; i < 4; i++) {
                     URLs[i] = "http://cdn.skyletter.cn/" + peice.getCovers().get(i);
                 }
-                for (int i = 0; i < 4; i++) {
-                    int finalI = i;
-                    Handler handler = new Handler(new Handler.Callback() {
-                        @Override
-                        public boolean handleMessage(Message msg) {
-                            switch (msg.what) {
-                                case 1://成功
-                                    byte[] result = (byte[]) msg.obj;
-                                    Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
-                                    //使用ScaleBitmap进行裁剪和缩放
-                                    ScaleBitmap cut = new ScaleBitmap();
-                                    bitmap = cut.scaleBitmap(bitmap, 100, 60);
-                                    Log.d("Bitmap", "Bitmap长度是" + result.length);
-                                    //setImage
-                                    imageViews[finalI].setImageBitmap(bitmap);
-                                    return true;
+                if (peice.getBitmap()==null) {
+                    for (int i = 0; i < 4; i++) {
+                        int finalI = i;
+                        Bitmap[] finalBm = bm;
+                        Handler handler = new Handler(new Handler.Callback() {
+                            @Override
+                            public boolean handleMessage(Message msg) {
+                                switch (msg.what) {
+                                    case 1://成功
+                                        byte[] result = (byte[]) msg.obj;
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
+                                        //使用ScaleBitmap进行裁剪和缩放
+                                        ScaleBitmap cut = new ScaleBitmap();
+                                        bitmap = cut.scaleBitmap(bitmap, 100, 60);
+                                        Log.d("Bitmap", "Bitmap长度是" + result.length);
+                                        finalBm[finalI] = bitmap;
+                                        //setImage
+                                        imageViews[finalI].setImageBitmap(bitmap);
+                                        return true;
+                                }
+                                return false;
                             }
-                            return false;
-                        }
-                    });
-                    getImage(URLs[i], handler);
+                        });
+                        getImage(URLs[i], handler);
+                    }
+                    peice.setBitmap(bm);
+                } else {
+                    bm = peice.getBitmap();
+                    for (int i = 0; i < 4; i++) {
+                        imageViews[i].setImageBitmap(bm[i]);
+                    }
                 }
+
                 //之前的测试方案，暂且保留
                 /*holder.newsImage1.setImageResource(peice.getCoverId()[0]);
                 holder.newsImage2.setImageResource(peice.getCoverId()[1]);
@@ -200,30 +197,35 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 //单个图片的情况下，只需要发起一次网络请求
                 //String URL = "http://192.168.1.106/" + peice.getCover();
                 String URL = "http://cdn.skyletter.cn/" + peice.getCover();
-                Handler handler = new Handler(new Handler.Callback() {
-                    @Override
-                    public boolean handleMessage(Message msg) {
-                        switch (msg.what) {
-                            case 1://成功
-                                byte[] result = (byte[]) msg.obj;
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
-                                Log.d("Bitmap", "Bitmap长度是" + result.length);
-                                //根据不同新闻类型进行图片裁剪与缩放
-                                ScaleBitmap cut = new ScaleBitmap();
-                                if (peice.getType() == 3) {
-                                    bitmap = cut.zoomBitMap(bitmap, 0.4);
-                                } else {
-                                    bitmap = cut.zoomBitMap(bitmap, 0.4);
-                                }
-                                holder.newsImage.setImageBitmap(bitmap);
-                                return true;
+                Bitmap[] bm = new Bitmap[1];
+                if (peice.getBitmap() == null) {
+                    Handler handler = new Handler(new Handler.Callback() {
+                        @Override
+                        public boolean handleMessage(Message msg) {
+                            switch (msg.what) {
+                                case 1://成功
+                                    byte[] result = (byte[]) msg.obj;
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
+                                    Log.d("Bitmap", "Bitmap长度是" + result.length);
+                                    //根据不同新闻类型进行图片裁剪与缩放
+                                    ScaleBitmap cut = new ScaleBitmap();
+                                    if (peice.getType() == 3) {
+                                        bitmap = cut.zoomBitMap(bitmap, 0.4);
+                                    } else {
+                                        bitmap = cut.zoomBitMap(bitmap, 0.4);
+                                    }
+                                    holder.newsImage.setImageBitmap(bitmap);
+                                    bm[0] = bitmap;
+                                    return true;
+                            }
+                            return false;
                         }
-                        return false;
-                    }
-                });
-                getImage(URL, handler);
-                //之前的测试方案，暂且保留
-                /*holder.newsImage.setImageResource(peice.getCoverId()[0]);*/
+                    });
+                    getImage(URL, handler);
+                    peice.setBitmap(bm);
+                } else {
+                    holder.newsImage.setImageBitmap(bm[0]);
+                }
             }
         }
     }
@@ -262,7 +264,6 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
             public void onFailure(Call call, IOException e) {
                 Log.d("onFailure", "fail a lot");
             }
-
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 //声明

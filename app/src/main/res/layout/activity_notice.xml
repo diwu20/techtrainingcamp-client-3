@@ -1,14 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".NoticeActivity">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/notice_text"
+    <!--    分割线，暂时不用-->
+    <!--    <ImageView-->
+    <!--        android:layout_width="fill_parent"-->
+    <!--        android:layout_below="@id/news_title"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="#e0e0e0"-->
+    <!--        android:layout_marginBottom="5sp"-->
+    <!--        />-->
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/notice_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:fitsSystemWindows="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/notice_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:text="文章正文"
+            android:textSize="20sp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/notice_scroll"
+        android:layout_below="@id/notice_toolbar"
+        android:fadingEdge="vertical"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+            android:id="@+id/news_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文章标题"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/Blackgray"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="15sp"
+            android:layout_marginBottom="10sp"/>
+
+        <TextView
+            android:id="@+id/news_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/news_title"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10sp"
+            android:text="author" />
+
+        <TextView
+            android:id="@+id/news_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/news_title"
+            android:layout_toRightOf="@id/news_author"
+            android:text="publishment" />
+
+        <TextView
+            android:id="@+id/content_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_below="@+id/news_time"
+            android:text="正文文本显示区域"
+            android:textColor="@color/Blackgray"
+            android:textSize="18sp"/>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

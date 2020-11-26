@@ -1,5 +1,6 @@
 package com.example.ProjectBDTC;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public class News {
     private List<String> covers;
     private String author;
     private String publishTime;
+    private String data;
+    private Bitmap[] bitmap;
 
     public String getTitle() {
         return title;
@@ -34,6 +37,18 @@ public class News {
     }
     public int getType() {
         return type;
+    }
+    public String getContent() {
+        return data;
+    }
+    public void setContent(String content) {
+        data = content;
+    }
+    public void setBitmap(Bitmap[] bm) {
+        bitmap = bm;
+    }
+    public Bitmap[] getBitmap() {
+        return bitmap;
     }
 
 }
