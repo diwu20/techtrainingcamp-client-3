@@ -14,11 +14,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,12 +59,22 @@ public class MainActivity extends BaseActivity {
         newsView.addItemDecoration(new RecycleViewDivider(
                 this, LinearLayoutManager.VERTICAL, 5, getResources().getColor(R.color.gray1)));
 
-        //newsList已经存在的情况下，直接调用
+        //按钮刷新操作
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+/*        //newsList已经存在的情况下，直接调用
         if (newsList != null){
             recyclerAdapter adapter  = new recyclerAdapter(newsList,MainActivity.this);
             newsView.setAdapter(adapter);
             return;
-        }
+        }*/
         newsList = new ArrayList<>();
 
         //回调
@@ -88,7 +101,7 @@ public class MainActivity extends BaseActivity {
         //初始化新闻列表
         initNews(callback);
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);

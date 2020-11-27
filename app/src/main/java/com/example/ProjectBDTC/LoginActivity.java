@@ -1,18 +1,24 @@
 package com.example.ProjectBDTC;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
@@ -25,6 +31,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginActivity extends BaseActivity {
     private boolean flag = false;
@@ -46,8 +54,14 @@ public class LoginActivity extends BaseActivity {
         EditText password = (EditText) findViewById(R.id.password);
         Button button_login = (Button) findViewById(R.id.button_login);
         button_login.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
+                //点击登录隐藏输入法
+                InputMethodManager imm =(InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
+                //网络请求
                 sendPostRequestWithHttpURLConnection(username.getText().toString(),
                         password.getText().toString().hashCode());
                 flag = false;
@@ -66,7 +80,17 @@ public class LoginActivity extends BaseActivity {
                 if (flag == true) {
                     Intent notice = new Intent("com.example.ProjectBDTC.NOTICE_START");
                     notice.putExtra("newsPeice", newsPeice);
-                    startActivity(notice);
+                    Snackbar.make(v,"登录成功",Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            startActivity(notice);
+                        }
+                    };
+                    Timer timer = new Timer();
+                    //延迟两秒切换至新的Activity
+                    timer.schedule(task, 2000);
+
                 } else {
                     Toast.makeText(LoginActivity.this,"登录失败...",Toast.LENGTH_LONG).show();
                     Log.d("登录失败","获取Token失败");
