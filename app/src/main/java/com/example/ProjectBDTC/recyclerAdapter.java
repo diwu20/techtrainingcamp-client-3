@@ -188,6 +188,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 String URL = "http://cdn.skyletter.cn/" + peice.getCover();
                 Bitmap[] bm = new Bitmap[1];
                 if (peice.getBitmap() == null) {
+                    Bitmap[] finalBm = bm;
                     Handler handler = new Handler(new Handler.Callback() {
                         @Override
                         public boolean handleMessage(Message msg) {
@@ -204,7 +205,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                                         bitmap = cut.zoomBitMap(bitmap, 0.4);
                                     }
                                     holder.newsImage.setImageBitmap(bitmap);
-                                    bm[0] = bitmap;
+                                    finalBm[0] = bitmap;
                                     return true;
                             }
                             return false;
@@ -213,6 +214,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                     getImage(URL, handler);
                     peice.setBitmap(bm);
                 } else {
+                    bm = peice.getBitmap();
                     holder.newsImage.setImageBitmap(bm[0]);
                 }
             }

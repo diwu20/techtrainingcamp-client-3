@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity {
                     };
                     Timer timer = new Timer();
                     //延迟两秒切换至新的Activity
-                    timer.schedule(task, 2000);
+                    timer.schedule(task, 1500);
                     ActivityCollector.removeActivity(LoginActivity.this);
                 } else {
                     Toast.makeText(LoginActivity.this,"登录失败...",Toast.LENGTH_LONG).show();

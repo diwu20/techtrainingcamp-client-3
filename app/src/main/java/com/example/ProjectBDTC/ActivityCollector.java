@@ -14,6 +14,7 @@ public class ActivityCollector {
     private static SharedPreferences tokenSP;
     //背景颜色存储
     public static int bgColor;
+    public static int order = 0;
 
 
     public static List<Activity> activityList = new ArrayList<>();
