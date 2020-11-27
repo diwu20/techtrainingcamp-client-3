@@ -54,20 +54,10 @@ public class MainActivity extends BaseActivity {
         //TextView mainText = (TextView) findViewById(R.id.main_title);
         //mainText.setBackgroundResource(R.color.pink);
         RecyclerView newsView = (RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayout = new LinearLayoutManager(this);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(MainActivity.this);
         newsView.setLayoutManager(linearLayout);
         newsView.addItemDecoration(new RecycleViewDivider(
-                this, LinearLayoutManager.VERTICAL, 5, getResources().getColor(R.color.gray1)));
-
-        //按钮刷新操作
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+                MainActivity.this, LinearLayoutManager.VERTICAL, 5, getResources().getColor(R.color.gray1)));
 
 /*        //newsList已经存在的情况下，直接调用
         if (newsList != null){
@@ -100,6 +90,17 @@ public class MainActivity extends BaseActivity {
 
         //初始化新闻列表
         initNews(callback);
+        
+        //按钮刷新操作
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initNews(callback);
+                Snackbar.make(view, "刷新成功", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     @Override
