@@ -180,7 +180,7 @@ public class MainActivity extends BaseActivity {
                 }
                 //排序后重新展示公告列表
                 showNews(sortList, MainActivity.this, newsView);
-                
+
                 break;
             default:
         }
