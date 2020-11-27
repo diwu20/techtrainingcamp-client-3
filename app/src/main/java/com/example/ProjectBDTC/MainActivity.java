@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,7 +69,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
             }
-
             //重写onResponse，在主线程更新UI
             @Override
             public void onResponse(Call call, Response response) throws IOException {
@@ -88,11 +88,21 @@ public class MainActivity extends BaseActivity {
         //初始化新闻列表
         initNews(callback);
     }
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        //根据登录状态切换菜单
+        if (ActivityCollector.token == null) {
+            MenuItem exitLogin_item = menu.findItem(R.id.exitLogin_item);
+            exitLogin_item.setVisible(false);
+        }
+        return true;
     }
 
     @Override
@@ -105,6 +115,10 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(this, "作者: Group3 吴迪 & 王龙逊",
                         Toast.LENGTH_LONG).show();
                 break;
+            case R.id.exitLogin_item:
+                ActivityCollector.token = null;
+                break;
+
             default:
         }
         return super.onOptionsItemSelected(item);
@@ -134,6 +148,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        this.invalidateOptionsMenu();
     }
 
     //调用getNews方法发送请求

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/exitLogin_item"
+        android:title="注销登录"/>
+    <item
+        android:id="@+id/exit_item"
+        android:title="退出程序"/>
+    <item
+        android:id="@+id/about_item"
+        android:title="关于我们"/>
+</menu>
