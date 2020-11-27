@@ -1,5 +1,6 @@
 # project-BDTC 
  project-BDTC client  
+ 最新状态以wlx分支为准
 
 ### 2020.11.27更新  
 近期实现的功能：  
