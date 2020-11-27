@@ -41,18 +41,16 @@ public class NoticeActivity extends AppCompatActivity {
     private News newsPeice;
     //接收到的json文本
     public static String data;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
+        ActivityCollector.addActivity(this);
 
         //接收Intent传递的News对象
         Intent intent = getIntent();
         newsPeice = (News) intent.getParcelableExtra("newsPeice");
-        Log.d("Intent接收","接收到的News为" + newsPeice.getTitle());
+        Log.d("Notice_Intent接收","接收到的News为" + newsPeice.getTitle());
 
         //让toolbar支持ActionBar操作
         Toolbar toolbar = findViewById(R.id.notice_toolbar);
@@ -61,6 +59,15 @@ public class NoticeActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
+
+        TextView newsAuthor = (TextView) findViewById(R.id.news_author);
+        TextView newsTime = (TextView) findViewById(R.id.news_time);
+        TextView newsTitle = (TextView) findViewById(R.id.news_title);
+        newsAuthor.setText(newsPeice.getAuthor());
+        newsTime.setText(newsPeice.getTime());
+        newsTitle.setText(newsPeice.getTitle());
+
+        Log.d("Notice判断前", String.valueOf(ActivityCollector.token));
 
         //重置code
         code = 100;
@@ -79,6 +86,7 @@ public class NoticeActivity extends AppCompatActivity {
                 break;
             }
         }
+
         //获取成功解析内容并展示
         if (code == 0) {
             parseJSONWhithGson(data);
@@ -104,12 +112,6 @@ public class NoticeActivity extends AppCompatActivity {
 
     private void showContent() {
         TextView newsContent = (TextView) findViewById(R.id.content_text);
-        TextView newsAuthor = (TextView) findViewById(R.id.news_author);
-        TextView newsTime = (TextView) findViewById(R.id.news_time);
-        TextView newsTitle = (TextView) findViewById(R.id.news_title);
-        newsAuthor.setText(newsPeice.getAuthor());
-        newsTime.setText(newsPeice.getTime());
-        newsTitle.setText(newsPeice.getTitle());
 
         //TextView支持滑动
         //newsContent.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -147,6 +149,15 @@ public class NoticeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //重写返回方法，直接返回到MainActivity
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(NoticeActivity.this, MainActivity.class);
+        //添加Flag，使Activity不被重新创建
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
     private void sendGetRequestWithHttpURLConnection(String id) {
         new Thread(new Runnable() {
             @Override
@@ -157,10 +168,11 @@ public class NoticeActivity extends AppCompatActivity {
                     URL url = new URL("https://vcapi.lvdaqian.cn/article/"+id+"?markdown=true");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
-                    connection.setRequestProperty("Authorization","Bearer "+ActivityCollector.token);
+                    Log.d("获取内容时的Token为",String.valueOf(ActivityCollector.token));
+                    connection.setRequestProperty("Authorization","Bearer " + ActivityCollector.token);
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
-                    Log.d("MainActivity", "run: "+connection.toString());
+                    Log.d("MainActivity", "run: " + connection.toString());
                     InputStream in = connection.getInputStream();
                     reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();

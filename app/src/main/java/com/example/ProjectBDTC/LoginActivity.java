@@ -27,13 +27,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class LoginActivity extends BaseActivity {
+    private boolean flag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ActivityCollector.addActivity(this);
+
+        Intent intent = getIntent();
+        News newsPeice = (News) intent.getParcelableExtra("newsPeice");
+        Log.d("Login_Intent接收","接收到的News为" + newsPeice.getTitle());
+
         //让toolbar支持ActionBar操作
         Toolbar toolbar = findViewById(R.id.login_toolbar);
         setSupportActionBar(toolbar);
+
         EditText username = (EditText) findViewById(R.id.username);
         EditText password = (EditText) findViewById(R.id.password);
         Button button_login = (Button) findViewById(R.id.button_login);
@@ -42,9 +50,27 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 sendPostRequestWithHttpURLConnection(username.getText().toString(),
                         password.getText().toString().hashCode());
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                intent.putExtra("username",username.getText().toString());
-                startActivity(intent);
+                flag = false;
+                int time = 0;
+                while (flag == false) {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (time++ > 90) {
+                        break;
+                    }
+                }
+                //获取登录反馈
+                if (flag == true) {
+                    Intent notice = new Intent("com.example.ProjectBDTC.NOTICE_START");
+                    notice.putExtra("newsPeice", newsPeice);
+                    startActivity(notice);
+                } else {
+                    Toast.makeText(LoginActivity.this,"登录失败...",Toast.LENGTH_LONG).show();
+                    Log.d("登录失败","获取Token失败");
+                }
             }
         });
     }
@@ -96,6 +122,7 @@ public class LoginActivity extends BaseActivity {
                     Log.d("LoginActivity", "run: "+response_str);
                     JSONObject jsonObject = new JSONObject(response_str);
                     ActivityCollector.token = jsonObject.get("token").toString();
+                    flag = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }finally {

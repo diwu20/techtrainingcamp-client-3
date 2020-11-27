@@ -36,9 +36,7 @@ import okhttp3.Response;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
 
-    static private int code = 100;
     static private Context NowActivity = null;
-    static public boolean ifSendData;
 
     //储存传入的新闻列表
     private List<News> newsList;
@@ -74,7 +72,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
         }
     }
 
-    public recyclerAdapter(List<News> objects,Context context) {
+    public recyclerAdapter(List<News> objects, Context context) {
         //传入新闻列表
         newsList = objects;
         NowActivity = context;
@@ -99,15 +97,23 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
             public void onClick(View v) {
                 int position = holder.getAbsoluteAdapterPosition();
                 News newsPeice = newsList.get(position);
-                //重置flag
-                recyclerAdapter.ifSendData = false;
-                Intent intent = new Intent("com.example.ProjectBDTC.NOTICE_START");
-                //使用Intent传递News对象
-                News noBitMapPeice = newsPeice;
-                noBitMapPeice.setBitmap(null);
-                intent.putExtra("newsPeice",noBitMapPeice);
-                NowActivity.startActivity(intent);
-                Log.d("flag",String.valueOf(ifSendData));
+                //判断是否登录
+                if (ActivityCollector.token == null){
+                    Intent intent = new Intent("com.example.ProjectBDTC.LOGIN_START");
+                    //使用Intent传递News对象
+                    News noBitMapPeice = newsPeice;
+                    noBitMapPeice.setBitmap(null);
+                    intent.putExtra("newsPeice", noBitMapPeice);
+                    NowActivity.startActivity(intent);
+                } else {
+                    Intent intent = new Intent("com.example.ProjectBDTC.NOTICE_START");
+                    //使用Intent传递News对象
+                    News noBitMapPeice = newsPeice;
+                    noBitMapPeice.setBitmap(null);
+                    intent.putExtra("newsPeice", noBitMapPeice);
+                    NowActivity.startActivity(intent);
+                }
+
             }
         });
 
