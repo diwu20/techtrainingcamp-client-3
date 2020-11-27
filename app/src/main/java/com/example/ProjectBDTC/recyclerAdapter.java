@@ -101,29 +101,13 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 News newsPeice = newsList.get(position);
                 //重置flag
                 recyclerAdapter.ifSendData = false;
-                sendGetRequestWithHttpURLConnection(newsPeice.getId());
-                int i = 0;
-                //添加对数据是否发送的判断
-                while (code == 100 && ifSendData) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    i = i + 1;
-                    if (i > 90) {
-                        break;
-                    }
-                }
-                if (code == 0) {
-                    NoticeActivity.newsPeice = newsPeice;
-                    Intent intent = new Intent("com.example.ProjectBDTC.NOTICE_START");
-                    NowActivity.startActivity(intent);
-
-                    Log.d("flag",String.valueOf(ifSendData));
-                }else{
-                    Toast.makeText(NowActivity,"哎呀出了些问题",Toast.LENGTH_LONG).show();
-                }
+                Intent intent = new Intent("com.example.ProjectBDTC.NOTICE_START");
+                //使用Intent传递News对象
+                News noBitMapPeice = newsPeice;
+                noBitMapPeice.setBitmap(null);
+                intent.putExtra("newsPeice",noBitMapPeice);
+                NowActivity.startActivity(intent);
+                Log.d("flag",String.valueOf(ifSendData));
             }
         });
 
@@ -287,53 +271,6 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 }
             }
         });
-    }
-
-    private void sendGetRequestWithHttpURLConnection(String id) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                HttpURLConnection connection = null;
-                BufferedReader reader = null;
-                try {
-                    URL url = new URL("https://vcapi.lvdaqian.cn/article/"+id+"?markdown=true");
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setRequestProperty("Authorization","Bearer "+ActivityCollector.token);
-                    connection.setConnectTimeout(8000);
-                    connection.setReadTimeout(8000);
-                    Log.d("MainActivity", "run: "+connection.toString());
-                    InputStream in = connection.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    String response_str = response.toString();
-                    Log.d("MainActivity", "run: " + response_str);
-                    JSONObject jsonObject = new JSONObject(response_str);
-                    recyclerAdapter.code = (int) jsonObject.get("code");
-                    NoticeActivity.data = response_str;
-                    //由于存在延迟，导致内容展示顺序错乱，添加flag用于判断
-                    recyclerAdapter.ifSendData = true;
-                    Log.d("AdapterToNotice",response_str);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (reader != null) {
-                        try {
-                            reader.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (connection != null) {
-                        connection.disconnect();
-                    }
-                }
-            }
-        }).start();
     }
 }
 

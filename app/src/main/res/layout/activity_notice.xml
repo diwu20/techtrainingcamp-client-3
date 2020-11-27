@@ -79,7 +79,7 @@
             android:layout_marginLeft="10sp"
             android:layout_marginRight="10sp"
             android:layout_below="@+id/news_time"
-            android:text="正文文本显示区域"
+            android:text="加载中,请稍候..."
             android:textColor="@color/Blackgray"
             android:textSize="18sp"/>
         </RelativeLayout>
