@@ -3,6 +3,7 @@ package com.example.ProjectBDTC;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,6 +91,14 @@ public class MainActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                OvershootInterpolator interpolator = new OvershootInterpolator();
+                ViewCompat.animate(fab).
+                        rotationBy(180f).
+                        withLayer().
+                        setDuration(1000).
+                        setInterpolator(interpolator).
+                        start();
+
                 initNews(callback);
                 Snackbar.make(view, "刷新成功", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
