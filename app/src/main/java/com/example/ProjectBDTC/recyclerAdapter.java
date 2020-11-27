@@ -182,12 +182,6 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                         imageViews[i].setImageBitmap(bm[i]);
                     }
                 }
-
-                //之前的测试方案，暂且保留
-                /*holder.newsImage1.setImageResource(peice.getCoverId()[0]);
-                holder.newsImage2.setImageResource(peice.getCoverId()[1]);
-                holder.newsImage3.setImageResource(peice.getCoverId()[2]);
-                holder.newsImage4.setImageResource(peice.getCoverId()[3]);*/
             } else {
                 //单个图片的情况下，只需要发起一次网络请求
                 //String URL = "http://192.168.1.106/" + peice.getCover();

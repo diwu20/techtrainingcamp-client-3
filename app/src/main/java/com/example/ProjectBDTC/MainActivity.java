@@ -50,21 +50,12 @@ public class MainActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
-        //布局
-        //TextView mainText = (TextView) findViewById(R.id.main_title);
-        //mainText.setBackgroundResource(R.color.pink);
         RecyclerView newsView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(MainActivity.this);
         newsView.setLayoutManager(linearLayout);
         newsView.addItemDecoration(new RecycleViewDivider(
                 MainActivity.this, LinearLayoutManager.VERTICAL, 5, getResources().getColor(R.color.gray1)));
 
-/*        //newsList已经存在的情况下，直接调用
-        if (newsList != null){
-            recyclerAdapter adapter  = new recyclerAdapter(newsList,MainActivity.this);
-            newsView.setAdapter(adapter);
-            return;
-        }*/
         newsList = new ArrayList<>();
 
         //回调
@@ -90,7 +81,7 @@ public class MainActivity extends BaseActivity {
 
         //初始化新闻列表
         initNews(callback);
-        
+
         //按钮刷新操作
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
