@@ -1,19 +1,22 @@
 package com.example.ProjectBDTC;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityCollector {
+    //用户信息
+    public static String userId;
+    public static String token;
+    private static SharedPreferences tokenSP;
 
     public static List<Activity> activityList = new ArrayList<>();
-    public static String token;
-
     public static void addActivity(Activity activity){
         activityList.add(activity);
     }
-
     public static void removeActivity(Activity activity) {
         activityList.remove(activity);
     }
@@ -31,5 +34,26 @@ public class ActivityCollector {
             }
         }
         activityList.clear();
+    }
+
+    public static void cacheToken(Context context) {
+        if (tokenSP == null) {
+            tokenSP = context.getSharedPreferences("cache", Context.MODE_PRIVATE);
+        }
+        tokenSP.edit().putString("TOKEN", token).apply();
+    }
+
+    public static void getCacheToken(Context context) {
+        if (tokenSP == null) {
+            tokenSP = context.getSharedPreferences("cache", Context.MODE_PRIVATE);
+        }
+        token = tokenSP.getString("TOKEN",null);
+    }
+
+    public static void clearCacheToken(Context context) {
+        if (tokenSP == null) {
+            tokenSP = context.getSharedPreferences("cache", Context.MODE_PRIVATE);
+        }
+        tokenSP.edit().clear().apply();
     }
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActivityCollector.addActivity(this);
+        ActivityCollector.getCacheToken(this);
         //让toolbar支持ActionBar操作
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -122,6 +124,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.exitLogin_item:
                 ActivityCollector.token = null;
+                ActivityCollector.clearCacheToken(this);
                 break;
 
             default:
