@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/background_color"
-        android:title="护眼模式" />
+        android:title="更换背景"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/green"
+                android:title="绿色"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/paper"
+                android:title="类纸"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/white"
+                android:title="白色"
+                app:showAsAction="never" />
+
+        </menu>
+    </item>
+    />
 
     <item
         android:id="@+id/exit_item"

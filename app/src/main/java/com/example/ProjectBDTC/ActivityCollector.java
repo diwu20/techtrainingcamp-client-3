@@ -9,9 +9,12 @@ import java.util.List;
 
 public class ActivityCollector {
     //用户信息
-    public static String userId;
+    public static String username;
     public static String token;
     private static SharedPreferences tokenSP;
+    //背景颜色存储
+    public static int bgColor;
+
 
     public static List<Activity> activityList = new ArrayList<>();
     public static void addActivity(Activity activity){
@@ -41,6 +44,7 @@ public class ActivityCollector {
             tokenSP = context.getSharedPreferences("cache", Context.MODE_PRIVATE);
         }
         tokenSP.edit().putString("TOKEN", token).apply();
+        tokenSP.edit().putString("USERNAME", username).apply();
     }
 
     public static void getCacheToken(Context context) {
@@ -48,6 +52,7 @@ public class ActivityCollector {
             tokenSP = context.getSharedPreferences("cache", Context.MODE_PRIVATE);
         }
         token = tokenSP.getString("TOKEN",null);
+        username = tokenSP.getString("USERNAME",null);
     }
 
     public static void clearCacheToken(Context context) {

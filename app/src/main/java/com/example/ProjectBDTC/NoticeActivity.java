@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,9 +15,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zzhoujay.okhttpimagedownloader.OkHttpImageDownloader;
@@ -59,6 +64,12 @@ public class NoticeActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
+
+        //背景颜色记忆
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.notice_layout);
+        if (ActivityCollector.bgColor != 0) {
+        layout.setBackgroundResource(ActivityCollector.bgColor);
+        }
 
         TextView newsAuthor = (TextView) findViewById(R.id.news_author);
         TextView newsTime = (TextView) findViewById(R.id.news_time);
@@ -126,8 +137,10 @@ public class NoticeActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.notice_layout);
         switch (item.getItemId()) {
             case R.id.exit_item:
                 ActivityCollector.finishAll();
@@ -136,9 +149,20 @@ public class NoticeActivity extends AppCompatActivity {
                 Toast.makeText(this, "作者: Group3 吴迪 & 王龙逊",
                         Toast.LENGTH_LONG).show();
                 break;
-            case R.id.background_color:
-                Toast.makeText(this, "仍在测试中...",
-                        Toast.LENGTH_LONG).show();
+            case R.id.green:
+                layout.setBackgroundResource(R.color.Green);
+                ActivityCollector.bgColor = R.color.Green;
+//                Snackbar.make(new View(this),"更换绿色背景成功",Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+                break;
+            case R.id.paper:
+                layout.setBackgroundResource(R.drawable.paper);
+                ActivityCollector.bgColor = R.drawable.paper;
+//                Snackbar.make(new View(this),"更换类纸背景成功",Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+                break;
+                case R.id.white:
+                layout.setBackgroundResource(R.color.white);
+                ActivityCollector.bgColor = R.color.white;
+//                Snackbar.make(new View(this),"更换类纸背景成功",Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                 break;
             //向上按钮设置为返回功能
             case android.R.id.home:

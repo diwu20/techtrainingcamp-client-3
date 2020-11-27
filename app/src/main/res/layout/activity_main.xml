@@ -60,7 +60,7 @@
             android:layout_below="@+id/recycler_view"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="-没有了-"
+            android:text="到底了"
             android:textSize="12sp"
             android:textColor="@color/Blackgrayshadow"
             android:layout_gravity="center"/>

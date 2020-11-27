@@ -147,6 +147,7 @@ public class LoginActivity extends BaseActivity {
                     Log.d("LoginActivity", "run: "+response_str);
                     JSONObject jsonObject = new JSONObject(response_str);
                     ActivityCollector.token = jsonObject.get("token").toString();
+                    ActivityCollector.username = username;
                     ActivityCollector.cacheToken(LoginActivity.this);
                     flag = true;
                 } catch (Exception e) {
