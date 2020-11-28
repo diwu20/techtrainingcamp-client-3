@@ -85,7 +85,7 @@ public class ActivityCollector {
         AlertDialog alertDialog1 = new AlertDialog.Builder(context)
                 .setTitle("G3公告板")
                 .setMessage("G3公告板 version 0.1.1\n作者：吴迪 & 王龙逊\n字节跳动技术训练营-客户端 Group3")
-                .setIcon(R.mipmap.ic_launcher)
+                .setIcon(R.mipmap.icon_launcher)
                 .create();
         alertDialog1.show();
     }
