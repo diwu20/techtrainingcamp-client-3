@@ -23,7 +23,7 @@
     </item>
     <item
         android:id="@+id/exitLogin_item"
-        android:title="注销登录"
+        android:title="退出登录"
         app:showAsAction="never" />
 
 </menu>

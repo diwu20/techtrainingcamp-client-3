@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,16 +40,18 @@ import io.noties.markwon.Markwon;
 
 public class NoticeActivity extends AppCompatActivity {
     static private int code = 100;
+    static private int time = 0;
     //从Adapter传入的News对象
     private News newsPeice;
     //接收到的json文本
     public static String data;
+    private Context NowActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
         ActivityCollector.addActivity(this);
-
+        NowActivity = this;
         //接收Intent传递的News对象
         Intent intent = getIntent();
         newsPeice = (News) intent.getParcelableExtra("newsPeice");
@@ -75,40 +78,11 @@ public class NoticeActivity extends AppCompatActivity {
         newsTitle.setText(newsPeice.getTitle());
 
         Log.d("Notice判断前", String.valueOf(ActivityCollector.token));
-
-        //重置code
-        code = 100;
         //调用方法获取文章内容
         sendGetRequestWithHttpURLConnection(newsPeice.getId());
         Log.d("获取正文","正在获取" + newsPeice.getTitle());
         //获取失败自动重试，超时停止
-        int time = 0;
-        while (code == 100) {
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (time++ > 20) {
-                break;
-            }
-        }
 
-        //获取成功解析内容并展示
-        if (code == 0) {
-            parseJSONWhithGson(data);
-            showContent();
-            Log.d("正文内容","文章内容为" + newsPeice.getContent());
-        } else {
-            Intent login = new Intent("com.example.ProjectBDTC.LOGIN_START");
-            //使用Intent传递News对象
-            News noBitMapPeice = newsPeice;
-            //noBitMapPeice.setBitmap(null);
-            intent.putExtra("newsPeice", noBitMapPeice);
-            this.startActivity(intent);
-            Toast.makeText(this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
-            Log.d("获取正文失败","网络获取失败");
-        }
     }
 
     private void parseJSONWhithGson(String jsonData) {
@@ -125,15 +99,9 @@ public class NoticeActivity extends AppCompatActivity {
 
     private void showContent() {
         TextView newsContent = (TextView) findViewById(R.id.content_text);
-
-        //TextView支持滑动
-        //newsContent.setMovementMethod(ScrollingMovementMethod.getInstance());
-//        newsContent.setText(newsPeice.getContent());
         Log.d("Text",newsPeice.getContent());
         final Markwon markwon = Markwon.create(this);
         markwon.setMarkdown(newsContent, newsPeice.getContent());
-//        RichText.fromMarkdown(newsPeice.getContent()).into(newsContent);
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -214,6 +182,35 @@ public class NoticeActivity extends AppCompatActivity {
                     NoticeActivity.code = (int) jsonObject.get("code");
                     NoticeActivity.data = response_str;
                     Log.d("AdapterToNotice",response_str);
+                    //主线程操作
+                    NoticeActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            while (code == 100) {
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                if (time++ > 20) {
+                                    break;
+                                }
+                            }
+                            //获取成功解析内容并展示
+                            if (code == 0) {
+                                time = 0 ;
+                                parseJSONWhithGson(data);
+                                showContent();
+                                Log.d("正文内容","文章内容为" + newsPeice.getContent());
+                            } else {
+                                Intent login = new Intent("com.example.ProjectBDTC.LOGIN_START");
+                                //使用Intent传递News对象
+                                login.putExtra("newsPeice", newsPeice);
+                                NowActivity.startActivity(login);
+                                Toast.makeText(NoticeActivity.this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
+                                Log.d("获取正文失败","网络获取失败");
+                            }
+                        }
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -231,6 +228,4 @@ public class NoticeActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-
 }

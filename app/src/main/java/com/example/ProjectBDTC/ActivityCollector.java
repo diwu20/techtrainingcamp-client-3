@@ -1,6 +1,7 @@
 package com.example.ProjectBDTC;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -61,5 +62,14 @@ public class ActivityCollector {
             tokenSP = context.getSharedPreferences("cache", Context.MODE_PRIVATE);
         }
         tokenSP.edit().clear().apply();
+    }
+
+    public static void showAbout(Context context) {
+        AlertDialog alertDialog1 = new AlertDialog.Builder(context)
+                .setTitle("G3公告板")//标题
+                .setMessage("G3公告板 version 0.1.1\n作者：吴迪 & 王龙逊\n字节跳动技术训练营-客户端 Group3")//内容
+                .setIcon(R.mipmap.ic_launcher)//图标
+                .create();
+        alertDialog1.show();
     }
 }

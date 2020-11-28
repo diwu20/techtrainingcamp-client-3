@@ -152,13 +152,13 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.about_item:
-                Toast.makeText(this, "作者: Group3 吴迪 & 王龙逊",
-                        Toast.LENGTH_LONG).show();
+                ActivityCollector.showAbout(this);
                 break;
 
             case R.id.exitLogin_item:
                 ActivityCollector.token = null;
                 ActivityCollector.clearCacheToken(this);
+                Snackbar.make(this.findViewById(android.R.id.content),"账号已退出",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 break;
 
             case R.id.sort_item:

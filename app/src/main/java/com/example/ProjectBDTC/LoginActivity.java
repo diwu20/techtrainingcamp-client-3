@@ -90,7 +90,7 @@ public class LoginActivity extends BaseActivity {
                     };
                     Timer timer = new Timer();
                     //延迟两秒切换至新的Activity
-                    timer.schedule(task, 1500);
+                    timer.schedule(task, 1000);
                     ActivityCollector.removeActivity(LoginActivity.this);
                 } else {
                     Toast.makeText(LoginActivity.this,"登录失败...",Toast.LENGTH_LONG).show();
@@ -113,8 +113,7 @@ public class LoginActivity extends BaseActivity {
                 ActivityCollector.finishAll();
                 break;
             case R.id.about_item:
-                Toast.makeText(this, "作者: Group3 吴迪 & 王龙逊",
-                        Toast.LENGTH_LONG).show();
+                ActivityCollector.showAbout(this);
                 break;
             default:
         }

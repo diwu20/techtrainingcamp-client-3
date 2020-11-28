@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:title="登陆"
+        app:title="登陆账号"
         app:titleTextColor="@color/Pinlan">
     </androidx.appcompat.widget.Toolbar>
 

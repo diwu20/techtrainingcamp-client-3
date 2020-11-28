@@ -19,6 +19,51 @@ public class News implements Parcelable {
     private String data;
     private Bitmap[] bitmap;
 
+    public News (News newsPeice) {
+         type = newsPeice.type;
+         id = newsPeice.id;
+         title = newsPeice.title;
+         cover = newsPeice.cover;
+         covers = newsPeice.covers;
+         author = newsPeice.author;
+         publishTime = newsPeice.publishTime;
+         data = newsPeice.data;
+         bitmap = newsPeice.bitmap;
+    }
+    public String getTitle() {
+        return title;
+    }
+    public String getId() {
+        return id;
+    }
+    public String getAuthor() {
+        return author;
+    }
+    public String getTime() {
+        return publishTime;
+    }
+    public String getCover() {
+        return cover;
+    }
+    public List<String> getCovers() {
+        return covers;
+    }
+    public int getType() {
+        return type;
+    }
+    public String getContent() {
+        return data;
+    }
+    public void setContent(String content) {
+        data = content;
+    }
+    public void setBitmap(Bitmap[] bm) {
+        bitmap = bm;
+    }
+    public Bitmap[] getBitmap() {
+        return bitmap;
+    }
+
     protected News(Parcel in) {
         type = in.readInt();
         id = in.readString();
@@ -61,38 +106,5 @@ public class News implements Parcelable {
         }
     };
 
-    public String getTitle() {
-        return title;
-    }
-    public String getId() {
-        return id;
-    }
-    public String getAuthor() {
-        return author;
-    }
-    public String getTime() {
-        return publishTime;
-    }
-    public String getCover() {
-        return cover;
-    }
-    public List<String> getCovers() {
-        return covers;
-    }
-    public int getType() {
-        return type;
-    }
-    public String getContent() {
-        return data;
-    }
-    public void setContent(String content) {
-        data = content;
-    }
-    public void setBitmap(Bitmap[] bm) {
-        bitmap = bm;
-    }
-    public Bitmap[] getBitmap() {
-        return bitmap;
-    }
 
 }

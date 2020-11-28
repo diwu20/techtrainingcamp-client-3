@@ -99,11 +99,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 News newsPeice = newsList.get(position);
                 //判断是否登录
                 if (ActivityCollector.token == null){
+                    Toast.makeText(v.getContext(),"请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent("com.example.ProjectBDTC.LOGIN_START");
                     //使用Intent传递News对象
-                    News noBitMapPeice = newsPeice;
-                    //noBitMapPeice.setBitmap(null);
-                    intent.putExtra("newsPeice", noBitMapPeice);
+                    News noBitMapNews = new News(newsPeice);
+                    noBitMapNews.setBitmap(null);
+                    intent.putExtra("newsPeice", noBitMapNews);
                     NowActivity.startActivity(intent);
                 } else {
                     Intent intent = new Intent("com.example.ProjectBDTC.NOTICE_START");
