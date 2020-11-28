@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -76,7 +77,7 @@ public class NoticeActivity extends AppCompatActivity {
         sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
         Log.d("获取正文","正在获取" + bulletinPeice.getTitle());
         //获取失败自动重试，超时停止
-        veryfy();
+        //veryfy();
     }
 
     private void parseJsonWhithGson(String jsonData) {
@@ -151,6 +152,7 @@ public class NoticeActivity extends AppCompatActivity {
     }
 
     private void sendGetRequestWithHttpUrlConnection(String id) {
+        veryfy();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -187,6 +189,17 @@ public class NoticeActivity extends AppCompatActivity {
                             reader.close();
                         } catch (IOException e) {
                             e.printStackTrace();
+                            Intent login = new Intent("camp.bytedance.g3board.LOGIN_START");
+                            //使用Intent传递Bulletin对象
+                            login.putExtra("bulletinPeice", bulletinPeice);
+                            nowActivity.startActivity(login);
+                            NoticeActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(NoticeActivity.this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            Log.d("获取正文失败","TOKEN验证失败");
                         }
                     }
                     if (connection != null) {
@@ -205,12 +218,12 @@ public class NoticeActivity extends AppCompatActivity {
                 Log.d("获取正文","进入子线程操作");
                 while (NoticeActivity.code == 100) {
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     Log.d("获取正文次数",String.valueOf(time));
-                    if (time++ > 50) {
+                    if (time++ > 500) {
                         break;
                     }
                 }
@@ -227,11 +240,21 @@ public class NoticeActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Intent login = new Intent("camp.bytedance.g3board.LOGIN_START");
-                    //使用Intent传递Bulletin对象
-                    login.putExtra("bulletinPeice", bulletinPeice);
-                    nowActivity.startActivity(login);
-//                    Toast.makeText(NoticeActivity.this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
+                    NoticeActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(NoticeActivity.this,"加载失败，请检查网络",Toast.LENGTH_LONG).show();
+                            TextView textView = (TextView) findViewById(R.id.content_text);
+                            textView.setText("加载失败，点击屏幕重新加载");
+                            ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
+                            scrollView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
+                                }
+                            });
+                        }
+                    });
                     Log.d("获取正文失败","网络获取失败");
                 }
             }
