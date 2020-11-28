@@ -1,11 +1,17 @@
-package com.example.ProjectBDTC;
+package camp.bytedance.g3board;
 
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+/**
+ * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
+ * @date 2020/11/29
+ * @descripation 基本活动类，创建和销毁时在ActivityuCollector中更新记录
+ *
+ */
 
 public class BaseActivity extends AppCompatActivity {
 

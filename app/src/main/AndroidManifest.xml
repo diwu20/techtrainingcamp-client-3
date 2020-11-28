@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ProjectBDTC">
+    package="camp.bytedance.g3board">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,24 +8,24 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="新闻公告板"
+        android:label="G3公告板"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.BDTC">
-        <activity android:name=".NoticeActivity" android:parentActivityName=".MainActivity">
+        <activity android:name="camp.bytedance.g3board.NoticeActivity" android:parentActivityName="camp.bytedance.g3board.MainActivity">
             <intent-filter>
-                <action android:name="com.example.ProjectBDTC.NOTICE_START"/>
+                <action android:name="camp.bytedance.g3board.NOTICE_START"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity">
+        <activity android:name="camp.bytedance.g3board.LoginActivity">
             <intent-filter>
-                <action android:name="com.example.ProjectBDTC.LOGIN_START" />
+                <action android:name="camp.bytedance.g3board.LOGIN_START" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="camp.bytedance.g3board.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

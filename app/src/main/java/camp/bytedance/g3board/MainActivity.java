@@ -1,16 +1,14 @@
-package com.example.ProjectBDTC;
+package camp.bytedance.g3board;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,11 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
+import camp.bytedance.g3board.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -45,33 +42,46 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ *
+ * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
+ * @date 2020/11/29
+ * @descripation 主活动，公告列表展示页，通过OkHttp异步加载公告列表
+ *
+ */
+
 public class MainActivity extends BaseActivity {
+
     private List<News> newsList;
     private RecyclerView newsView;
-    private CoordinatorLayout container;
+
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityCollector.addActivity(this);
+
+        //启动时，调用该方法读取缓存的token和username
         ActivityCollector.getCacheToken(this);
-        container = (CoordinatorLayout) findViewById(R.id.container);
 
         //让toolbar支持ActionBar操作
         Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
+
         newsView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(MainActivity.this);
         newsView.setLayoutManager(linearLayout);
+        //给RecyclerView添加分割线
         newsView.addItemDecoration(new RecycleViewDivider(
-                MainActivity.this, LinearLayoutManager.VERTICAL, 5, getResources().getColor(R.color.gray1)));
-
+                MainActivity.this, LinearLayoutManager.VERTICAL, 5, ContextCompat.getColor(this, R.color.gray1)));
         newsList = new ArrayList<>();
-
-        //回调
+        /**
+         * 回调
+         * 调用parseJSONWithGson方法对获取的json字符串进行解析
+         * 然后在主线程使用showNews方法更新UI，显示公告列表
+         */
         okhttp3.Callback callback = new okhttp3.Callback (){
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -80,10 +90,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String responseData = response.body().string();
-                parseJSONWhithGson(responseData);
+                parseJsonWhithGson(responseData);
                 Log.d("initNews","callback ok");
                 //主线程操作
                 MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
                     public void run() {
                         showNews(newsList, MainActivity.this, newsView);
                     }
@@ -91,10 +102,14 @@ public class MainActivity extends BaseActivity {
             }
         };
 
-        //初始化新闻列表
+        /**使用initNews方法，会调用getNews方法，并使用回调方法更新UI**/
         initNews(callback);
 
-        //按钮刷新操作
+        /**
+         *刷新按钮
+         * 点击刷新按钮，调用initNews方法重新获取新闻列表
+         * 点击按钮有旋转180度的动画
+         */
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,8 +140,8 @@ public class MainActivity extends BaseActivity {
         if (menu != null) {
             //根据登录状态切换菜单
             if (ActivityCollector.token == null) {
-                MenuItem exitLogin_item = menu.findItem(R.id.exitLogin_item);
-                exitLogin_item.setVisible(false);
+                MenuItem exitLoginItem = menu.findItem(R.id.exitLogin_item);
+                exitLoginItem.setVisible(false);
             }
             //显示菜单图标
             if (menu.getClass() == MenuBuilder.class) {
@@ -138,15 +153,12 @@ public class MainActivity extends BaseActivity {
                 }
             }
         }
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
-
             case R.id.exit_item:
                 ActivityCollector.finishAll();
                 break;
@@ -162,6 +174,13 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.sort_item:
+                /**
+                 * 三种排序，每点击一次更换一种排序
+                 * 原始顺序 -> 时间顺序（时间近的在上面）
+                 * 时间顺序 -> 时间倒序（时间远的在上面）
+                 * 时间倒序 -> 原始排序（时间远的在上面）
+                 * 弹出snacbar提示，调用showNews方法重新展示公告列表
+                 */
                 List<News> sortList = new ArrayList<>(newsList);
                 if (ActivityCollector.order == 0) {
                     ActivityCollector.order = -1;
@@ -178,7 +197,7 @@ public class MainActivity extends BaseActivity {
                     item.setIcon(R.drawable.sort_origin);
                   Snackbar.make(this.findViewById(android.R.id.content),"原始排序",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
-                //排序后重新展示公告列表
+
                 showNews(sortList, MainActivity.this, newsView);
 
                 break;
@@ -187,19 +206,8 @@ public class MainActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*此方法将任务转向后台的同时会返回桌面
     @Override
-    public void onBackPressed() {
-        //方式一：将此任务转向后台
-        moveTaskToBack(false);
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        startActivity(intent);
-    }*/
-
-    @Override
-    //按下返回后台运行,回到进入前页面
+    /**按下返回后台运行,回到进入前页面**/
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             moveTaskToBack(true);
@@ -209,19 +217,21 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    /**从其他活动进入，接收到Intent时，刷新菜单**/
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         this.invalidateOptionsMenu();
     }
 
-    //调用getNews方法发送请求
+    /**调用getNews方法发送请求**/
     private void initNews(okhttp3.Callback callback) {
         //String jsonURL = "http://192.168.1.106/metadata.json";
-        String jsonURL = "http://cdn.skyletter.cn/metadata.json";
-        getNews(jsonURL, callback);
+        String jsonUrl = "http://cdn.skyletter.cn/metadata.json";
+        getNews(jsonUrl, callback);
         Log.d("initNews","get ok");
     }
 
+    /**创建OkHttp实例，并异步加载回调**/
     private static void getNews(String address, okhttp3.Callback callback) {
         OkHttpClient client  = new OkHttpClient();
         Request request = new Request.Builder()
@@ -230,13 +240,14 @@ public class MainActivity extends BaseActivity {
         client.newCall(request).enqueue(callback);
     }
 
+    /**创建adapter，将List<News>加载到RecyclerView**/
     private static void showNews(List<News> newsList, Context context, RecyclerView newsView) {
         recyclerAdapter adapter  = new recyclerAdapter(newsList,context);
         newsView.setAdapter(adapter);
     }
 
-    //调用GSON解析获取的json,此方法已经经过完整测试
-    private void parseJSONWhithGson(String jsonData) {
+    /**调用GSON解析获取的json,内容存入List<News>中**/
+    private void parseJsonWhithGson(String jsonData) {
         Log.d("MainActivity","getting newsList");
         Gson gson = new Gson();
         newsList = gson.fromJson(jsonData, new TypeToken<List<News>>(){}.getType());
@@ -244,7 +255,10 @@ public class MainActivity extends BaseActivity {
         sortListNews(newsList, ActivityCollector.order);
     }
 
-    //辅助方法，List<News>排序
+    /**辅助方法，List<News>排序，重写sort方法
+     * order == 1 时间倒序
+     * order == -1 时间顺序
+     * **/
     private void sortListNews(List<News> newsList, int order) {
         Collections.sort(newsList, new Comparator<News>() {
             @Override
@@ -279,7 +293,7 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    //辅助方法，判断字符是否为中文
+    /**辅助方法，判断字符是否为中文，对公告列表进行排序时使用**/
     public static boolean isChineseChar(char c) {
         try {
             return String.valueOf(c).getBytes("UTF-8").length > 1;

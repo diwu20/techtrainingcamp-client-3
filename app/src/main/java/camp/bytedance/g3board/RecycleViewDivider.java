@@ -1,4 +1,4 @@
-package com.example.ProjectBDTC;
+package camp.bytedance.g3board;
 
 
 import android.content.Context;

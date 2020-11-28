@@ -1,4 +1,4 @@
-package com.example.ProjectBDTC;
+package camp.bytedance.g3board;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,18 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.LongDef;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONObject;
+import camp.bytedance.g3board.R;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 import okhttp3.Call;
@@ -100,14 +93,14 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 //判断是否登录
                 if (ActivityCollector.token == null){
                     Toast.makeText(v.getContext(),"请先登录",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent("com.example.ProjectBDTC.LOGIN_START");
+                    Intent intent = new Intent("camp.bytedance.g3board.LOGIN_START");
                     //使用Intent传递News对象
                     News noBitMapNews = new News(newsPeice);
                     noBitMapNews.setBitmap(null);
                     intent.putExtra("newsPeice", noBitMapNews);
                     NowActivity.startActivity(intent);
                 } else {
-                    Intent intent = new Intent("com.example.ProjectBDTC.NOTICE_START");
+                    Intent intent = new Intent("camp.bytedance.g3board.NOTICE_START");
                     //使用Intent传递News对象
                     News noBitMapPeice = newsPeice;
                     noBitMapPeice.setBitmap(null);

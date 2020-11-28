@@ -1,4 +1,4 @@
-package com.example.ProjectBDTC;
+package camp.bytedance.g3board;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -6,26 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import camp.bytedance.g3board.R;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -34,9 +26,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-
-import io.noties.markwon.Markwon;
 
 public class NoticeActivity extends AppCompatActivity {
     static private int code = 100;
@@ -184,6 +173,7 @@ public class NoticeActivity extends AppCompatActivity {
                     Log.d("AdapterToNotice",response_str);
                     //主线程操作
                     NoticeActivity.this.runOnUiThread(new Runnable() {
+                        @Override
                         public void run() {
                             while (code == 100) {
                                 try {

@@ -1,10 +1,8 @@
-package com.example.ProjectBDTC;
+package camp.bytedance.g3board;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,21 +16,28 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
+import camp.bytedance.g3board.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
+
+/**
+ *
+ * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
+ * @date 2020/11/29
+ * @descripation 登录活动，传入Intent中包含News对象，登录完成之后将News对象传递给NoticeActivity进行展示
+ *
+ */
 
 public class LoginActivity extends BaseActivity {
     private boolean flag = false;
@@ -40,7 +45,6 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ActivityCollector.addActivity(this);
 
         Intent intent = getIntent();
         News newsPeice = (News) intent.getParcelableExtra("newsPeice");
@@ -59,7 +63,7 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 //点击登录隐藏输入法
                 InputMethodManager imm =(InputMethodManager)getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
+                        INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
                 //网络请求
                 sendPostRequestWithHttpURLConnection(username.getText().toString(),
@@ -78,7 +82,7 @@ public class LoginActivity extends BaseActivity {
                 }
                 //获取登录反馈
                 if (flag == true) {
-                    Intent notice = new Intent("com.example.ProjectBDTC.NOTICE_START");
+                    Intent notice = new Intent("camp.bytedance.g3board.NOTICE_START");
                     notice.putExtra("newsPeice", newsPeice);
                     Snackbar.make(v,"登录成功",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     TimerTask task = new TimerTask() {
@@ -120,8 +124,12 @@ public class LoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     *
+     * 在子线程中进行网络请求，获取TOKEN，并将username/token存入ActivityCollector
+     *
+     */
     private void sendPostRequestWithHttpURLConnection(String username, int password) {
-        //开启线程发起网络请求
         new Thread(new Runnable() {
             @Override
             public void run() {
