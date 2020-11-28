@@ -4,7 +4,7 @@
     android:layout_height="wrap_content" >
 
     <ImageView
-        android:id="@+id/news_image"
+        android:id="@+id/bulletin_image"
         android:layout_width="wrap_content"
         android:layout_height="100sp"
         android:adjustViewBounds="true"
@@ -21,7 +21,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/news_title"
+            android:id="@+id/bulletin_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="17sp"
@@ -33,7 +33,7 @@
             />
 
         <TextView
-            android:id="@+id/news_author"
+            android:id="@+id/bulletin_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -45,10 +45,10 @@
             />
 
         <TextView
-            android:id="@+id/news_time"
+            android:id="@+id/bulletin_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/news_author"
+            android:layout_toRightOf="@id/bulletin_author"
             android:layout_alignParentBottom="false"
             android:layout_marginTop="85sp"
             android:textSize="12sp"

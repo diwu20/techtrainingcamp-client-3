@@ -4,7 +4,7 @@
     android:layout_height="wrap_content" >
 
     <TextView
-        android:id="@+id/news_title"
+        android:id="@+id/bulletin_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -17,9 +17,9 @@
         />
 
     <ImageView
-        android:id="@+id/news_image"
+        android:id="@+id/bulletin_image"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/news_title"
+        android:layout_below="@id/bulletin_title"
         android:layout_width="wrap_content"
         android:layout_height="200sp"
         android:adjustViewBounds="true"
@@ -31,10 +31,10 @@
         />
 
     <TextView
-        android:id="@+id/news_author"
+        android:id="@+id/bulletin_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/news_image"
+        android:layout_below="@id/bulletin_image"
         android:textSize="12sp"
         android:textColor="#545454"
         android:layout_marginLeft="18sp"
@@ -44,11 +44,11 @@
         />
 
     <TextView
-        android:id="@+id/news_time"
+        android:id="@+id/bulletin_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/news_image"
-        android:layout_toRightOf="@id/news_author"
+        android:layout_below="@id/bulletin_image"
+        android:layout_toRightOf="@id/bulletin_author"
         android:textSize="12sp"
         android:textColor="#545454"
         android:layout_marginLeft="10sp"

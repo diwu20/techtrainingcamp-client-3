@@ -4,7 +4,7 @@
     android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/news_title"
+            android:id="@+id/bulletin_title"
             android:layout_width="wrap_content"
             android:layout_height="70sp"
             android:layout_alignParentLeft="true"
@@ -17,7 +17,7 @@
             />
 
         <TextView
-            android:id="@+id/news_author"
+            android:id="@+id/bulletin_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
@@ -30,10 +30,10 @@
             />
 
         <TextView
-            android:id="@+id/news_time"
+            android:id="@+id/bulletin_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/news_author"
+            android:layout_toRightOf="@id/bulletin_author"
             android:layout_alignParentBottom="false"
             android:textSize="12sp"
             android:textColor="#545454"

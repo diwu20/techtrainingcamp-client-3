@@ -6,7 +6,7 @@
     >
 
     <TextView
-        android:id="@+id/news_title"
+        android:id="@+id/bulletin_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="17sp"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/news_image1"
+        android:id="@+id/bulletin_image1"
         android:layout_height="100sp"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -33,7 +33,7 @@
         />
 
     <ImageView
-        android:id="@+id/news_image2"
+        android:id="@+id/bulletin_image2"
         android:layout_height="100sp"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -44,7 +44,7 @@
         />
 
     <ImageView
-        android:id="@+id/news_image3"
+        android:id="@+id/bulletin_image3"
         android:layout_height="100sp"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -55,7 +55,7 @@
         />
 
     <ImageView
-        android:id="@+id/news_image4"
+        android:id="@+id/bulletin_image4"
         android:layout_height="100sp"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/news_author"
+        android:id="@+id/bulletin_author"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:textSize="12sp"
@@ -84,7 +84,7 @@
         />
 
     <TextView
-        android:id="@+id/news_time"
+        android:id="@+id/bulletin_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"

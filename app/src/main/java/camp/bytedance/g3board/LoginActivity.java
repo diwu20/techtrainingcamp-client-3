@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
-import camp.bytedance.g3board.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
@@ -35,7 +34,7 @@ import java.util.TimerTask;
  *
  * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
  * @date 2020/11/29
- * @descripation 登录活动，传入Intent中包含News对象，登录完成之后将News对象传递给NoticeActivity进行展示
+ * @descripation 登录活动，传入Intent中包含Bulletin对象，登录完成之后将Bulletin对象传递给NoticeActivity进行展示
  *
  */
 
@@ -47,8 +46,8 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         Intent intent = getIntent();
-        News newsPeice = (News) intent.getParcelableExtra("newsPeice");
-        Log.d("Login_Intent接收","接收到的News为" + newsPeice.getTitle());
+        Bulletin bulletinPeice = (Bulletin) intent.getParcelableExtra("bulletinPeice");
+        Log.d("Login_Intent接收","接收到的Bulletin为" + bulletinPeice.getTitle());
 
         //让toolbar支持ActionBar操作
         Toolbar toolbar = findViewById(R.id.login_toolbar);
@@ -66,7 +65,7 @@ public class LoginActivity extends BaseActivity {
                         INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
                 //网络请求
-                sendPostRequestWithHttpURLConnection(username.getText().toString(),
+                sendPostRequestWithHttpUrlConnection(username.getText().toString(),
                         password.getText().toString().hashCode());
                 flag = false;
                 int time = 0;
@@ -83,7 +82,7 @@ public class LoginActivity extends BaseActivity {
                 //获取登录反馈
                 if (flag == true) {
                     Intent notice = new Intent("camp.bytedance.g3board.NOTICE_START");
-                    notice.putExtra("newsPeice", newsPeice);
+                    notice.putExtra("bulletinPeice", bulletinPeice);
                     Snackbar.make(v,"登录成功",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     TimerTask task = new TimerTask() {
                         @Override
@@ -129,7 +128,7 @@ public class LoginActivity extends BaseActivity {
      * 在子线程中进行网络请求，获取TOKEN，并将username/token存入ActivityCollector
      *
      */
-    private void sendPostRequestWithHttpURLConnection(String username, int password) {
+    private void sendPostRequestWithHttpUrlConnection(String username, int password) {
         new Thread(new Runnable() {
             @Override
             public void run() {

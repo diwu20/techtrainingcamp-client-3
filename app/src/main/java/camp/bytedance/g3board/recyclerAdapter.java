@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import camp.bytedance.g3board.R;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -32,49 +30,49 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
     static private Context NowActivity = null;
 
     //储存传入的新闻列表
-    private List<News> newsList;
+    private List<Bulletin> bulletinList;
 
     //重写ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         //用于点击事件
-        View newsView;
+        View bulletinView;
 
         //先声明holder中的几种view
-        TextView newsTitle;
-        TextView newsAuthor;
-        TextView newsTime;
-        ImageView newsImage;
-        ImageView newsImage1;
-        ImageView newsImage2;
-        ImageView newsImage3;
-        ImageView newsImage4;
+        TextView bulletinTitle;
+        TextView bulletinAuthor;
+        TextView bulletinTime;
+        ImageView bulletinImage;
+        ImageView bulletinImage1;
+        ImageView bulletinImage2;
+        ImageView bulletinImage3;
+        ImageView bulletinImage4;
 
         //链接到layout上的定义
         public ViewHolder(View view) {
             super(view);
-            newsView = view;
-            newsTitle = (TextView) view.findViewById(R.id.news_title);
-            newsAuthor = (TextView) view.findViewById(R.id.news_author);
-            newsTime = (TextView) view.findViewById(R.id.news_time);
-            newsImage = (ImageView) view.findViewById(R.id.news_image);
-            newsImage1 = (ImageView) view.findViewById(R.id.news_image1);
-            newsImage2 = (ImageView) view.findViewById(R.id.news_image2);
-            newsImage3 = (ImageView) view.findViewById(R.id.news_image3);
-            newsImage4 = (ImageView) view.findViewById(R.id.news_image4);
+            bulletinView = view;
+            bulletinTitle = (TextView) view.findViewById(R.id.bulletin_title);
+            bulletinAuthor = (TextView) view.findViewById(R.id.bulletin_author);
+            bulletinTime = (TextView) view.findViewById(R.id.bulletin_time);
+            bulletinImage = (ImageView) view.findViewById(R.id.bulletin_image);
+            bulletinImage1 = (ImageView) view.findViewById(R.id.bulletin_image1);
+            bulletinImage2 = (ImageView) view.findViewById(R.id.bulletin_image2);
+            bulletinImage3 = (ImageView) view.findViewById(R.id.bulletin_image3);
+            bulletinImage4 = (ImageView) view.findViewById(R.id.bulletin_image4);
         }
     }
 
-    public recyclerAdapter(List<News> objects, Context context) {
+    public recyclerAdapter(List<Bulletin> objects, Context context) {
         //传入新闻列表
-        newsList = objects;
+        bulletinList = objects;
         NowActivity = context;
     }
 
     @Override
     public int getItemViewType(int position) {
         //根据position返回对应type
-        return newsList.get(position).getType();
+        return bulletinList.get(position).getType();
     }
 
     //重写onCreateViewHolder,添加点击事件，使用Toast测试
@@ -85,26 +83,26 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
         final ViewHolder holder = new ViewHolder(view);
 
         //点击view的事件
-        holder.newsView.setOnClickListener(new View.OnClickListener() {
+        holder.bulletinView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAbsoluteAdapterPosition();
-                News newsPeice = newsList.get(position);
+                Bulletin bulletinPeice = bulletinList.get(position);
                 //判断是否登录
                 if (ActivityCollector.token == null){
                     Toast.makeText(v.getContext(),"请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent("camp.bytedance.g3board.LOGIN_START");
-                    //使用Intent传递News对象
-                    News noBitMapNews = new News(newsPeice);
-                    noBitMapNews.setBitmap(null);
-                    intent.putExtra("newsPeice", noBitMapNews);
+                    //使用Intent传递Bulletin对象
+                    Bulletin noBitMapBulletin = new Bulletin(bulletinPeice);
+                    noBitMapBulletin.setBitmap(null);
+                    intent.putExtra("bulletinPeice", noBitMapBulletin);
                     NowActivity.startActivity(intent);
                 } else {
                     Intent intent = new Intent("camp.bytedance.g3board.NOTICE_START");
-                    //使用Intent传递News对象
-                    News noBitMapPeice = newsPeice;
+                    //使用Intent传递Bulletin对象
+                    Bulletin noBitMapPeice = bulletinPeice;
                     noBitMapPeice.setBitmap(null);
-                    intent.putExtra("newsPeice", noBitMapPeice);
+                    intent.putExtra("bulletinPeice", noBitMapPeice);
                     NowActivity.startActivity(intent);
                 }
 
@@ -112,12 +110,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
         });
 
         //点击作者事件
-        holder.newsAuthor.setOnClickListener(new View.OnClickListener() {
+        holder.bulletinAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAbsoluteAdapterPosition();
-                News newsPeice = newsList.get(position);
-                Toast.makeText(v.getContext(), "作者是" + newsPeice.getAuthor(), Toast.LENGTH_LONG).show();
+                Bulletin bulletinPeice = bulletinList.get(position);
+                Toast.makeText(v.getContext(), "作者是" + bulletinPeice.getAuthor(), Toast.LENGTH_LONG).show();
             }
         });
         return holder;
@@ -126,20 +124,20 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //获取单条新闻信息
-        News peice = newsList.get(position);
-        holder.newsTitle.setText(peice.getTitle());
-        holder.newsAuthor.setText(peice.getAuthor());
-        holder.newsTime.setText(peice.getTime());
+        Bulletin peice = bulletinList.get(position);
+        holder.bulletinTitle.setText(peice.getTitle());
+        holder.bulletinAuthor.setText(peice.getAuthor());
+        holder.bulletinTime.setText(peice.getTime());
 
         //存储四个ImageView，以供循环使用
-        ImageView[] imageViews = {holder.newsImage1, holder.newsImage2, holder.newsImage3, holder.newsImage4};
+        ImageView[] imageViews = {holder.bulletinImage1, holder.bulletinImage2, holder.bulletinImage3, holder.bulletinImage4};
 
         if (peice.getCover() != null || peice.getCovers() != null) {
             //根据图片数量的不同，调用getImage，并使用handler返回数据
             if (peice.getType() == 4) {
                 //多个图片的情况下，使用循环依次get所需的图片
                 String[] URLs = new String[4];
-                //用于存入News对象的Bitmap数组
+                //用于存入Bulletin对象的Bitmap数组
                 Bitmap[] bm = new Bitmap[4];
                 for (int i = 0; i < 4; i++) {
                     URLs[i] = "http://cdn.skyletter.cn/" + peice.getCovers().get(i);
@@ -198,7 +196,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                                     } else {
                                         bitmap = cut.zoomBitMap(bitmap, 0.4);
                                     }
-                                    holder.newsImage.setImageBitmap(bitmap);
+                                    holder.bulletinImage.setImageBitmap(bitmap);
                                     finalBm[0] = bitmap;
                                     return true;
                             }
@@ -209,7 +207,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                     peice.setBitmap(bm);
                 } else {
                     bm = peice.getBitmap();
-                    holder.newsImage.setImageBitmap(bm[0]);
+                    holder.bulletinImage.setImageBitmap(bm[0]);
                 }
             }
         }
@@ -217,24 +215,24 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return newsList.size();
+        return bulletinList.size();
     }
 
     //辅助方法，根据type值，返回对应的布局ID
     private int getlayoutId(int type) {
         switch (type) {
             case 0:
-                return R.layout.news_type0;
+                return R.layout.bulletin_type0;
             case 1:
-                return R.layout.news_type1;
+                return R.layout.bulletin_type1;
             case 2:
-                return R.layout.news_type2;
+                return R.layout.bulletin_type2;
             case 3:
-                return R.layout.news_type3;
+                return R.layout.bulletin_type3;
             case 4:
-                return R.layout.news_type4;
+                return R.layout.bulletin_type4;
             default:
-                return R.layout.news_type2;
+                return R.layout.bulletin_type2;
         }
     }
 

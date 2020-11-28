@@ -21,7 +21,6 @@ import android.view.animation.OvershootInterpolator;
 
 import androidx.appcompat.widget.Toolbar;
 
-import camp.bytedance.g3board.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -52,8 +51,8 @@ import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
 
-    private List<News> newsList;
-    private RecyclerView newsView;
+    private List<Bulletin> bulletinList;
+    private RecyclerView bulletinView;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -70,17 +69,17 @@ public class MainActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
-        newsView = (RecyclerView) findViewById(R.id.recycler_view);
+        bulletinView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(MainActivity.this);
-        newsView.setLayoutManager(linearLayout);
+        bulletinView.setLayoutManager(linearLayout);
         //给RecyclerView添加分割线
-        newsView.addItemDecoration(new RecycleViewDivider(
+        bulletinView.addItemDecoration(new RecycleViewDivider(
                 MainActivity.this, LinearLayoutManager.VERTICAL, 5, ContextCompat.getColor(this, R.color.gray1)));
-        newsList = new ArrayList<>();
+        bulletinList = new ArrayList<>();
         /**
          * 回调
          * 调用parseJSONWithGson方法对获取的json字符串进行解析
-         * 然后在主线程使用showNews方法更新UI，显示公告列表
+         * 然后在主线程使用showBulletin方法更新UI，显示公告列表
          */
         okhttp3.Callback callback = new okhttp3.Callback (){
             @Override
@@ -91,23 +90,23 @@ public class MainActivity extends BaseActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 String responseData = response.body().string();
                 parseJsonWhithGson(responseData);
-                Log.d("initNews","callback ok");
+                Log.d("initBulletin","callback ok");
                 //主线程操作
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        showNews(newsList, MainActivity.this, newsView);
+                        showBulletin(bulletinList, MainActivity.this, bulletinView);
                     }
                 });
             }
         };
 
-        /**使用initNews方法，会调用getNews方法，并使用回调方法更新UI**/
-        initNews(callback);
+        /**使用initBulletin方法，会调用getBulletin方法，并使用回调方法更新UI**/
+        initBulletin(callback);
 
         /**
          *刷新按钮
-         * 点击刷新按钮，调用initNews方法重新获取新闻列表
+         * 点击刷新按钮，调用initBulletin方法重新获取新闻列表
          * 点击按钮有旋转180度的动画
          */
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -122,7 +121,7 @@ public class MainActivity extends BaseActivity {
                         setInterpolator(interpolator).
                         start();
 
-                initNews(callback);
+                initBulletin(callback);
                 Snackbar.make(view, "刷新成功", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
@@ -179,18 +178,18 @@ public class MainActivity extends BaseActivity {
                  * 原始顺序 -> 时间顺序（时间近的在上面）
                  * 时间顺序 -> 时间倒序（时间远的在上面）
                  * 时间倒序 -> 原始排序（时间远的在上面）
-                 * 弹出snacbar提示，调用showNews方法重新展示公告列表
+                 * 弹出snacbar提示，调用showBulletin方法重新展示公告列表
                  */
-                List<News> sortList = new ArrayList<>(newsList);
+                List<Bulletin> sortList = new ArrayList<>(bulletinList);
                 if (ActivityCollector.order == 0) {
                     ActivityCollector.order = -1;
                     item.setIcon(R.drawable.sort_desc);
-                    sortListNews(sortList, ActivityCollector.order);
+                    sortListBulletin(sortList, ActivityCollector.order);
                     Snackbar.make(this.findViewById(android.R.id.content),"时间顺序",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 } else if (ActivityCollector.order == -1) {
                     ActivityCollector.order = 1;
                     item.setIcon(R.drawable.sort_asc);
-                    sortListNews(sortList, ActivityCollector.order);
+                    sortListBulletin(sortList, ActivityCollector.order);
                     Snackbar.make(this.findViewById(android.R.id.content),"时间倒序",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 } else {
                     ActivityCollector.order = 0;
@@ -198,7 +197,7 @@ public class MainActivity extends BaseActivity {
                   Snackbar.make(this.findViewById(android.R.id.content),"原始排序",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
 
-                showNews(sortList, MainActivity.this, newsView);
+                showBulletin(sortList, MainActivity.this, bulletinView);
 
                 break;
             default:
@@ -223,16 +222,16 @@ public class MainActivity extends BaseActivity {
         this.invalidateOptionsMenu();
     }
 
-    /**调用getNews方法发送请求**/
-    private void initNews(okhttp3.Callback callback) {
+    /**调用getBulletin方法发送请求**/
+    private void initBulletin(okhttp3.Callback callback) {
         //String jsonURL = "http://192.168.1.106/metadata.json";
         String jsonUrl = "http://cdn.skyletter.cn/metadata.json";
-        getNews(jsonUrl, callback);
-        Log.d("initNews","get ok");
+        getBulletin(jsonUrl, callback);
+        Log.d("initBulletin","get ok");
     }
 
     /**创建OkHttp实例，并异步加载回调**/
-    private static void getNews(String address, okhttp3.Callback callback) {
+    private static void getBulletin(String address, okhttp3.Callback callback) {
         OkHttpClient client  = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(address)
@@ -240,29 +239,29 @@ public class MainActivity extends BaseActivity {
         client.newCall(request).enqueue(callback);
     }
 
-    /**创建adapter，将List<News>加载到RecyclerView**/
-    private static void showNews(List<News> newsList, Context context, RecyclerView newsView) {
-        recyclerAdapter adapter  = new recyclerAdapter(newsList,context);
-        newsView.setAdapter(adapter);
+    /**创建adapter，将List<Bulletin>加载到RecyclerView**/
+    private static void showBulletin(List<Bulletin> bulletinList, Context context, RecyclerView bulletinView) {
+        recyclerAdapter adapter  = new recyclerAdapter(bulletinList,context);
+        bulletinView.setAdapter(adapter);
     }
 
-    /**调用GSON解析获取的json,内容存入List<News>中**/
+    /**调用GSON解析获取的json,内容存入List<Bulletin>中**/
     private void parseJsonWhithGson(String jsonData) {
-        Log.d("MainActivity","getting newsList");
+        Log.d("MainActivity","getting bulletinList");
         Gson gson = new Gson();
-        newsList = gson.fromJson(jsonData, new TypeToken<List<News>>(){}.getType());
+        bulletinList = gson.fromJson(jsonData, new TypeToken<List<Bulletin>>(){}.getType());
         //排序
-        sortListNews(newsList, ActivityCollector.order);
+        sortListBulletin(bulletinList, ActivityCollector.order);
     }
 
-    /**辅助方法，List<News>排序，重写sort方法
+    /**辅助方法，List<Bulletin>排序，重写sort方法
      * order == 1 时间倒序
      * order == -1 时间顺序
      * **/
-    private void sortListNews(List<News> newsList, int order) {
-        Collections.sort(newsList, new Comparator<News>() {
+    private void sortListBulletin(List<Bulletin> bulletinList, int order) {
+        Collections.sort(bulletinList, new Comparator<Bulletin>() {
             @Override
-            public int compare(News o1, News o2) {
+            public int compare(Bulletin o1, Bulletin o2) {
                 char[] time1 = o1.getTime().toCharArray();
                 char[] time2 = o2.getTime().toCharArray();
                 for (int i = 0; i < time1.length; i++) {

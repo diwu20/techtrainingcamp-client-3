@@ -16,8 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import camp.bytedance.g3board.R;
-
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -30,8 +28,8 @@ import java.net.URL;
 public class NoticeActivity extends AppCompatActivity {
     static private int code = 100;
     static private int time = 0;
-    //从Adapter传入的News对象
-    private News newsPeice;
+    //从Adapter传入的Bulletin对象
+    private Bulletin bulletinPeice;
     //接收到的json文本
     public static String data;
     private Context NowActivity;
@@ -41,10 +39,10 @@ public class NoticeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notice);
         ActivityCollector.addActivity(this);
         NowActivity = this;
-        //接收Intent传递的News对象
+        //接收Intent传递的Bulletin对象
         Intent intent = getIntent();
-        newsPeice = (News) intent.getParcelableExtra("newsPeice");
-        Log.d("Notice_Intent接收","接收到的News为" + newsPeice.getTitle());
+        bulletinPeice = (Bulletin) intent.getParcelableExtra("bulletinPeice");
+        Log.d("Notice_Intent接收","接收到的Bulletin为" + bulletinPeice.getTitle());
 
         //让toolbar支持ActionBar操作
         Toolbar toolbar = findViewById(R.id.notice_toolbar);
@@ -59,39 +57,39 @@ public class NoticeActivity extends AppCompatActivity {
         if (ActivityCollector.bgColor != 0) {
         layout.setBackgroundResource(ActivityCollector.bgColor);
         }
-        TextView newsAuthor = (TextView) findViewById(R.id.news_author);
-        TextView newsTime = (TextView) findViewById(R.id.news_time);
-        TextView newsTitle = (TextView) findViewById(R.id.news_title);
-        newsAuthor.setText(newsPeice.getAuthor());
-        newsTime.setText(newsPeice.getTime());
-        newsTitle.setText(newsPeice.getTitle());
+        TextView bulletinAuthor = (TextView) findViewById(R.id.bulletin_author);
+        TextView bulletinTime = (TextView) findViewById(R.id.bulletin_time);
+        TextView bulletinTitle = (TextView) findViewById(R.id.bulletin_title);
+        bulletinAuthor.setText(bulletinPeice.getAuthor());
+        bulletinTime.setText(bulletinPeice.getTime());
+        bulletinTitle.setText(bulletinPeice.getTitle());
 
         Log.d("Notice判断前", String.valueOf(ActivityCollector.token));
         //调用方法获取文章内容
-        sendGetRequestWithHttpURLConnection(newsPeice.getId());
-        Log.d("获取正文","正在获取" + newsPeice.getTitle());
+        sendGetRequestWithHttpURLConnection(bulletinPeice.getId());
+        Log.d("获取正文","正在获取" + bulletinPeice.getTitle());
         //获取失败自动重试，超时停止
 
     }
 
     private void parseJSONWhithGson(String jsonData) {
-        Log.d("NoticeActivity","Parsing News Content");
+        Log.d("NoticeActivity","Parsing Bulletin Content");
         try{
             JSONObject json = new JSONObject(jsonData);
             String content = json.getString("data");
-            //解析出新闻正文并存入传入的News对象之中
-            newsPeice.setContent(content);
+            //解析出新闻正文并存入传入的Bulletin对象之中
+            bulletinPeice.setContent(content);
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void showContent() {
-        TextView newsContent = (TextView) findViewById(R.id.content_text);
-        Log.d("Text",newsPeice.getContent());
-        new MdSupprt().showMdString(this,newsPeice.getContent(),newsContent);
+        TextView bulletinContent = (TextView) findViewById(R.id.content_text);
+        Log.d("Text", bulletinPeice.getContent());
+        new MdSupprt().showMdString(this, bulletinPeice.getContent(),bulletinContent);
 //        final Markwon markwon = Markwon.create(this);
-//        markwon.setMarkdown(newsContent, newsPeice.getContent());
+//        markwon.setMarkdown(bulletinContent, bulletinPeice.getContent());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -190,11 +188,11 @@ public class NoticeActivity extends AppCompatActivity {
                                 time = 0 ;
                                 parseJSONWhithGson(data);
                                 showContent();
-                                Log.d("正文内容","文章内容为" + newsPeice.getContent());
+                                Log.d("正文内容","文章内容为" + bulletinPeice.getContent());
                             } else {
                                 Intent login = new Intent("com.example.ProjectBDTC.LOGIN_START");
-                                //使用Intent传递News对象
-                                login.putExtra("newsPeice", newsPeice);
+                                //使用Intent传递Bulletin对象
+                                login.putExtra("bulletinPeice", bulletinPeice);
                                 NowActivity.startActivity(login);
                                 Toast.makeText(NoticeActivity.this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
                                 Log.d("获取正文失败","网络获取失败");

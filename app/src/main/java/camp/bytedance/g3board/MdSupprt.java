@@ -7,8 +7,18 @@ import android.widget.TextView;
 import io.noties.markwon.Markwon;
 import io.noties.markwon.image.ImagesPlugin;
 
+/**
+ *
+ * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
+ * @date 2020/11/29
+ * @descripation 用于支持MarkDown文本的解析展示，
+ * @method replaceMark 用于将Markdown文本字符串中的插图标替换为完整的URL
+ * @method showMdString 调用markwon包中的相关方法，展示MarkDown图文混排结果
+ *
+ */
 public class MdSupprt {
 
+    /***/
     private String replaceMark(String mdtext, int start) {
         int indexStart = mdtext.indexOf("![", start);
         if (indexStart == -1) {
