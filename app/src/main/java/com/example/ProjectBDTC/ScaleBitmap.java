@@ -25,7 +25,6 @@ public class ScaleBitmap {
                 y= 0;
             }
 
-
             Log.e("gacmy","scale:"+scale+" scaleWidth:"+scaleWidth+" scaleHeight:"+scaleHeight);
         }else if(w < h){//比例宽度小于高度的情况
             float scale = h/w;
@@ -73,5 +72,13 @@ public class ScaleBitmap {
         float height = bitmap.getHeight();
         Log.d("newbmp","仅缩放");
         return Bitmap.createScaledBitmap(bitmap, (int) (width * ratio), (int) (height *ratio), true);
+    }
+
+    //a按照宽度进行缩放，不进行裁剪
+    public Bitmap zoomWidthBitMap(Bitmap bitmap, int finalWidth) {
+        float width = bitmap.getWidth();
+        float height = bitmap.getHeight();
+        Log.d("newbmp","仅缩放");
+        return Bitmap.createScaledBitmap(bitmap, (int) width, (int) (height * finalWidth / width), true);
     }
 }

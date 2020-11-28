@@ -100,8 +100,9 @@ public class NoticeActivity extends AppCompatActivity {
     private void showContent() {
         TextView newsContent = (TextView) findViewById(R.id.content_text);
         Log.d("Text",newsPeice.getContent());
-        final Markwon markwon = Markwon.create(this);
-        markwon.setMarkdown(newsContent, newsPeice.getContent());
+        new MdSupprt().showMdString(this,newsPeice.getContent(),newsContent);
+//        final Markwon markwon = Markwon.create(this);
+//        markwon.setMarkdown(newsContent, newsPeice.getContent());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,8 +119,7 @@ public class NoticeActivity extends AppCompatActivity {
                 ActivityCollector.finishAll();
                 break;
             case R.id.about_item:
-                Toast.makeText(this, "作者: Group3 吴迪 & 王龙逊",
-                        Toast.LENGTH_LONG).show();
+                ActivityCollector.showAbout(this);
                 break;
             case R.id.green:
                 layout.setBackgroundResource(R.color.Green);
