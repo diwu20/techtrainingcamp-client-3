@@ -37,7 +37,7 @@
         android:layout_below="@id/notice_toolbar"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -60,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bulletin_title"
+            android:textColor="@color/Blackgray"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="10sp"
             android:text="author" />
@@ -69,8 +70,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bulletin_title"
+            android:textColor="@color/Blackgray"
             android:layout_toRightOf="@id/bulletin_author"
-            android:text="publishment" />
+            android:text="publish time" />
 
         <TextView
             android:id="@+id/content_text"

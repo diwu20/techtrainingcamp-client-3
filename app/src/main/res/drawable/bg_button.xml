@@ -3,7 +3,7 @@
     android:shape="rectangle">
     <!--设置背景色-->
 <!--    <solid android:color="@android:color/transparent" />-->
-    <solid android:color="@color/Blackgrayshadow" />
+    <solid android:color="@color/Blackgrayshadow2" />
     <!--设置圆角-->
     <corners android:radius="50dip" />
     <!--<padding-->

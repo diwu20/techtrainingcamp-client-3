@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/background_color"
         android:title="更换背景"
@@ -22,12 +23,20 @@
         </menu>
     </item>
     />
-
     <item
-        android:id="@+id/exit_item"
-        android:title="退出程序"/>
+        android:id="@+id/setting"
+        android:title="设置"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/exit_item"
+                android:title="退出程序"/>
 
-    <item
-        android:id="@+id/about_item"
-        android:title="关于我们" />
+            <item
+                android:id="@+id/about_item"
+                android:title="关于我们" />
+
+        </menu>
+    </item>
+
 </menu>

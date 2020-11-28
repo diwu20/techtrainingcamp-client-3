@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -69,12 +72,20 @@ public class MainActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
+        //背景颜色记忆
+        toolbar.setBackground(new ColorDrawable(ActivityCollector.bgColor));
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_layout);
+        if (ActivityCollector.bgColor != 0) {
+            layout.setBackgroundResource(ActivityCollector.bgColor);
+        }
+
         bulletinView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(MainActivity.this);
         bulletinView.setLayoutManager(linearLayout);
         //给RecyclerView添加分割线
-        bulletinView.addItemDecoration(new RecycleViewDivider(
-                MainActivity.this, LinearLayoutManager.VERTICAL, 5, ContextCompat.getColor(this, R.color.gray1)));
+        RecycleViewDivider recycleViewDivider = new RecycleViewDivider(
+                MainActivity.this, LinearLayoutManager.VERTICAL, 5, ContextCompat.getColor(this, R.color.Blackgrayshadow));
+        bulletinView.addItemDecoration(recycleViewDivider);
         bulletinList = new ArrayList<>();
         /**
          * 回调
@@ -170,6 +181,21 @@ public class MainActivity extends BaseActivity {
                 ActivityCollector.token = null;
                 ActivityCollector.clearCacheToken(this);
                 Snackbar.make(this.findViewById(android.R.id.content),"账号已退出",Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                break;
+
+            case R.id.night:
+                RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_layout);
+                if (ActivityCollector.bgColor == R.color.black) {
+                    ActivityCollector.bgColor = R.color.white;
+                    layout.setBackgroundResource(ActivityCollector.bgColor);
+                    item.setIcon(R.drawable.moon);
+                    item.setTitle("夜间模式");
+                } else {
+                    ActivityCollector.bgColor = R.color.black;
+                    layout.setBackgroundResource(ActivityCollector.bgColor);
+                    item.setIcon(R.drawable.sun);
+                    item.setTitle("日间模式");
+                }
                 break;
 
             case R.id.sort_item:

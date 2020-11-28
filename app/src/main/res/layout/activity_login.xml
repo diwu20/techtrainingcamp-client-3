@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
-        app:title="登陆账号"
+        app:title="登陆"
         app:titleTextColor="@color/Pinlan">
     </androidx.appcompat.widget.Toolbar>
 
@@ -60,7 +60,6 @@
                 android:text="用户名:"
                 android:textSize="18dp"
                 android:textColor="@color/Pinlan"
-                android:textStyle="bold"
                 />
             <EditText
                 android:id="@+id/username"
@@ -92,7 +91,6 @@
                 android:layout_gravity="center"
                 android:text="密    码:"
                 android:textSize="18dp"
-                android:textStyle="bold"
                 android:textColor="@color/Pinlan"
                 />
             <EditText

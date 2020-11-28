@@ -29,6 +29,7 @@ public class ActivityCollector {
 
     //背景颜色存储
     public static int bgColor;
+    public static int readerBgColor;
 
     //公告板列表展示顺序
     public static int order = 0;
