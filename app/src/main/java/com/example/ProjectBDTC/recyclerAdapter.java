@@ -102,7 +102,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                     Intent intent = new Intent("com.example.ProjectBDTC.LOGIN_START");
                     //使用Intent传递News对象
                     News noBitMapPeice = newsPeice;
-                    noBitMapPeice.setBitmap(null);
+                    //noBitMapPeice.setBitmap(null);
                     intent.putExtra("newsPeice", noBitMapPeice);
                     NowActivity.startActivity(intent);
                 } else {

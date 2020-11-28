@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (time++ > 90) {
+                    if (time++ > 20) {
                         break;
                     }
                 }

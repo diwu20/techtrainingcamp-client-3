@@ -23,11 +23,6 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.zzhoujay.okhttpimagedownloader.OkHttpImageDownloader;
-import com.zzhoujay.richtext.ImageHolder;
-import com.zzhoujay.richtext.RichText;
-import com.zzhoujay.richtext.callback.ImageFixCallback;
-import com.zzhoujay.richtext.callback.SimpleImageFixCallback;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,6 +34,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+
+import io.noties.markwon.Markwon;
 
 public class NoticeActivity extends AppCompatActivity {
     static private int code = 100;
@@ -70,7 +67,6 @@ public class NoticeActivity extends AppCompatActivity {
         if (ActivityCollector.bgColor != 0) {
         layout.setBackgroundResource(ActivityCollector.bgColor);
         }
-
         TextView newsAuthor = (TextView) findViewById(R.id.news_author);
         TextView newsTime = (TextView) findViewById(R.id.news_time);
         TextView newsTitle = (TextView) findViewById(R.id.news_title);
@@ -93,7 +89,7 @@ public class NoticeActivity extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (time++ > 90) {
+            if (time++ > 20) {
                 break;
             }
         }
@@ -104,7 +100,13 @@ public class NoticeActivity extends AppCompatActivity {
             showContent();
             Log.d("正文内容","文章内容为" + newsPeice.getContent());
         } else {
-            Toast.makeText(this,"出了点意外...",Toast.LENGTH_LONG).show();
+            Intent login = new Intent("com.example.ProjectBDTC.LOGIN_START");
+            //使用Intent传递News对象
+            News noBitMapPeice = newsPeice;
+            //noBitMapPeice.setBitmap(null);
+            intent.putExtra("newsPeice", noBitMapPeice);
+            this.startActivity(intent);
+            Toast.makeText(this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
             Log.d("获取正文失败","网络获取失败");
         }
     }
@@ -128,8 +130,10 @@ public class NoticeActivity extends AppCompatActivity {
         //newsContent.setMovementMethod(ScrollingMovementMethod.getInstance());
 //        newsContent.setText(newsPeice.getContent());
         Log.d("Text",newsPeice.getContent());
+        final Markwon markwon = Markwon.create(this);
+        markwon.setMarkdown(newsContent, newsPeice.getContent());
+//        RichText.fromMarkdown(newsPeice.getContent()).into(newsContent);
 
-        RichText.fromMarkdown(newsPeice.getContent()).into(newsContent);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
