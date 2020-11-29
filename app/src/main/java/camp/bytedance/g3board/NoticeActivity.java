@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,6 +89,15 @@ public class NoticeActivity extends AppCompatActivity {
         ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
         scrollView.setBackgroundResource(ActivityCollector.readerBgColor);
 
+        //调制背景和文字颜色
+        if (ActivityCollector.dayNightTheme == 1 && ActivityCollector.readerBgColor != 0) {
+            setTextColor(R.color.Blackgray);
+        }
+        if (ActivityCollector.dayNightTheme == 0 && ActivityCollector.readerBgColor == R.color.grayshadow) {
+                ActivityCollector.readerBgColor = 0;
+                scrollView.setBackgroundResource(0);
+        }
+
         TextView bulletinAuthor = (TextView) findViewById(R.id.bulletin_author);
         TextView bulletinTime = (TextView) findViewById(R.id.bulletin_time);
         TextView bulletinTitle = (TextView) findViewById(R.id.bulletin_title);
@@ -159,6 +169,7 @@ public class NoticeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
         switch (item.getItemId()) {
+
             case R.id.exit_item:
                 ActivityCollector.finishAll();
                 break;
@@ -170,16 +181,28 @@ public class NoticeActivity extends AppCompatActivity {
             case R.id.green:
                 scrollView.setBackgroundResource(R.color.Green);
                 ActivityCollector.readerBgColor = R.color.Green;
+                if (ActivityCollector.dayNightTheme == 1) {
+                    setTextColor(R.color.Blackgray);
+                }
+
                 break;
 
             case R.id.paper:
                 scrollView.setBackgroundResource(R.drawable.paper);
                 ActivityCollector.readerBgColor = R.drawable.paper;
+                if (ActivityCollector.dayNightTheme == 1) {
+                    setTextColor(R.color.Blackgray);
+                }
                 break;
 
             case R.id.white:
-                scrollView.setBackgroundResource(R.color.white);
-                ActivityCollector.readerBgColor = R.color.white;
+                if (ActivityCollector.dayNightTheme == 1) {
+                    scrollView.setBackgroundResource(R.color.grayshadow);
+                    ActivityCollector.readerBgColor = R.color.grayshadow;
+                    setTextColor(R.color.Blackgray);
+                } else {
+                    scrollView.setBackgroundResource(0);
+                }
             break;
 
             /**向上按钮设置为返回功能*/
@@ -311,4 +334,17 @@ public class NoticeActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    /**更改页面内的文字颜色，在更换背景时使用*/
+    private void setTextColor(int color){
+        TextView bulletinAuthor = (TextView) findViewById(R.id.bulletin_author);
+        TextView bulletinTime = (TextView) findViewById(R.id.bulletin_time);
+        TextView bulletinTitle = (TextView) findViewById(R.id.bulletin_title);
+        TextView bulletinContent = (TextView) findViewById(R.id.content_text);
+        bulletinAuthor.setTextColor(color);
+        bulletinTime.setTextColor(color);
+        bulletinTitle.setTextColor(color);
+        bulletinContent.setTextColor(color);
+    }
+
 }

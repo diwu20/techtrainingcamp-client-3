@@ -45,7 +45,7 @@ public class ActivityCollector {
     public static int order = 0;
 
     public static int dayNightTheme = 0;
-    public static int readerBgColor;
+    public static int readerBgColor = 0;
 
     public static boolean classifyActivityOn = false;
 
