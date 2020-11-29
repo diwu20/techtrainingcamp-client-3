@@ -183,23 +183,26 @@ public class NoticeActivity extends AppCompatActivity {
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    //退出登录
+                    ActivityCollector.token = null;
+                    ActivityCollector.clearCacheToken(NoticeActivity.this);
+                    Intent login = new Intent("camp.bytedance.g3board.LOGIN_START");
+                    //进入登录页面
+                    login.putExtra("bulletinPeice", bulletinPeice);
+                    nowActivity.startActivity(login);
+                    NoticeActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(NoticeActivity.this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    Log.d("获取正文失败","TOKEN验证失败");
                 } finally {
                     if (reader != null) {
                         try {
                             reader.close();
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Intent login = new Intent("camp.bytedance.g3board.LOGIN_START");
-                            //使用Intent传递Bulletin对象
-                            login.putExtra("bulletinPeice", bulletinPeice);
-                            nowActivity.startActivity(login);
-                            NoticeActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(NoticeActivity.this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
-                                }
-                            });
-                            Log.d("获取正文失败","TOKEN验证失败");
                         }
                     }
                     if (connection != null) {
@@ -223,7 +226,7 @@ public class NoticeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     Log.d("获取正文次数",String.valueOf(time));
-                    if (time++ > 500) {
+                    if (time++ > 20) {
                         break;
                     }
                 }
@@ -243,7 +246,7 @@ public class NoticeActivity extends AppCompatActivity {
                     NoticeActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(NoticeActivity.this,"加载失败，请检查网络",Toast.LENGTH_LONG).show();
+//                            Toast.makeText(NoticeActivity.this,"加载失败，请检查网络",Toast.LENGTH_LONG).show();
                             TextView textView = (TextView) findViewById(R.id.content_text);
                             textView.setText("加载失败，点击屏幕重新加载");
                             ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
@@ -251,6 +254,7 @@ public class NoticeActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View v) {
                                     sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
+                                    Toast.makeText(NoticeActivity.this,"重新加载",Toast.LENGTH_SHORT);
                                 }
                             });
                         }
