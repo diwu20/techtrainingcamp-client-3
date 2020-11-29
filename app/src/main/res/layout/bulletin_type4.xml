@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:outlineProvider="bounds"
+    android:elevation="1.5dp"
     >
 
     <TextView
@@ -10,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="17sp"
-        android:textColor="@color/Blackgray"
         android:textStyle="bold"
         android:layout_marginLeft="16sp"
         android:layout_marginTop="10sp"

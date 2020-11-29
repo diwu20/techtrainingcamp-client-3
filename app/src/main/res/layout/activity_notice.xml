@@ -12,12 +12,16 @@
     <!--        android:background="#e0e0e0"-->
     <!--        android:layout_marginBottom="5sp"-->
     <!--        />-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/notice_toolbar_back"
+        android:elevation="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/notice_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:fitsSystemWindows="true">
 
         <TextView
@@ -31,13 +35,16 @@
             android:textColor="@color/Pinlan"
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/notice_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/notice_toolbar"
+        android:layout_below="@+id/notice_toolbar_back"
         tools:context=".MainActivity">
     <ScrollView
         android:id="@+id/notice_scroll"
@@ -59,7 +66,6 @@
             android:text="文章标题"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/Blackgray"
             android:layout_marginLeft="10sp"
             android:layout_marginTop="15sp"
             android:layout_marginBottom="10sp"/>
@@ -69,7 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bulletin_title"
-            android:textColor="@color/Blackgray"
             android:layout_marginRight="20dp"
             android:layout_marginLeft="10sp"
             android:text="author" />
@@ -79,7 +84,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/bulletin_title"
-            android:textColor="@color/Blackgray"
             android:layout_toRightOf="@id/bulletin_author"
             android:text="publish time" />
 
@@ -93,7 +97,6 @@
             android:layout_marginRight="10sp"
             android:layout_below="@+id/bulletin_time"
             android:text="公告加载中,请稍候..."
-            android:textColor="@color/Blackgray"
             android:textSize="18sp"/>
         </RelativeLayout>
     </ScrollView>

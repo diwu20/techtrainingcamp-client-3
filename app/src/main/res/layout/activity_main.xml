@@ -9,87 +9,95 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-<!--    <TextView-->
-<!--        android:id="@+id/main_title"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="新闻公告板"-->
-<!--        android:height="40sp"-->
-<!--        android:gravity="center"-->
-<!--        android:textSize="25sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:textColor="@color/white"-->
-<!--        />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/main_title"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="新闻公告板"-->
+    <!--        android:height="40sp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:textSize="25sp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        />-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main_toolbar_back"
+        android:layout_width="match_parent"
+        android:elevation="5dp"
+        android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:elevation="5dp"
         android:fitsSystemWindows="true">
-         <TextView
-             android:id="@+id/main_title"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:textColor="@color/Pinlan"
-             android:text="公告列表"
-             android:textSize="20sp"
-             android:layout_gravity="center">
-         </TextView>
+        <TextView
+            android:id="@+id/main_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Pinlan"
+            android:text="公告列表"
+            android:textSize="20sp"
+            android:layout_gravity="center">
+        </TextView>
     </androidx.appcompat.widget.Toolbar>
 
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:paddingTop="3dp"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/main_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_toolbar"
+        android:layout_below="@+id/main_toolbar_back"
         tools:context=".MainActivity">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_toolbar"
-        android:fillViewport="true">
-
-        <RelativeLayout
+        <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_toolbar"
+            android:fillViewport="true">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="25sp"
-            android:layout_below="@+id/recycler_view"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="到底了"
-            android:textSize="12sp"
-            android:textColor="@color/Blackgrayshadow"
-            android:layout_gravity="center"/>
-        </RelativeLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25sp"
+                    android:layout_below="@+id/recycler_view"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="到底了"
+                    android:textSize="12sp"
+                    android:textColor="@color/Blackgrayshadow"
+                    android:layout_gravity="center"/>
+            </RelativeLayout>
         </ScrollView>
-<!--        -->
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/fab"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:theme="@style/Theme.FAB"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_alignParentRight="true"-->
-<!--        android:layout_marginBottom="30sp"-->
-<!--        android:layout_marginRight="20sp"-->
-<!--        android:src="@drawable/refresh"-->
-<!--        android:tint="@color/white"-->
-<!--        app:rippleColor="@color/white"-->
-<!--        />-->
+        <!--        -->
+        <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+        <!--        android:id="@+id/fab"-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:theme="@style/Theme.FAB"-->
+        <!--        android:layout_alignParentBottom="true"-->
+        <!--        android:layout_alignParentRight="true"-->
+        <!--        android:layout_marginBottom="30sp"-->
+        <!--        android:layout_marginRight="20sp"-->
+        <!--        android:src="@drawable/refresh"-->
+        <!--        android:tint="@color/white"-->
+        <!--        app:rippleColor="@color/white"-->
+        <!--        />-->
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>
-

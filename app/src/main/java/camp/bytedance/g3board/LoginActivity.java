@@ -42,6 +42,13 @@ public class LoginActivity extends BaseActivity {
     private boolean flag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (ActivityCollector.dayNightTheme == 1) {
+            setTheme(R.style.Theme_nightTime);
+        } else {
+            setTheme(R.style.Theme_dayTime);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

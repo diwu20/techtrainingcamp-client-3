@@ -19,21 +19,30 @@ import java.util.List;
  */
 
 public class ActivityCollector {
+    /**
+     * @params username/token 全局使用的用户信息
+     * @params tokenSP 用于缓存用于信息
+     * @params bulletinList 公告列表
+     * @params order 公告列表展示的顺序
+     * @params dayNightTheme 用于指示当前主题
+     * 0 -> 日间主题
+     * 1 -> 夜间主题
+     * @params readerBgColor 公告内容页的背景颜色
+     * 0 -> 原始顺序
+     * 1 -> 时间倒序
+     * -1 -> 时间顺序
+     * @params activityList 当前活动列表
+     */
 
-    //用户信息
     public static String username;
     public static String token;
-
-    //定义SharedPreferences，用于缓存信息
     private static SharedPreferences tokenSP;
 
-    //背景颜色存储
-    public static int bgColor;
-    public static int readerBgColor;
-
-    //公告板列表展示顺序
+    public static List<Bulletin> bulletinList;
     public static int order = 0;
 
+    public static int dayNightTheme = 0;
+    public static int readerBgColor;
 
     public static List<Activity> activityList = new ArrayList<>();
 

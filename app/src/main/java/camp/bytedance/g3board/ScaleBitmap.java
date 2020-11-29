@@ -21,7 +21,7 @@ public class ScaleBitmap {
         float x = 0,y = 0,scaleWidth = width,scaleHeight = height;
         Bitmap newbmp;
 
-        //比例宽度大于高度的情况
+        /**比例宽度大于高度的情况*/
         if(w > h){
             float scale = w/h;
             float tempH = width/scale;
@@ -39,7 +39,7 @@ public class ScaleBitmap {
 
 
         }else if(w < h){
-            //比例宽度小于高度的情况
+            /**比例宽度小于高度的情况*/
             float scale = h/w;
             float tempW = height/scale;
             if(width > tempW){
@@ -68,7 +68,7 @@ public class ScaleBitmap {
             }
         }
         try {
-            //createBitmap()方法中定义的参数x+width要小于或等于bitmap.getWidth()，y+height要小于或等于bitmap.getHeight()
+            /**createBitmap()方法中定义的参数x+width要小于或等于bitmap.getWidth()，y+height要小于或等于bitmap.getHeight()*/
             newbmp = Bitmap.createBitmap(bitmap, (int) x, (int) y, (int) scaleWidth, (int) scaleHeight, null, false);
             //缩放
             newbmp = Bitmap.createScaledBitmap(newbmp, (int) w, (int) h, true);

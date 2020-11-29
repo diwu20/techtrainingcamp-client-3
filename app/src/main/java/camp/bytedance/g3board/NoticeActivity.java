@@ -4,32 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
@@ -39,20 +28,43 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+/**
+ *
+ * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
+ * @date 2020/11/29
+ * @descripation 用于公告内容的获取与展示
+ *
+ */
 
 public class NoticeActivity extends AppCompatActivity {
+    /**
+     *
+     * @params cmNoticeRefresh 用于刷新页面的SwipeRefreshLayout控件
+     * @params code 通过网络获取公告时返回的code值
+     * @params code 验证时用于计时的变量
+     * @params bulletinPeice 从MainActivity传来的公告对象
+     * @params bulletinPeice 从MainActivity传来的公告对象d
+     * @params data 网络获取公告时返回的json
+     * @params nowActivity 存储当前的Context
+     *
+     */
     private SwipeRefreshLayout mNoticeRefresh;
 
     static private int code = 100;
     static private int time = 0;
-    //从Adapter传入的Bulletin对象
+
     private Bulletin bulletinPeice;
-    //接收到的json文本
+
     public static String data;
     private Context nowActivity;
-    @SuppressLint("ResourceAsColor")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (ActivityCollector.dayNightTheme == 1) {
+            setTheme(R.style.Theme_nightTime);
+        } else {
+            setTheme(R.style.Theme_dayTime);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
         ActivityCollector.addActivity(this);
@@ -71,11 +83,7 @@ public class NoticeActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        toolbar.setBackground(new ColorDrawable(ActivityCollector.bgColor));
 
-        //背景颜色记忆
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.notice_layout);
-        layout.setBackgroundResource(ActivityCollector.bgColor);
         ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
         scrollView.setBackgroundResource(ActivityCollector.readerBgColor);
 
@@ -86,17 +94,18 @@ public class NoticeActivity extends AppCompatActivity {
         bulletinTime.setText(bulletinPeice.getTime());
         bulletinTitle.setText(bulletinPeice.getTitle());
         Log.d("Notice判断前", String.valueOf(ActivityCollector.token));
+
         //调用方法获取文章内容
         sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
         Log.d("获取正文","正在获取" + bulletinPeice.getTitle());
-        //获取失败自动重试，超时停止
-        //veryfy();
+
         /**下拉刷新公告列表*/
         mNoticeRefresh.setOnRefreshListener(refreshListener);
     }
 
     /**用于刷新操作的refreshListener，调用doRefresh方法*/
     private  SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
         public void onRefresh() {
             doRefresh();
         }
@@ -115,7 +124,8 @@ public class NoticeActivity extends AppCompatActivity {
         }, 1000);
     }
 
-    private void parseJsonWhithGson(String jsonData) {
+    /**解析获取的公告内容字符串，存入Bulletin对象中*/
+    private void parseJson(String jsonData) {
         Log.d("NoticeActivity","Parsing Bulletin Content");
         try{
             JSONObject json = new JSONObject(jsonData);
@@ -140,7 +150,6 @@ public class NoticeActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
@@ -177,7 +186,7 @@ public class NoticeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //重写返回方法，直接返回到MainActivity
+    /**重写返回方法，点击返回直接返回到MainActivity*/
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(NoticeActivity.this, MainActivity.class);
@@ -187,9 +196,10 @@ public class NoticeActivity extends AppCompatActivity {
     }
 
     private void sendGetRequestWithHttpUrlConnection(String id) {
-        //假token，用于测试异常处理
-        //ActivityCollector.token =
-        //        "11eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMSIsIm5hbWUiOiIxMTEiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTYwNjYzNzQ3MSwiZXhwIjoxNjA2NjQxMDcxfQ.jsXS9YnSbFZ6aNzGZjfx9N8SSudMQRZ8HCOSbWyC1M4";
+        /**假token，用于测试异常处理
+        * ActivityCollector.token =
+        *        "11eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMSIsIm5hbWUiOiIxMTEiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTYwNjYzNzQ3MSwiZXhwIjoxNjA2NjQxMDcxfQ.jsXS9YnSbFZ6aNzGZjfx9N8SSudMQRZ8HCOSbWyC1M4";
+         **/
         veryfy();
         Thread connect = new Thread(new Runnable() {
             @Override
@@ -213,12 +223,12 @@ public class NoticeActivity extends AppCompatActivity {
                     while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
-                    String response_str = response.toString();
-                    Log.d("MainActivity", "response为: " + response_str);
-                    JSONObject jsonObject = new JSONObject(response_str);
+                    String responseStr = response.toString();
+                    Log.d("MainActivity", "response为: " + responseStr);
+                    JSONObject jsonObject = new JSONObject(responseStr);
                     NoticeActivity.code = (int) jsonObject.get("code");
-                    NoticeActivity.data = response_str;
-                    Log.d("AdapterToNotice",response_str);
+                    NoticeActivity.data = responseStr;
+                    Log.d("AdapterToNotice",responseStr);
                 } catch (Exception e) {
                     Log.d("获取异常", String.valueOf(e));
                     if (String.valueOf(e).contains("java.io.FileNotFoundException")) {
@@ -276,7 +286,7 @@ public class NoticeActivity extends AppCompatActivity {
                 if (code == 0) {
                     time = 0 ;
                     code = 100;
-                    parseJsonWhithGson(data);
+                    parseJson(data);
                     NoticeActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

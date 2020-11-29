@@ -24,8 +24,14 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+/**
+ *
+ * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
+ * @date 2020/11/29
+ * @descripation
+ *
+ */
 
-@SuppressWarnings("ALL")
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
 
     static private Context NowActivity = null;
@@ -71,19 +77,19 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
     }
 
     @Override
+    /**根据position返回对应type*/
     public int getItemViewType(int position) {
-        //根据position返回对应type
         return bulletinList.get(position).getType();
     }
 
-    //重写onCreateViewHolder,添加点击事件，使用Toast测试
+    /**重写onCreateViewHolder,添加点击事件，使用Toast测试*/
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //使用getlayoutID方法创建合适的ViewHolder并返回
+        /**使用getlayoutID方法创建合适的ViewHolder并返回*/
         View view = LayoutInflater.from(parent.getContext()).inflate(getlayoutId(viewType), parent, false);
         final ViewHolder holder = new ViewHolder(view);
 
-        //点击view的事件
+        /**点击view的事件*/
         holder.bulletinView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,7 +116,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
             }
         });
 
-        //点击作者事件
+        /**点击作者事件*/
         holder.bulletinAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -11,7 +11,7 @@
         android:label="G3公告板"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BDTC">
+        android:theme="@style/Theme.dayTime">
         <activity android:name="camp.bytedance.g3board.NoticeActivity" android:parentActivityName="camp.bytedance.g3board.MainActivity">
             <intent-filter>
                 <action android:name="camp.bytedance.g3board.NOTICE_START"/>

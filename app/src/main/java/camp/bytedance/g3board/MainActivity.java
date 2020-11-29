@@ -67,6 +67,11 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (ActivityCollector.dayNightTheme == 1) {
+            setTheme(R.style.Theme_nightTime);
+        } else {
+            setTheme(R.style.Theme_dayTime);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -81,21 +86,11 @@ public class MainActivity extends BaseActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
 
-        //背景颜色记忆
-        toolbar.setBackground(new ColorDrawable(ActivityCollector.bgColor));
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_layout);
-        if (ActivityCollector.bgColor != 0) {
-            layout.setBackgroundResource(ActivityCollector.bgColor);
-        }
 
         bulletinView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(MainActivity.this);
         bulletinView.setLayoutManager(linearLayout);
-        //给RecyclerView添加分割线
-        RecycleViewDivider recycleViewDivider = new RecycleViewDivider(
-                MainActivity.this, LinearLayoutManager.VERTICAL, 5, ContextCompat.getColor(this, R.color.Blackgrayshadow));
-        bulletinView.addItemDecoration(recycleViewDivider);
-        bulletinList = new ArrayList<>();
+
         /**
          * 回调
          * 调用parseJSONWithGson方法对获取的json字符串进行解析
@@ -121,8 +116,15 @@ public class MainActivity extends BaseActivity {
             }
         };
 
-        /**使用initBulletin方法，会调用getBulletin方法，并使用回调方法更新UI**/
-        initBulletin(callback);
+        /**若公告列表已存在，则优先加载已有公告列表
+         * 否则调用initBulletin方法进行加载*/
+        if (ActivityCollector.bulletinList == null) {
+            /**使用initBulletin方法，会调用getBulletin方法，并使用回调方法更新UI**/
+            initBulletin(callback);
+        } else {
+            this.bulletinList = ActivityCollector.bulletinList;
+            showBulletin(bulletinList,MainActivity.this, bulletinView);
+        }
 
         /**下拉刷新公告列表*/
         mMainRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -155,6 +157,14 @@ public class MainActivity extends BaseActivity {
                 MenuItem exitLoginItem = menu.findItem(R.id.exitLogin_item);
                 exitLoginItem.setVisible(false);
             }
+            MenuItem daynight = menu.findItem(R.id.night);
+            if (ActivityCollector.dayNightTheme == 0) {
+                daynight.setTitle("夜间模式");
+                daynight.setIcon(R.drawable.moon);
+            } else {
+                daynight.setTitle("日间模式");
+                daynight.setIcon(R.drawable.sun);
+            }
             //显示菜单图标
             if (menu.getClass() == MenuBuilder.class) {
                 try {
@@ -186,17 +196,14 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case R.id.night:
+                Toolbar toolbar = findViewById(R.id.main_toolbar);
                 RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_layout);
-                if (ActivityCollector.bgColor == R.color.black) {
-                    ActivityCollector.bgColor = R.color.white;
-                    layout.setBackgroundResource(ActivityCollector.bgColor);
-                    item.setIcon(R.drawable.moon);
-                    item.setTitle("夜间模式");
+                if (ActivityCollector.dayNightTheme == 1) {
+                    ActivityCollector.dayNightTheme = 0;
+                    switchTheme();
                 } else {
-                    ActivityCollector.bgColor = R.color.black;
-                    layout.setBackgroundResource(ActivityCollector.bgColor);
-                    item.setIcon(R.drawable.sun);
-                    item.setTitle("日间模式");
+                    ActivityCollector.dayNightTheme = 1;
+                    switchTheme();
                 }
                 break;
 
@@ -280,6 +287,7 @@ public class MainActivity extends BaseActivity {
         bulletinList = gson.fromJson(jsonData, new TypeToken<List<Bulletin>>(){}.getType());
         //排序
         sortListBulletin(bulletinList, ActivityCollector.order);
+        ActivityCollector.bulletinList = bulletinList;
     }
 
     /**辅助方法，List<Bulletin>排序，重写sort方法
@@ -328,5 +336,13 @@ public class MainActivity extends BaseActivity {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**切换主题时调用的方法*/
+    private void switchTheme() {
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+        this.overridePendingTransition(android.R.anim.fade_in,
+                android.R.anim.fade_out);
     }
 }
