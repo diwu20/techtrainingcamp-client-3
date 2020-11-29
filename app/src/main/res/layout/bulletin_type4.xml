@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:outlineProvider="bounds"
-    android:elevation="1.5dp"
-    >
+    android:elevation="@dimen/elevationInRecyclerView"
+    android:layout_marginBottom="@dimen/marginInRecyclerView">
 
     <TextView
         android:id="@+id/bulletin_title"
@@ -30,7 +30,7 @@
         android:layout_marginLeft="10sp"
         android:layout_marginRight="5sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/icon"
         />
 
     <ImageView
@@ -41,7 +41,7 @@
         android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/icon"
         />
 
     <ImageView
@@ -52,7 +52,7 @@
         android:layout_marginLeft="5sp"
         android:layout_marginRight="5sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/icon"
         />
 
     <ImageView
@@ -63,7 +63,7 @@
         android:layout_marginLeft="5sp"
         android:layout_marginRight="10sp"
         android:adjustViewBounds="true"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/icon"
         />
 
     </LinearLayout>

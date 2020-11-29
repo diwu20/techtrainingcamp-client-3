@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:outlineProvider="bounds"
-    android:elevation="1.5dp">
+    android:elevation="@dimen/elevationInRecyclerView"
+    android:layout_marginBottom="@dimen/marginInRecyclerView">
 
     <TextView
         android:id="@+id/bulletin_title"
@@ -28,7 +29,7 @@
         android:layout_marginRight="5sp"
         android:layout_marginBottom="5sp"
         android:layout_marginTop="5sp"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/icon"
         />
 
     <TextView

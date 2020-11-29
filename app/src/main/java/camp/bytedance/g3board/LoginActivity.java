@@ -53,7 +53,8 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         Intent intent = getIntent();
-        Bulletin bulletinPeice = (Bulletin) intent.getParcelableExtra("bulletinPeice");
+        int index = intent.getIntExtra("bulletinPeiceIndex",0);
+        Bulletin bulletinPeice = ActivityCollector.bulletinList.get(index);
         Log.d("Login_Intent接收","接收到的Bulletin为" + bulletinPeice.getTitle());
 
         //让toolbar支持ActionBar操作
@@ -89,7 +90,8 @@ public class LoginActivity extends BaseActivity {
                 //获取登录反馈
                 if (flag == true) {
                     Intent notice = new Intent("camp.bytedance.g3board.NOTICE_START");
-                    notice.putExtra("bulletinPeice", bulletinPeice);
+                    //使用intent传递公告在list中的下标
+                    notice.putExtra("bulletinPeiceIndex", index);
                     Snackbar.make(v,"登录成功",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                     TimerTask task = new TimerTask() {
                         @Override
@@ -108,6 +110,15 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    /**重写返回方法，点击返回直接返回到MainActivity*/
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        //添加Flag，使Activity不被重新创建
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     @Override

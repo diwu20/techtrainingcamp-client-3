@@ -5,8 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import camp.bytedance.g3board.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +41,9 @@ public class ActivityCollector {
 
     public static int dayNightTheme = 0;
     public static int readerBgColor;
+
+    public static boolean classifyActivityOn = false;
+
 
     public static List<Activity> activityList = new ArrayList<>();
 
@@ -93,10 +94,12 @@ public class ActivityCollector {
     /**点击菜单中关于项时展示的弹窗*/
     public static void showAbout(Context context) {
         AlertDialog alertDialog1 = new AlertDialog.Builder(context)
-                .setTitle("G3公告板")
-                .setMessage("G3公告板 version 0.1.1\n作者：吴迪 & 王龙逊\n字节跳动技术训练营-客户端 Group3")
+                .setTitle("G3公告板 V0.9.9")
+                .setMessage("作者：吴迪 & 王龙逊\n字节跳动技术训练营 客户端Group3")
                 .setIcon(R.mipmap.icon_launcher)
                 .create();
         alertDialog1.show();
     }
+
+
 }

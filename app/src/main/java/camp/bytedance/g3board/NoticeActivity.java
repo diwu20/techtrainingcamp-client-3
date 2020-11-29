@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,7 +40,7 @@ public class NoticeActivity extends AppCompatActivity {
      *
      * @params cmNoticeRefresh 用于刷新页面的SwipeRefreshLayout控件
      * @params code 通过网络获取公告时返回的code值
-     * @params code 验证时用于计时的变量
+     * @params time 验证时用于计时的变量
      * @params bulletinPeice 从MainActivity传来的公告对象
      * @params bulletinPeice 从MainActivity传来的公告对象d
      * @params data 网络获取公告时返回的json
@@ -71,8 +70,9 @@ public class NoticeActivity extends AppCompatActivity {
         nowActivity = this;
         //接收Intent传递的Bulletin对象
         Intent intent = getIntent();
-        int index = intent.getIntExtra("bulletinPeice",0);
+        int index = intent.getIntExtra("bulletinPeiceIndex",0);
         bulletinPeice = ActivityCollector.bulletinList.get(index);
+
         Log.d("Notice_Intent接收","接收到的Bulletin为" + bulletinPeice.getTitle());
 
         mNoticeRefresh = (SwipeRefreshLayout) findViewById(R.id.notice_refresh);
@@ -182,7 +182,7 @@ public class NoticeActivity extends AppCompatActivity {
                 ActivityCollector.readerBgColor = R.color.white;
             break;
 
-            //向上按钮设置为返回功能
+            /**向上按钮设置为返回功能*/
             case android.R.id.home:
                 onBackPressed();
                 return true;
@@ -191,20 +191,8 @@ public class NoticeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**重写返回方法，点击返回直接返回到MainActivity*/
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(NoticeActivity.this, MainActivity.class);
-        //添加Flag，使Activity不被重新创建
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-    }
-
     private void sendGetRequestWithHttpUrlConnection(String id) {
-        /**假token，用于测试异常处理
-        * ActivityCollector.token =
-        *        "11eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMSIsIm5hbWUiOiIxMTEiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTYwNjYzNzQ3MSwiZXhwIjoxNjA2NjQxMDcxfQ.jsXS9YnSbFZ6aNzGZjfx9N8SSudMQRZ8HCOSbWyC1M4";
-         **/
+
         veryfy();
         Thread connect = new Thread(new Runnable() {
             @Override
@@ -304,11 +292,9 @@ public class NoticeActivity extends AppCompatActivity {
                     NoticeActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            Toast.makeText(NoticeActivity.this,"加载失败，请检查网络",Toast.LENGTH_LONG).show();
                             TextView textView = (TextView) findViewById(R.id.content_text);
                             textView.setText("加载失败，点击屏幕重新加载");
-                            ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
-                            RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.touch_aera);
+                            RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.notice_touch_aera);
                             relativeLayout.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

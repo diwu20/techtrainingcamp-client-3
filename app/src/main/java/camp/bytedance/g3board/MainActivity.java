@@ -3,15 +3,12 @@ package camp.bytedance.g3board;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -19,16 +16,12 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -36,11 +29,7 @@ import com.google.gson.reflect.TypeToken;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Call;
@@ -59,10 +48,17 @@ import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
 
-    private SwipeRefreshLayout mMainRefresh;
+    /**
+     *
+     * @params cmMainRefresh 用于刷新页面的SwipeRefreshLayout控件
+     * @params bulletinList 公告列表
+     * @params bulletinView 用于显示公告列表的RecyclerView
+     **/
 
+    private SwipeRefreshLayout mMainRefresh;
     private List<Bulletin> bulletinList;
     private RecyclerView bulletinView;
+    private Callback callback;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -87,7 +83,7 @@ public class MainActivity extends BaseActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
 
-        bulletinView = (RecyclerView) findViewById(R.id.recycler_view);
+        bulletinView = (RecyclerView) findViewById(R.id.main_recycler_view);
         LinearLayoutManager linearLayout = new LinearLayoutManager(MainActivity.this);
         bulletinView.setLayoutManager(linearLayout);
 
@@ -96,9 +92,26 @@ public class MainActivity extends BaseActivity {
          * 调用parseJSONWithGson方法对获取的json字符串进行解析
          * 然后在主线程使用showBulletin方法更新UI，显示公告列表
          */
-        Callback callback = new Callback (){
+        callback = new Callback (){
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView bottomView = (TextView) findViewById(R.id.reach_bottom);
+                        bottomView.setText("加载失败，请点击重试");
+                        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_touch_aera);
+                        relativeLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                mMainRefresh.setRefreshing(true);
+                                bottomView.setText("重新加载中...");
+                                doRefresh();
+                            }
+                        });
+                    }
+
+                });
             }
             //重写onResponse，在主线程更新UI
             @Override
@@ -258,8 +271,8 @@ public class MainActivity extends BaseActivity {
 
     /**调用getBulletin方法发送请求**/
     private void initBulletin(okhttp3.Callback callback) {
-        String jsonUrl = "http://192.168.1.106/metadata.json";
-//        String jsonUrl = "http://cdn.skyletter.cn/metadata.json";
+        //String jsonUrl = "http://192.168.1.106/metadata.json";
+        String jsonUrl = "http://cdn.skyletter.cn/metadata.json";
         getBulletin(jsonUrl, callback);
         Log.d("initBulletin","get ok");
     }
@@ -275,7 +288,10 @@ public class MainActivity extends BaseActivity {
 
     /**创建adapter，将List<Bulletin>加载到RecyclerView**/
     private static void showBulletin(List<Bulletin> bulletinList, Context context, RecyclerView bulletinView) {
-        recyclerAdapter adapter  = new recyclerAdapter(sortListBulletin(bulletinList, ActivityCollector.order),context);
+        if (bulletinList == null) {
+            return;
+        }
+        RecyclerAdapter adapter  = new RecyclerAdapter(SortListBulletin.sort(bulletinList, ActivityCollector.order),context);
         bulletinView.setAdapter(adapter);
     }
 
@@ -285,59 +301,21 @@ public class MainActivity extends BaseActivity {
         Gson gson = new Gson();
         bulletinList = gson.fromJson(jsonData, new TypeToken<List<Bulletin>>(){}.getType());
         //排序
-        sortListBulletin(bulletinList, ActivityCollector.order);
+        SortListBulletin.sort(bulletinList, ActivityCollector.order);
         ActivityCollector.bulletinList = bulletinList;
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView bottomView = (TextView) findViewById(R.id.reach_bottom);
+                bottomView.setText("到底了");
+            }
+        });
     }
 
     /**辅助方法，List<Bulletin>排序，重写sort方法
      * order == 1 时间倒序
      * order == -1 时间顺序
      * **/
-    private static List<Bulletin> sortListBulletin(List<Bulletin> bulletinList, int order) {
-        List<Bulletin> sortList = new ArrayList<>(bulletinList);
-        Collections.sort(sortList, new Comparator<Bulletin>() {
-            @Override
-            public int compare(Bulletin o1, Bulletin o2) {
-                char[] time1 = o1.getTime().toCharArray();
-                char[] time2 = o2.getTime().toCharArray();
-                for (int i = 0; i < time1.length; i++) {
-                    if(isChineseChar(time1[i])) {
-                        time1[i] = ',';
-                    }
-                }
-                for (int i = 0; i < time2.length; i++) {
-                    if(isChineseChar(time2[i])) {
-                        time2[i] = ',';
-                    }
-                }
-                String[] s1 = new String(time1).split(",");
-                String[] s2 = new String(time2).split(",");
-                for (int i = 0; i < Math.min(s1.length, s2.length); i++) {
-                   if(s1[i].length() == s2[i].length()) {
-                       if (s1[i].equals(s2[i])) {
-                        continue;
-                       } else  {
-                           return s1[i].compareTo(s2[i]) * order;
-                       }
-                   } else {
-                       return (s1[i].length() - s2[i].length()) * order;
-                   }
-               }
-                return order;
-            }
-        });
-        return sortList;
-    }
-
-    /**辅助方法，判断字符是否为中文，对公告列表进行排序时使用**/
-    public static boolean isChineseChar(char c) {
-        try {
-            return String.valueOf(c).getBytes("UTF-8").length > 1;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     /**切换主题时调用的方法*/
     private void switchTheme() {
@@ -346,4 +324,17 @@ public class MainActivity extends BaseActivity {
         this.overridePendingTransition(android.R.anim.fade_in,
                 android.R.anim.fade_out);
     }
+
+    /**进行刷新操作，重新获取文章内容*/
+    private void doRefresh() {
+        initBulletin(callback);
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mMainRefresh.setRefreshing(false);
+                Log.d("SwipeView ",mMainRefresh.isRefreshing()+"");
+            }
+        }, 1000);
+    }
+
 }
