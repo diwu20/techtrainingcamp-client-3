@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:outlineProvider="bounds"
+    android:layout_marginBottom="@dimen/margin_recyclerView"
     android:elevation="1.5dp">
 
     <ImageView
@@ -15,7 +16,7 @@
         android:layout_marginRight="16sp"
         android:layout_marginBottom="5sp"
         android:layout_marginTop="5sp"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/icon"
         />
 
     <TextView

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -95,7 +94,7 @@ public class NoticeActivity extends AppCompatActivity {
         bulletinTime.setText(bulletinPeice.getTime());
         bulletinTitle.setText(bulletinPeice.getTitle());
         Log.d("Notice判断前", String.valueOf(ActivityCollector.token));
-        
+
         if (bulletinPeice.getContent() == null) {
             //调用方法获取文章内容
             sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
@@ -189,15 +188,6 @@ public class NoticeActivity extends AppCompatActivity {
             default:
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**重写返回方法，点击返回直接返回到MainActivity*/
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(NoticeActivity.this, MainActivity.class);
-        //添加Flag，使Activity不被重新创建
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
     }
 
     private void sendGetRequestWithHttpUrlConnection(String id) {
@@ -307,8 +297,7 @@ public class NoticeActivity extends AppCompatActivity {
 //                            Toast.makeText(NoticeActivity.this,"加载失败，请检查网络",Toast.LENGTH_LONG).show();
                             TextView textView = (TextView) findViewById(R.id.content_text);
                             textView.setText("加载失败，点击屏幕重新加载");
-                            ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
-                            RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.touch_aera);
+                            RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.notice_touch_aera);
                             relativeLayout.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

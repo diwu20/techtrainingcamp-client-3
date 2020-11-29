@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import camp.bytedance.g3board.R;
 
@@ -14,7 +18,7 @@ import java.util.List;
  *
  * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
  * @date 2020/11/29
- * @descripation 活动管理器，用于记录当前存在的活动，执行全体的退出命令，以及存储各活动会使用的公共变量
+ * @descripation 活动管理器，用于记录当前存在的活动，执行全体的退出命令，以及存储各活动会使用的公共变量和公共方法
  *
  */
 
@@ -93,8 +97,8 @@ public class ActivityCollector {
     /**点击菜单中关于项时展示的弹窗*/
     public static void showAbout(Context context) {
         AlertDialog alertDialog1 = new AlertDialog.Builder(context)
-                .setTitle("G3公告板")
-                .setMessage("G3公告板 version 0.1.1\n作者：吴迪 & 王龙逊\n字节跳动技术训练营-客户端 Group3")
+                .setTitle("G3公告板 V0.9.9")
+                .setMessage("作者：吴迪 & 王龙逊\n字节跳动技术训练营 客户端Group3")
                 .setIcon(R.mipmap.icon_launcher)
                 .create();
         alertDialog1.show();

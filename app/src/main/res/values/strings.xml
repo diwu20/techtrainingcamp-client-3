@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">G3公告板</string>
+    <dimen name="margin_recyclerView">2dp</dimen>
 </resources>
