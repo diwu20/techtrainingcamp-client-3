@@ -12,24 +12,37 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/Theme.dayTime">
-        <activity android:name="camp.bytedance.g3board.NoticeActivity" android:parentActivityName="camp.bytedance.g3board.MainActivity">
+
+        <activity android:name=".ClassifyActivity">
             <intent-filter>
-                <action android:name="camp.bytedance.g3board.NOTICE_START"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="camp.bytedance.g3board.CLASSIFY_START" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="camp.bytedance.g3board.LoginActivity">
+
+        <activity
+            android:name=".NoticeActivity"
+            android:parentActivityName=".MainActivity">
+            <intent-filter>
+                <action android:name="camp.bytedance.g3board.NOTICE_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="camp.bytedance.g3board.LOGIN_START" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="camp.bytedance.g3board.MainActivity">
+
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

@@ -71,7 +71,8 @@ public class NoticeActivity extends AppCompatActivity {
         nowActivity = this;
         //接收Intent传递的Bulletin对象
         Intent intent = getIntent();
-        bulletinPeice = (Bulletin) intent.getParcelableExtra("bulletinPeice");
+        int index = intent.getIntExtra("bulletinPeice",0);
+        bulletinPeice = ActivityCollector.bulletinList.get(index);
         Log.d("Notice_Intent接收","接收到的Bulletin为" + bulletinPeice.getTitle());
 
         mNoticeRefresh = (SwipeRefreshLayout) findViewById(R.id.notice_refresh);
@@ -94,10 +95,14 @@ public class NoticeActivity extends AppCompatActivity {
         bulletinTime.setText(bulletinPeice.getTime());
         bulletinTitle.setText(bulletinPeice.getTitle());
         Log.d("Notice判断前", String.valueOf(ActivityCollector.token));
-
-        //调用方法获取文章内容
-        sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
-        Log.d("获取正文","正在获取" + bulletinPeice.getTitle());
+        
+        if (bulletinPeice.getContent() == null) {
+            //调用方法获取文章内容
+            sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
+            Log.d("获取正文","正在获取" + bulletinPeice.getTitle());
+        } else {
+            showContent();
+        }
 
         /**下拉刷新公告列表*/
         mNoticeRefresh.setOnRefreshListener(refreshListener);
@@ -236,8 +241,9 @@ public class NoticeActivity extends AppCompatActivity {
                         ActivityCollector.token = null;
                         ActivityCollector.clearCacheToken(NoticeActivity.this);
                         Intent login = new Intent("camp.bytedance.g3board.LOGIN_START");
+                        //传递新闻id
+                        login.putExtra("bulletinPeice", ActivityCollector.bulletinList.indexOf(bulletinPeice));
                         //进入登录页面
-                        login.putExtra("bulletinPeice", bulletinPeice);
                         nowActivity.startActivity(login);
                         NoticeActivity.this.runOnUiThread(new Runnable() {
                             @Override
