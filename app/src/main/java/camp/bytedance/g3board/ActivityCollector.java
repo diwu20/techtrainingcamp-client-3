@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +16,7 @@ import java.util.List;
  *
  * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
  * @date 2020/11/29
- * @descripation 活动管理器，用于记录当前存在的活动，执行全体的退出命令，以及存储各活动会使用的公共变量
+ * @descripation 活动管理器，用于记录当前存在的活动，执行全体的退出命令，以及存储各活动会使用的公共变量和公共方法
  *
  */
 

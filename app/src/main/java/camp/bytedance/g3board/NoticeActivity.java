@@ -95,7 +95,7 @@ public class NoticeActivity extends AppCompatActivity {
         bulletinTime.setText(bulletinPeice.getTime());
         bulletinTitle.setText(bulletinPeice.getTitle());
         Log.d("Notice判断前", String.valueOf(ActivityCollector.token));
-        
+
         if (bulletinPeice.getContent() == null) {
             //调用方法获取文章内容
             sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
