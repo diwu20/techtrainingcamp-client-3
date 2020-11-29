@@ -256,6 +256,7 @@ public class NoticeActivity extends AppCompatActivity {
                         login.putExtra("bulletinPeice", ActivityCollector.bulletinList.indexOf(bulletinPeice));
                         //进入登录页面
                         nowActivity.startActivity(login);
+                        finish();
                         NoticeActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
