@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -13,14 +14,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONObject;
 
@@ -50,6 +57,7 @@ public class NoticeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         bulletinPeice = (Bulletin) intent.getParcelableExtra("bulletinPeice");
         Log.d("Notice_Intent接收","接收到的Bulletin为" + bulletinPeice.getTitle());
+
 
         //让toolbar支持ActionBar操作
         Toolbar toolbar = findViewById(R.id.notice_toolbar);
@@ -152,8 +160,11 @@ public class NoticeActivity extends AppCompatActivity {
     }
 
     private void sendGetRequestWithHttpUrlConnection(String id) {
+        //假token，用于测试异常处理
+        //ActivityCollector.token =
+        //        "11eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMSIsIm5hbWUiOiIxMTEiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTYwNjYzNzQ3MSwiZXhwIjoxNjA2NjQxMDcxfQ.jsXS9YnSbFZ6aNzGZjfx9N8SSudMQRZ8HCOSbWyC1M4";
         veryfy();
-        new Thread(new Runnable() {
+        Thread connect = new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
@@ -166,8 +177,9 @@ public class NoticeActivity extends AppCompatActivity {
                     connection.setRequestProperty("Authorization","Bearer " + ActivityCollector.token);
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
-                    Log.d("MainActivity", "run: " + connection.toString());
+                    Log.d("MainActivity", "run connection: " + connection.toString());
                     InputStream in = connection.getInputStream();
+                    Log.d("MainActivity", "run connection in: " + in);
                     reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();
                     String line;
@@ -175,28 +187,30 @@ public class NoticeActivity extends AppCompatActivity {
                         response.append(line);
                     }
                     String response_str = response.toString();
-                    Log.d("MainActivity", "run: " + response_str);
+                    Log.d("MainActivity", "response为: " + response_str);
                     JSONObject jsonObject = new JSONObject(response_str);
                     NoticeActivity.code = (int) jsonObject.get("code");
                     NoticeActivity.data = response_str;
                     Log.d("AdapterToNotice",response_str);
-
                 } catch (Exception e) {
+                    Log.d("获取异常", String.valueOf(e));
+                    if (String.valueOf(e).contains("java.io.FileNotFoundException")) {
+                        //退出登录
+                        ActivityCollector.token = null;
+                        ActivityCollector.clearCacheToken(NoticeActivity.this);
+                        Intent login = new Intent("camp.bytedance.g3board.LOGIN_START");
+                        //进入登录页面
+                        login.putExtra("bulletinPeice", bulletinPeice);
+                        nowActivity.startActivity(login);
+                        NoticeActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(NoticeActivity.this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        Log.d("获取正文失败","TOKEN验证失败");
+                    }
                     e.printStackTrace();
-                    //退出登录
-                    ActivityCollector.token = null;
-                    ActivityCollector.clearCacheToken(NoticeActivity.this);
-                    Intent login = new Intent("camp.bytedance.g3board.LOGIN_START");
-                    //进入登录页面
-                    login.putExtra("bulletinPeice", bulletinPeice);
-                    nowActivity.startActivity(login);
-                    NoticeActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(NoticeActivity.this,"验证失败，请重新登录...",Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    Log.d("获取正文失败","TOKEN验证失败");
                 } finally {
                     if (reader != null) {
                         try {
@@ -210,7 +224,8 @@ public class NoticeActivity extends AppCompatActivity {
                     }
                 }
             }
-        }).start();
+        });
+        connect.start();
     }
 
     /**验证内容获取子线程*/
@@ -250,11 +265,13 @@ public class NoticeActivity extends AppCompatActivity {
                             TextView textView = (TextView) findViewById(R.id.content_text);
                             textView.setText("加载失败，点击屏幕重新加载");
                             ScrollView scrollView = (ScrollView) findViewById(R.id.notice_scroll);
-                            scrollView.setOnClickListener(new View.OnClickListener() {
+                            RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.touch_aera);
+                            relativeLayout.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(View v) {
+                                public void onClick(View view) {
+                                    time = 0;
                                     sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
-                                    Toast.makeText(NoticeActivity.this,"重新加载",Toast.LENGTH_SHORT);
+                                    textView.setText("重新加载中...");
                                 }
                             });
                         }

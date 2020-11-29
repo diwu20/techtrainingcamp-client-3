@@ -12,13 +12,22 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-//该类用于定义分割线属性，在MainActivity中使用
+/**
+ *
+ * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
+ * @date 2020/11/29
+ * @descripation 该类用于定义分割线属性，在MainActivity中使用
+ *
+ */
+
 public class RecycleViewDivider extends RecyclerView.ItemDecoration {
 
     private Paint mPaint;
     private Drawable mDivider;
-    private int mDividerHeight = 2;//分割线高度，默认为1px
-    private int mOrientation;//列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL
+    /**分割线高度，默认为1px
+     * 列表的方向：LinearLayoutManager.VERTICAL或LinearLayoutManager.HORIZONTAL*/
+    private int mDividerHeight = 2;
+    private int mOrientation;
     private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
 
     /**

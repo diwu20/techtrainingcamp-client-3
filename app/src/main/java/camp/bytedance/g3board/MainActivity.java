@@ -250,8 +250,8 @@ public class MainActivity extends BaseActivity {
 
     /**调用getBulletin方法发送请求**/
     private void initBulletin(okhttp3.Callback callback) {
-        //String jsonURL = "http://192.168.1.106/metadata.json";
-        String jsonUrl = "http://cdn.skyletter.cn/metadata.json";
+        String jsonUrl = "http://192.168.1.106/metadata.json";
+//        String jsonUrl = "http://cdn.skyletter.cn/metadata.json";
         getBulletin(jsonUrl, callback);
         Log.d("initBulletin","get ok");
     }

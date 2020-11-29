@@ -25,6 +25,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@SuppressWarnings("ALL")
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHolder> {
 
     static private Context NowActivity = null;
@@ -154,8 +155,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                                         byte[] result = (byte[]) msg.obj;
                                         Bitmap bitmap = BitmapFactory.decodeByteArray(result, 0, result.length);//利用BitmapFactory将数据转换成bitmap类型
                                         //使用ScaleBitmap进行裁剪和缩放
-                                        ScaleBitmap cut = new ScaleBitmap();
-                                        bitmap = cut.scaleBitmap(bitmap, 100, 60);
+                                        bitmap = ScaleBitmap.scaleBitmap(bitmap, 100, 60);
                                         Log.d("Bitmap", "Bitmap长度是" + result.length);
                                         finalBm[finalI] = bitmap;
                                         //setImage
@@ -176,8 +176,8 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.ViewHo
                 }
             } else {
                 //单个图片的情况下，只需要发起一次网络请求
-                //String URL = "http://192.168.1.106/" + peice.getCover();
-                String URL = "http://cdn.skyletter.cn/" + peice.getCover();
+                String URL = "http://192.168.1.106/" + peice.getCover();
+                //String URL = "http://cdn.skyletter.cn/" + peice.getCover();
                 Bitmap[] bm = new Bitmap[1];
                 if (peice.getBitmap() == null) {
                     Bitmap[] finalBm = bm;

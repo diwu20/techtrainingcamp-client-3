@@ -32,14 +32,17 @@
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 
+
     <ScrollView
         android:id="@+id/notice_scroll"
         android:layout_below="@id/notice_toolbar"
         android:scrollbars="vertical"
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:id="@+id/touch_aera"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -78,11 +81,12 @@
             android:id="@+id/content_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="10sp"
             android:layout_marginLeft="10sp"
             android:layout_marginRight="10sp"
             android:layout_below="@+id/bulletin_time"
-            android:text="加载中,请稍候..."
+            android:text="公告加载中,请稍候..."
             android:textColor="@color/Blackgray"
             android:textSize="18sp"/>
         </RelativeLayout>
