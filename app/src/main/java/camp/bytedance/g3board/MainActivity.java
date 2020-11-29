@@ -215,24 +215,23 @@ public class MainActivity extends BaseActivity {
                  * 时间倒序 -> 原始排序（时间远的在上面）
                  * 弹出snacbar提示，调用showBulletin方法重新展示公告列表
                  */
-                List<Bulletin> sortList = new ArrayList<>(bulletinList);
                 if (ActivityCollector.order == 0) {
                     ActivityCollector.order = -1;
                     item.setIcon(R.drawable.sort_desc);
-                    sortListBulletin(sortList, ActivityCollector.order);
                     Snackbar.make(this.findViewById(android.R.id.content),"时间顺序",Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
                 } else if (ActivityCollector.order == -1) {
                     ActivityCollector.order = 1;
                     item.setIcon(R.drawable.sort_asc);
-                    sortListBulletin(sortList, ActivityCollector.order);
                     Snackbar.make(this.findViewById(android.R.id.content),"时间倒序",Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
                 } else {
                     ActivityCollector.order = 0;
                     item.setIcon(R.drawable.sort_origin);
                   Snackbar.make(this.findViewById(android.R.id.content),"原始排序",Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 }
 
-                showBulletin(sortList, MainActivity.this, bulletinView);
+                showBulletin(bulletinList, MainActivity.this, bulletinView);
 
                 break;
             default:
@@ -276,7 +275,7 @@ public class MainActivity extends BaseActivity {
 
     /**创建adapter，将List<Bulletin>加载到RecyclerView**/
     private static void showBulletin(List<Bulletin> bulletinList, Context context, RecyclerView bulletinView) {
-        recyclerAdapter adapter  = new recyclerAdapter(bulletinList,context);
+        recyclerAdapter adapter  = new recyclerAdapter(sortListBulletin(bulletinList, ActivityCollector.order),context);
         bulletinView.setAdapter(adapter);
     }
 
@@ -294,8 +293,9 @@ public class MainActivity extends BaseActivity {
      * order == 1 时间倒序
      * order == -1 时间顺序
      * **/
-    private void sortListBulletin(List<Bulletin> bulletinList, int order) {
-        Collections.sort(bulletinList, new Comparator<Bulletin>() {
+    private static List<Bulletin> sortListBulletin(List<Bulletin> bulletinList, int order) {
+        List<Bulletin> sortList = new ArrayList<>(bulletinList);
+        Collections.sort(sortList, new Comparator<Bulletin>() {
             @Override
             public int compare(Bulletin o1, Bulletin o2) {
                 char[] time1 = o1.getTime().toCharArray();
@@ -326,6 +326,7 @@ public class MainActivity extends BaseActivity {
                 return order;
             }
         });
+        return sortList;
     }
 
     /**辅助方法，判断字符是否为中文，对公告列表进行排序时使用**/
