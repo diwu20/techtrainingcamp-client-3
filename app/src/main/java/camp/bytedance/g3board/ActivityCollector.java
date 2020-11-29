@@ -1,6 +1,7 @@
 package camp.bytedance.g3board;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -57,6 +58,12 @@ public class ActivityCollector {
 
     public static void removeActivity(Activity activity) {
         activityList.remove(activity);
+    }
+
+    public static String getTopActivity(Activity activity) {
+        ActivityManager am = (ActivityManager) activity.getBaseContext().getSystemService(Context.ACTIVITY_SERVICE);
+        String topActivityName = am.getRunningTasks(1).get(0).topActivity.getShortClassName();
+        return topActivityName;
     }
 
     /**点击退出程序按钮时执行的方法*/

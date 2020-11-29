@@ -121,9 +121,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.bulletinAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("getSimpleName",nowActivity.getClass().getSimpleName());
+                Log.d("getSimpleName",ActivityCollector.getTopActivity((Activity) nowActivity));
                 /**这个判断是防止在ClassifyActivity中点击名字出现的套娃现象*/
-                if (!nowActivity.getClass().getSimpleName().equals("ClassifyActivity")) {
+                if (!ActivityCollector.getTopActivity((Activity) nowActivity).equals(".ClassifyActivity")) {
                 int position = holder.getAbsoluteAdapterPosition();
                 Bulletin bulletinPeice = bulletinList.get(position);
                 Intent intent = new Intent("camp.bytedance.g3board.CLASSIFY_START");
