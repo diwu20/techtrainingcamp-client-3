@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:outlineProvider="bounds"
+    android:elevation="@dimen/elevationInRecyclerView"
+    android:layout_marginBottom="@dimen/marginInRecyclerView">
+
+    <ImageView
+        android:id="@+id/bulletin_image"
+        android:layout_width="wrap_content"
+        android:layout_height="100sp"
+        android:adjustViewBounds="true"
+        android:layout_marginLeft="16sp"
+        android:layout_marginRight="5sp"
+        android:layout_marginBottom="5sp"
+        android:layout_marginTop="5sp"
+        android:src="@drawable/icon"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/bulletin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16sp"
+            android:layout_marginTop="22sp"
+            android:text="Title"
+            />
+
+        <TextView
+            android:id="@+id/bulletin_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#545454"
+            android:layout_alignParentBottom="false"
+            android:layout_marginTop="85sp"
+            android:layout_marginLeft="20sp"
+            android:text="作者"
+            />
+
+        <TextView
+            android:id="@+id/bulletin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/bulletin_author"
+            android:layout_alignParentBottom="false"
+            android:layout_marginTop="85sp"
+            android:textSize="12sp"
+            android:textColor="#545454"
+            android:layout_marginLeft="10sp"
+            android:text="发布时间"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
+

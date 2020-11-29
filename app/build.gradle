@@ -7,11 +7,11 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.ProjectBDTC"
-        minSdkVersion 16
+        applicationId "camp.bytedance.g3board"
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0"
+        versionName "0.9.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,7 +43,13 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
     implementation 'com.squareup.okhttp3:okhttp:4.10.0-RC1'
     implementation 'com.google.code.gson:gson:2.8.6'
-    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
+//    implementation 'com.zzhoujay.richtext:richtext:3.0.7'
+//    implementation 'com.zzhoujay:html:1.0.2'
+//    implementation 'com.zzhoujay.okhttpimagedownloader:OkHttpImageDownloader:1.0.2'
+    implementation "io.noties.markwon:core:4.6.0"
+    implementation "io.noties.markwon:image:4.6.0"
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

@@ -14,28 +14,52 @@
 <!--        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
 <!--        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
 <!--        />-->
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/login_toolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        app:title="登陆"-->
+<!--        app:titleTextColor="@color/white">-->
+<!--    </androidx.appcompat.widget.Toolbar>-->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/login_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:title="登陆"
+        app:titleTextColor="@color/Pinlan">
+    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:layout_width="100sp"
         android:layout_height="100sp"
-        android:layout_marginTop="100sp"
+        android:layout_marginTop="30sp"
+        android:padding="2dp"
+        android:scaleType="centerInside"
+        android:background="@drawable/bg_photo"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_launcher"/>
+
+        android:src="@drawable/photo"/>
 
 <!--        用户名-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100sp"
+            android:layout_marginTop="60sp"
             android:layout_marginLeft="20sp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10sp"
                 android:layout_marginTop="4sp"
+                android:layout_gravity="center"
                 android:text="用户名:"
                 android:textSize="18dp"
-                android:textColor="@color/white"
+                android:textColor="@color/Pinlan"
                 />
             <EditText
                 android:id="@+id/username"
@@ -44,11 +68,12 @@
                 android:layout_marginLeft="8sp"
                 android:maxLength="20"
                 android:hint="请输入用户名"
+                android:textColorHint="@color/Blackgrayshadow"
                 android:background="@drawable/bg_edittext"
                 android:paddingLeft="10sp"
                 android:paddingTop="5sp"
                 android:paddingBottom="5sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/Pinlan"/>
         </LinearLayout>
 
 <!--        密码-->
@@ -62,10 +87,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4sp"
-                android:layout_marginLeft="18sp"
-                android:text="密码:"
+                android:layout_marginLeft="10sp"
+                android:layout_gravity="center"
+                android:text="密    码:"
                 android:textSize="18dp"
-                android:textColor="@color/white"
+                android:textColor="@color/Pinlan"
                 />
             <EditText
                 android:id="@+id/password"
@@ -74,20 +100,22 @@
                 android:layout_marginLeft="8sp"
                 android:maxLength="20"
                 android:hint="请输入密码"
+                android:textColorHint="@color/Blackgrayshadow"
                 android:background="@drawable/bg_edittext"
                 android:paddingLeft="10sp"
                 android:inputType="textPassword"
                 android:paddingTop="5sp"
                 android:paddingBottom="5sp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/Pinlan"/>
         </LinearLayout>
 
     <Button
         android:id="@+id/button_login"
         android:layout_width="100sp"
         android:layout_height="50sp"
-        android:layout_marginTop="50sp"
+        android:layout_marginTop="30sp"
         android:text="登录"
+        android:textStyle="bold"
         android:textColor="@color/PeachPuff"
         android:textSize="20dp"
         android:layout_gravity="center"

@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notice_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--    分割线，暂时不用-->
+    <!--    <ImageView-->
+    <!--        android:layout_width="fill_parent"-->
+    <!--        android:layout_below="@id/bulletin_title"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="#e0e0e0"-->
+    <!--        android:layout_marginBottom="5sp"-->
+    <!--        />-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/notice_toolbar_back"
+        android:elevation="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/notice_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
+        <TextView
+            android:id="@+id/notice_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:text="公告内容"
+            android:textColor="@color/Pinlan"
+            android:textSize="20sp" />
+    </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/notice_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notice_toolbar_back"
+        tools:context=".MainActivity">
+    <ScrollView
+        android:id="@+id/notice_scroll"
+        android:layout_below="@id/notice_toolbar"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/notice_touch_aera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+            android:id="@+id/bulletin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文章标题"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="15sp"
+            android:layout_marginBottom="10sp"/>
+
+        <TextView
+            android:id="@+id/bulletin_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bulletin_title"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="10sp"
+            android:text="author" />
+
+        <TextView
+            android:id="@+id/bulletin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bulletin_title"
+            android:layout_toRightOf="@id/bulletin_author"
+            android:text="publish time" />
+
+        <TextView
+            android:id="@+id/content_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:layout_below="@+id/bulletin_time"
+            android:text="公告加载中,请稍候..."
+            android:textSize="18sp"/>
+        </RelativeLayout>
+    </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</RelativeLayout>

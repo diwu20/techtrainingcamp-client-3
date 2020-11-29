@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/night"
+        android:title="夜间模式"
+        android:icon="@drawable/moon"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/sort_item"
+        android:icon="@drawable/sort_origin"
+        android:title="切换顺序"/>
+
+    <item
+        android:id="@+id/setting"
+        android:title="设置"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/exit_item"
+                android:title="退出程序"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/about_item"
+                android:title="关于我们"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/exitLogin_item"
+        android:title="退出登录"
+        app:showAsAction="never" />
+
+</menu>

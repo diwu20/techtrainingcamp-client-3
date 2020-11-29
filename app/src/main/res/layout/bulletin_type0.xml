@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:outlineProvider="bounds"
+    android:elevation="@dimen/elevationInRecyclerView"
+    android:layout_marginBottom="@dimen/marginInRecyclerView">
+
+        <TextView
+            android:id="@+id/bulletin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="70sp"
+            android:layout_alignParentLeft="true"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="16sp"
+            android:layout_marginTop="20sp"
+            android:text="Title"
+            />
+
+        <TextView
+            android:id="@+id/bulletin_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#545454"
+            android:layout_alignParentBottom="false"
+            android:layout_marginBottom="8sp"
+            android:layout_marginTop="70sp"
+            android:layout_marginLeft="18sp"
+            android:text="作者"
+            />
+
+        <TextView
+            android:id="@+id/bulletin_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/bulletin_author"
+            android:layout_alignParentBottom="false"
+            android:textSize="12sp"
+            android:textColor="#545454"
+            android:layout_marginBottom="10sp"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="70sp"
+            android:text="发布时间"
+            />
+
+</RelativeLayout>
+
+
