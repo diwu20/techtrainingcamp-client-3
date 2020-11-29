@@ -13,16 +13,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -40,6 +44,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -54,6 +59,10 @@ import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
 
+    private SwipeRefreshLayout mMainRefresh;
+    private Button mRefreshBtn;
+    private boolean isRefresh = false;
+
     private List<Bulletin> bulletinList;
     private RecyclerView bulletinView;
 
@@ -62,6 +71,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mMainRefresh = (SwipeRefreshLayout) findViewById(R.id.main_refresh);
 
         //启动时，调用该方法读取缓存的token和username
         ActivityCollector.getCacheToken(this);
@@ -92,7 +103,7 @@ public class MainActivity extends BaseActivity {
          * 调用parseJSONWithGson方法对获取的json字符串进行解析
          * 然后在主线程使用showBulletin方法更新UI，显示公告列表
          */
-        okhttp3.Callback callback = new okhttp3.Callback (){
+        Callback callback = new Callback (){
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
             }
@@ -115,27 +126,22 @@ public class MainActivity extends BaseActivity {
         /**使用initBulletin方法，会调用getBulletin方法，并使用回调方法更新UI**/
         initBulletin(callback);
 
-        /**
-         *刷新按钮
-         * 点击刷新按钮，调用initBulletin方法重新获取新闻列表
-         * 点击按钮有旋转180度的动画
-         */
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        /**下拉刷新公告列表*/
+        mMainRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View view) {
-                OvershootInterpolator interpolator = new OvershootInterpolator();
-                ViewCompat.animate(fab).
-                        rotationBy(180f).
-                        withLayer().
-                        setDuration(1000).
-                        setInterpolator(interpolator).
-                        start();
-
+            public void onRefresh() {
                 initBulletin(callback);
-                Snackbar.make(view, "刷新成功", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
+                Log.d("SwipeView","Refrehing");
+                (new Handler()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mMainRefresh.setRefreshing(false);
+                        Log.d("SwipeView ",mMainRefresh.isRefreshing()+"");
+                    }
+                }, 1000);
             }
+
+
         });
     }
 
