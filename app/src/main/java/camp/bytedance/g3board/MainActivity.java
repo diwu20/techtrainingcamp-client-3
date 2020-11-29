@@ -60,8 +60,6 @@ import okhttp3.Response;
 public class MainActivity extends BaseActivity {
 
     private SwipeRefreshLayout mMainRefresh;
-    private Button mRefreshBtn;
-    private boolean isRefresh = false;
 
     private List<Bulletin> bulletinList;
     private RecyclerView bulletinView;
@@ -140,8 +138,6 @@ public class MainActivity extends BaseActivity {
                     }
                 }, 1000);
             }
-
-
         });
     }
 

@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.ResultReceiver;
 import android.util.Log;
 import android.view.Menu;
@@ -39,6 +41,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class NoticeActivity extends AppCompatActivity {
+    private SwipeRefreshLayout mNoticeRefresh;
+
     static private int code = 100;
     static private int time = 0;
     //从Adapter传入的Bulletin对象
@@ -58,6 +62,7 @@ public class NoticeActivity extends AppCompatActivity {
         bulletinPeice = (Bulletin) intent.getParcelableExtra("bulletinPeice");
         Log.d("Notice_Intent接收","接收到的Bulletin为" + bulletinPeice.getTitle());
 
+        mNoticeRefresh = (SwipeRefreshLayout) findViewById(R.id.notice_refresh);
 
         //让toolbar支持ActionBar操作
         Toolbar toolbar = findViewById(R.id.notice_toolbar);
@@ -86,6 +91,28 @@ public class NoticeActivity extends AppCompatActivity {
         Log.d("获取正文","正在获取" + bulletinPeice.getTitle());
         //获取失败自动重试，超时停止
         //veryfy();
+        /**下拉刷新公告列表*/
+        mNoticeRefresh.setOnRefreshListener(refreshListener);
+    }
+
+    /**用于刷新操作的refreshListener，调用doRefresh方法*/
+    private  SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        public void onRefresh() {
+            doRefresh();
+        }
+    };
+
+    /**进行刷新操作，重新获取文章内容*/
+    private void doRefresh() {
+        sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
+        Log.d("刷新正文","正在获取" + bulletinPeice.getTitle());
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mNoticeRefresh.setRefreshing(false);
+                Log.d("SwipeView ",mNoticeRefresh.isRefreshing()+"");
+            }
+        }, 1000);
     }
 
     private void parseJsonWhithGson(String jsonData) {
@@ -270,8 +297,9 @@ public class NoticeActivity extends AppCompatActivity {
                                 @Override
                                 public void onClick(View view) {
                                     time = 0;
-                                    sendGetRequestWithHttpUrlConnection(bulletinPeice.getId());
+                                    mNoticeRefresh.setRefreshing(true);
                                     textView.setText("重新加载中...");
+                                    doRefresh();
                                 }
                             });
                         }

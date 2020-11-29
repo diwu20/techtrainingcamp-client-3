@@ -32,7 +32,13 @@
             android:textSize="20sp" />
     </androidx.appcompat.widget.Toolbar>
 
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/notice_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notice_toolbar"
+        tools:context=".MainActivity">
     <ScrollView
         android:id="@+id/notice_scroll"
         android:layout_below="@id/notice_toolbar"
@@ -91,4 +97,5 @@
             android:textSize="18sp"/>
         </RelativeLayout>
     </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>
