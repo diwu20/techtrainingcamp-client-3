@@ -96,14 +96,13 @@ public class LoginActivity extends BaseActivity {
                     TimerTask task = new TimerTask() {
                         @Override
                         public void run() {
+                            finish();
                             startActivity(notice);
-                            LoginActivity.this.finish();
                         }
                     };
                     Timer timer = new Timer();
                     //延迟两秒切换至新的Activity
                     timer.schedule(task, 1000);
-                    ActivityCollector.removeActivity(LoginActivity.this);
                 } else {
                     Toast.makeText(LoginActivity.this,"登录失败...",Toast.LENGTH_LONG).show();
                     Log.d("登录失败","获取Token失败");
