@@ -104,12 +104,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                     Toast.makeText(v.getContext(),"请先登录",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent("camp.bytedance.g3board.LOGIN_START");
                     //使用intent传递公告在list中的下标
-                    intent.putExtra("bulletinPeiceIndex", ActivityCollector.bulletinList.indexOf(bulletinPeice));
+                    bulletinList.indexOf(bulletinPeice);
+                    intent.putExtra("bulletinPeiceIndex", bulletinList.indexOf(bulletinPeice));
                     nowActivity.startActivity(intent);
                 } else {
                     Intent intent = new Intent("camp.bytedance.g3board.NOTICE_START");
                     //使用intent传递公告在list中的下标
-                    intent.putExtra("bulletinPeiceIndex", ActivityCollector.bulletinList.indexOf(bulletinPeice));
+                    bulletinList.indexOf(bulletinPeice);
+                    intent.putExtra("bulletinPeiceIndex", bulletinList.indexOf(bulletinPeice));
                     nowActivity.startActivity(intent);
                 }
             }

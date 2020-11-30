@@ -42,7 +42,7 @@ public class ActivityCollector {
     private static SharedPreferences tokenSP;
 
     public static List<Bulletin> bulletinList;
-    public static int order = -1;
+    public static int order = 0;
 
     public static int dayNightTheme = 0;
     public static int readerBgColor = 0;
