@@ -5,10 +5,7 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

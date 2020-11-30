@@ -1,7 +1,5 @@
 package camp.bytedance.g3board;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +12,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -43,12 +43,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        if (ActivityCollector.dayNightTheme == 1) {
-            setTheme(R.style.Theme_nightTime);
-        } else {
-            setTheme(R.style.Theme_dayTime);
-        }
-
+        setTheme(R.style.Theme_dayTimeLogin);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -128,7 +123,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.exit_item:
                 ActivityCollector.finishAll();
