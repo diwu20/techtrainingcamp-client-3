@@ -269,13 +269,6 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    /**从其他活动进入，接收到Intent时，刷新菜单**/
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        invalidateOptionsMenu();
-    }
-
     /**调用getBulletin方法发送请求**/
     private void initBulletin(okhttp3.Callback callback) {
         //String jsonUrl = "http://192.168.1.106/metadata.json";
