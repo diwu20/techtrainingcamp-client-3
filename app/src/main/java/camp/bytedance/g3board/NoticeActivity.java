@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
@@ -27,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -125,6 +128,8 @@ public class NoticeActivity extends AppCompatActivity {
         /**下拉刷新公告列表*/
         mNoticeRefresh.setOnRefreshListener(refreshListener);
 
+        /**更新菜单项*/
+        invalidateOptionsMenu();
     }
 
     /**用于刷新操作的refreshListener，调用doRefresh方法*/
@@ -165,13 +170,23 @@ public class NoticeActivity extends AppCompatActivity {
         Log.d("Text", bulletinPeice.getContent());
         TextView bulletinContent = (TextView) findViewById(R.id.content_text);
         new MdSupprt().showMdString(this, bulletinPeice.getContent(),bulletinContent);
-//        final Markwon markwon = Markwon.create(this);
-//        markwon.setMarkdown(bulletinContent, bulletinPeice.getContent());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_notice, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (menu != null) {
+            //根据登录状态切换菜单
+            if (ActivityCollector.dayNightTheme == 1) {
+                MenuItem white = menu.findItem(R.id.white);
+                white.setTitle("黑色");
+            }
+        }
+        return true;
     }
 
     @Override
@@ -206,9 +221,9 @@ public class NoticeActivity extends AppCompatActivity {
 
             case R.id.white:
                 if (ActivityCollector.dayNightTheme == 1) {
-                    scrollView.setBackgroundResource(R.color.grayshadow);
-                    ActivityCollector.readerBgColor = R.color.grayshadow;
-                    setTextColor(R.color.Blackgray);
+                    scrollView.setBackgroundResource(0);
+                    ActivityCollector.readerBgColor = 0;
+                    setTextColor(R.color.Blackgrayshadow);
                 } else {
                     ActivityCollector.readerBgColor = 0;
                     scrollView.setBackgroundResource(0);
@@ -348,6 +363,7 @@ public class NoticeActivity extends AppCompatActivity {
 
     /**更改页面内的文字颜色，在更换背景时使用*/
     private void setTextColor(int color){
+        color = ContextCompat.getColor(this, color);
         TextView bulletinAuthor = (TextView) findViewById(R.id.bulletin_author);
         TextView bulletinTime = (TextView) findViewById(R.id.bulletin_time);
         TextView bulletinTitle = (TextView) findViewById(R.id.bulletin_title);
@@ -357,5 +373,4 @@ public class NoticeActivity extends AppCompatActivity {
         bulletinTitle.setTextColor(color);
         bulletinContent.setTextColor(color);
     }
-
 }

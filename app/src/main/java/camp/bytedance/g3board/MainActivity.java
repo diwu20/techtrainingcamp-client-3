@@ -64,12 +64,16 @@ public class MainActivity extends BaseActivity {
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (ActivityCollector.isAtNight() && ActivityCollector.autoTheme == true) {
+            ActivityCollector.dayNightTheme = 1;
+        }
+        ActivityCollector.autoTheme = false;
         if (ActivityCollector.dayNightTheme == 1) {
             setTheme(R.style.Theme_nightTime);
         } else {
             setTheme(R.style.Theme_dayTime);
-
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (ActivityCollector.dayNightTheme == 0) {

@@ -5,9 +5,13 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +46,7 @@ public class ActivityCollector {
     public static int order = -1;
 
     public static int dayNightTheme = 0;
+    public static boolean autoTheme = true;
     public static int readerBgColor = 0;
 
     public static boolean classifyActivityOn = false;
@@ -109,5 +114,17 @@ public class ActivityCollector {
         alertDialog1.show();
     }
 
+    /**获取当前系统时间*/
+    public static boolean isAtNight() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat dFormat = new SimpleDateFormat("HH");
+
+        String time = dFormat.format(date);
+        Log.d("timeNow",time);
+        if (time.compareTo("20") >= 0 || time.compareTo("05") <= 0) {
+            return true;
+        }
+        return false;
+    }
 
 }
