@@ -2,8 +2,11 @@
 <resources>
     <style name="Theme.dayTime" parent="Theme.Design.Light.NoActionBar">
 
-        <item name="android:windowTranslucentStatus">true</item>
+<!--        <item name="android:windowTranslucentStatus">true</item>-->
         <item name="android:textColorTertiary">@color/Blackgray</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+
         <!-- Status bar color. -->
         <!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>-->
         <!-- Customize your theme here. -->

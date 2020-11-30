@@ -18,6 +18,7 @@
     <color name="Blackgrayshadow2">#6c6c6c</color>
     <color name="grayshadow">#e0e0e0</color>
     <color name="grayshadow2">#f0f0f0</color>
+    <color name="colorAccent">#FF4081</color>
 
     <color name="Green">#C7EDCC</color>
 </resources>
