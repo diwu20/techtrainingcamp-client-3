@@ -55,7 +55,6 @@ public class MainActivity extends BaseActivity {
      * @params bulletinList 公告列表
      * @params bulletinView 用于显示公告列表的RecyclerView
      **/
-
     private SwipeRefreshLayout mMainRefresh;
     private List<Bulletin> bulletinList;
     private RecyclerView bulletinView;
@@ -264,7 +263,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    /**按下返回后台运行,回到进入前页面**/
+    /**按下返回后台运行,回到进入前页面*/
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             moveTaskToBack(true);

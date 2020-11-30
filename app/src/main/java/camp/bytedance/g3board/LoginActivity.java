@@ -39,7 +39,12 @@ import java.util.TimerTask;
  */
 
 public class LoginActivity extends BaseActivity {
+    /**
+     * @params flag 判断是否成功获取token
+     *
+     */
     private boolean flag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -136,11 +141,7 @@ public class LoginActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     *
-     * 在子线程中进行网络请求，获取TOKEN，并将username/token存入ActivityCollector
-     *
-     */
+    /**在子线程中进行网络请求，获取TOKEN，并将username/token存入ActivityCollector*/
     private void sendPostRequestWithHttpUrlConnection(String username, int password) {
         new Thread(new Runnable() {
             @Override

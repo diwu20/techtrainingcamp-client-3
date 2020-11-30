@@ -18,7 +18,7 @@ import io.noties.markwon.image.ImagesPlugin;
  */
 public class MdSupprt {
 
-    /***/
+    /**替换图片关键字*/
     private String replaceMark(String mdtext, int start) {
         int indexStart = mdtext.indexOf("![", start);
         if (indexStart == -1) {
@@ -37,6 +37,7 @@ public class MdSupprt {
         return replaceMark(mdtext.replace(subText,imageMark), indexEnd);
     }
 
+    /**调用Markwon的swtMarkdown方法显示富文本*/
     public void showMdString(Context context, String mdtext, TextView textView) {
         final Markwon markwon = Markwon.builder(context)
                 .usePlugin(ImagesPlugin.create())

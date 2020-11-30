@@ -1,10 +1,8 @@
 package camp.bytedance.g3board;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -29,7 +27,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -54,12 +51,9 @@ public class NoticeActivity extends AppCompatActivity {
      *
      */
     private SwipeRefreshLayout mNoticeRefresh;
-
     static private int code = 100;
     static private int time = 0;
-
     private Bulletin bulletinPeice;
-
     public static String data;
     private Context nowActivity;
 
@@ -166,11 +160,13 @@ public class NoticeActivity extends AppCompatActivity {
         }
     }
 
+    /**调用MdSupport展示文本*/
     private void showContent() {
         Log.d("Text", bulletinPeice.getContent());
         TextView bulletinContent = (TextView) findViewById(R.id.content_text);
         new MdSupprt().showMdString(this, bulletinPeice.getContent(),bulletinContent);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_notice, menu);
@@ -239,25 +235,27 @@ public class NoticeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**发送网络请求，处理异常*/
     private void sendGetRequestWithHttpUrlConnection(String id) {
-
-        veryfy();
+        //开启线程进行定时监控
+        verifyResponse();
         Thread connect = new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
                 BufferedReader reader = null;
+                /**获取内容*/
                 try {
                     URL url = new URL("https://vcapi.lvdaqian.cn/article/"+id+"?markdown=true");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
-                    Log.d("获取内容时的Token为",String.valueOf(ActivityCollector.token));
                     connection.setRequestProperty("Authorization","Bearer " + ActivityCollector.token);
                     connection.setConnectTimeout(8000);
                     connection.setReadTimeout(8000);
                     Log.d("MainActivity", "run connection: " + connection.toString());
                     InputStream in = connection.getInputStream();
                     Log.d("MainActivity", "run connection in: " + in);
+                    //读取返回
                     reader = new BufferedReader(new InputStreamReader(in));
                     StringBuilder response = new StringBuilder();
                     String line;
@@ -271,15 +269,14 @@ public class NoticeActivity extends AppCompatActivity {
                     NoticeActivity.data = responseStr;
                     Log.d("AdapterToNotice",responseStr);
                 } catch (Exception e) {
-                    Log.d("获取异常", String.valueOf(e));
+                    /**异常处理，错误，重新登录*/
                     if (String.valueOf(e).contains("java.io.FileNotFoundException")) {
-                        //退出登录
+                        //清空登录信息
                         ActivityCollector.token = null;
                         ActivityCollector.clearCacheToken(NoticeActivity.this);
+                        //启动登陆活动
                         Intent login = new Intent("camp.bytedance.g3board.LOGIN_START");
-                        //传递新闻id
                         login.putExtra("bulletinPeice", ActivityCollector.bulletinList.indexOf(bulletinPeice));
-                        //进入登录页面
                         nowActivity.startActivity(login);
                         finish();
                         NoticeActivity.this.runOnUiThread(new Runnable() {
@@ -308,8 +305,8 @@ public class NoticeActivity extends AppCompatActivity {
         connect.start();
     }
 
-    /**验证内容获取子线程*/
-    private void veryfy() {
+    /**监控网络请求返回值，超时进行处理*/
+    private void verifyResponse() {
         new Thread(new Runnable() {
             @Override
             public void run() {

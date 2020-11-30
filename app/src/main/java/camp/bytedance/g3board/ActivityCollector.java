@@ -28,6 +28,7 @@ public class ActivityCollector {
      * @params tokenSP 用于缓存用于信息
      * @params bulletinList 公告列表
      * @params order 公告列表展示的顺序
+     * @params autoTheme 用于指示当前是否需要根据系统时间切换主题，避免使用过程中自动切换
      * @params dayNightTheme 用于指示当前主题
      * 0 -> 日间主题
      * 1 -> 夜间主题
@@ -114,11 +115,11 @@ public class ActivityCollector {
         alertDialog1.show();
     }
 
-    /**获取当前系统时间*/
+    /**获取当前系统时间，判断当前是否是夜晚
+     * 晚上8点到早上5点算夜晚*/
     public static boolean isAtNight() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat dFormat = new SimpleDateFormat("HH");
-
         String time = dFormat.format(date);
         Log.d("timeNow",time);
         if (time.compareTo("20") >= 0 || time.compareTo("05") <= 0) {
