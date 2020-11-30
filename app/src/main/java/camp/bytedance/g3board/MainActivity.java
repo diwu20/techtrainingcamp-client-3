@@ -273,7 +273,7 @@ public class MainActivity extends BaseActivity {
     /**从其他活动进入，接收到Intent时，刷新菜单**/
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        this.invalidateOptionsMenu();
+        invalidateOptionsMenu();
     }
 
     /**调用getBulletin方法发送请求**/
@@ -344,4 +344,10 @@ public class MainActivity extends BaseActivity {
         }, 1000);
     }
 
+    /**刷新菜单*/
+    @Override
+    public void onResume(){
+        super.onResume();
+        invalidateOptionsMenu();
+    }
 }
