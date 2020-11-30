@@ -8,8 +8,8 @@ import java.util.List;
 
 /**
  * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
- * @date 2020/11/29
- * @description 工具类，用于对BulletinList进行合适的排序
+ * @date 2020/11/30
+ * @description 用于给bulletinList排序
  * order == 1 时间倒序
  * order == -1 时间顺序
  */
@@ -17,11 +17,6 @@ import java.util.List;
 public class SortBulletinList {
 
     public static List<Bulletin> sort(List<Bulletin> bulletinList, int order) {
-
-        if (bulletinList == null) {
-            return  bulletinList;
-        }
-
         List<Bulletin> sortList = new ArrayList<>(bulletinList);
         Collections.sort(sortList, new Comparator<Bulletin>() {
             @Override

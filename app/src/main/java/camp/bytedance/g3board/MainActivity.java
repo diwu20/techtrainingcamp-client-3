@@ -298,7 +298,7 @@ public class MainActivity extends BaseActivity {
         if (bulletinList == null) {
             return;
         }
-        RecyclerAdapter adapter  = new RecyclerAdapter(SortListBulletin.sort(bulletinList, ActivityCollector.order),context);
+        RecyclerAdapter adapter  = new RecyclerAdapter(SortBulletinList.sort(bulletinList, ActivityCollector.order),context);
         bulletinView.setAdapter(adapter);
     }
 
@@ -308,7 +308,7 @@ public class MainActivity extends BaseActivity {
         Gson gson = new Gson();
         bulletinList = gson.fromJson(jsonData, new TypeToken<List<Bulletin>>(){}.getType());
         //排序
-        SortListBulletin.sort(bulletinList, ActivityCollector.order);
+        SortBulletinList.sort(bulletinList, ActivityCollector.order);
         ActivityCollector.bulletinList = bulletinList;
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
