@@ -1,6 +1,7 @@
 package camp.bytedance.g3board;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 /**
  *
  * @author Bytedance Technical Camp, Client Group 3, 吴迪 & 王龙逊
@@ -123,6 +124,7 @@ public class NoticeActivity extends AppCompatActivity {
 
         /**下拉刷新公告列表*/
         mNoticeRefresh.setOnRefreshListener(refreshListener);
+
     }
 
     /**用于刷新操作的refreshListener，调用doRefresh方法*/
@@ -208,6 +210,7 @@ public class NoticeActivity extends AppCompatActivity {
                     ActivityCollector.readerBgColor = R.color.grayshadow;
                     setTextColor(R.color.Blackgray);
                 } else {
+                    ActivityCollector.readerBgColor = 0;
                     scrollView.setBackgroundResource(0);
                 }
             break;
