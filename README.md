@@ -1,6 +1,7 @@
 # techtrainingcamp-client-3  
-字节跳动技术训练营-客户端第3组项目  
-作者：   
+字节跳动技术训练营-客户端第3组项目
+
+两个零基础的菜鸡小组成员：   
 [@diwu20](https://github.com/diwu20)  
 [@1249091417](https://github.com/1249091417)  
 
