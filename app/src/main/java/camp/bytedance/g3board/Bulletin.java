@@ -14,7 +14,7 @@ import java.util.List;
  *
  */
 
-public class Bulletin implements Parcelable {
+public class Bulletin{
 
     private int type;
     private String id;
@@ -70,48 +70,5 @@ public class Bulletin implements Parcelable {
     public Bitmap[] getBitmap() {
         return bitmap;
     }
-
-    protected Bulletin(Parcel in) {
-        type = in.readInt();
-        id = in.readString();
-        title = in.readString();
-        cover = in.readString();
-        covers = in.createStringArrayList();
-        author = in.readString();
-        publishTime = in.readString();
-        data = in.readString();
-        bitmap = in.createTypedArray(Bitmap.CREATOR);
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(type);
-        dest.writeString(id);
-        dest.writeString(title);
-        dest.writeString(cover);
-        dest.writeStringList(covers);
-        dest.writeString(author);
-        dest.writeString(publishTime);
-        dest.writeString(data);
-        dest.writeTypedArray(bitmap, flags);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Bulletin> CREATOR = new Creator<Bulletin>() {
-        @Override
-        public Bulletin createFromParcel(Parcel in) {
-            return new Bulletin(in);
-        }
-
-        @Override
-        public Bulletin[] newArray(int size) {
-            return new Bulletin[size];
-        }
-    };
-
 
 }
