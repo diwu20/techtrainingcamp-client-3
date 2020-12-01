@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -48,10 +49,19 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        setTheme(R.style.Theme_dayTimeLogin);
+        if (ActivityCollector.dayNightTheme == 1) {
+            setTheme(R.style.Theme_dayTimeLogin);
+        } else {
+            setTheme(R.style.Theme_nightTime);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if (ActivityCollector.dayNightTheme == 1) {
+            LinearLayout background = (LinearLayout) findViewById(R.id.login_background);
+            background.setBackgroundResource(R.drawable.login_bg_dark);
+        }
         Intent intent = getIntent();
         int index = intent.getIntExtra("bulletinPeiceIndex",0);
         Bulletin bulletinPeice = ActivityCollector.bulletinList.get(index);
