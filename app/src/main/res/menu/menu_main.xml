@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/sort_item"
-        android:icon="@drawable/sort_origin"
+        android:icon="@drawable/sort_desc"
         android:title="切换顺序"/>
 
     <item
