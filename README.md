@@ -9,6 +9,8 @@
 ![日间模式](https://github.com/diwu20/techtrainingcamp-client-3/blob/main/LightMode.png)  
 ![夜间模式](https://github.com/diwu20/techtrainingcamp-client-3/blob/main/DarkMode.png)  
 
+### 开发进展
+
 ### 2020.12.01 项目提交版本  
 实现的主要功能：  
 1. 公告列表展示，从网络获取json和图片资源  
