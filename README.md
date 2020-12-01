@@ -1,8 +1,8 @@
 # techtrainingcamp-client-3
 字节跳动技术训练营-客户端第3组项目
 作者： 
-![diwu20](https://github.com/diwu20)
-![@https://github.com/1249091417]
+[diwu20](https://github.com/diwu20)
+[1249091417](https://github.com/1249091417)
 
 ### 2020.12.01 项目提交版本
 实现的主要功能：  
