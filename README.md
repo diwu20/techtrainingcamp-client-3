@@ -1,6 +1,26 @@
-# project-BDTC 
- project-BDTC client  
- 最新状态以wlx分支为准
+# techtrainingcamp-client-3  
+字节跳动技术训练营-客户端第3组项目
+
+两个零基础的菜鸡小组成员：   
+[@diwu20](https://github.com/diwu20)  
+[@1249091417](https://github.com/1249091417)  
+
+## 效果展示  
+![日间模式](https://github.com/diwu20/techtrainingcamp-client-3/blob/main/LightMode.png)  
+![夜间模式](https://github.com/diwu20/techtrainingcamp-client-3/blob/main/DarkMode.png)  
+
+### 开发进展
+
+### 2020.12.01 项目提交版本  
+实现的主要功能：  
+1. 公告列表展示，从网络获取json和图片资源  
+2. 登录验证与token本地缓存，启动时从本地获取token
+3. 公告内容的Markdown格式解析，图文混排
+4. 日间模式与夜间模式的切换，启动时根据系统时间切换主题
+5. 公告内容页背景颜色切换
+6. 按作者分类展示公告列表的功能
+7. 首页列表按时间顺序/倒序/json顺序排序的功能
+8. 退出登录的功能
 
 ### 2020.11.27更新  
 近期实现的功能：  
