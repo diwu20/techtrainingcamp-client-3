@@ -37,6 +37,7 @@ public class Bulletin{
          data = bulletinPeice.data;
          bitmap = bulletinPeice.bitmap;
     }
+
     public String getTitle() {
         return title;
     }

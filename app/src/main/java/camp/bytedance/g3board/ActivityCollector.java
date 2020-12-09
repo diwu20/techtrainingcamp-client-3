@@ -105,7 +105,7 @@ public class ActivityCollector {
         tokenSP.edit().clear().apply();
     }
 
-    /**点击菜单中关于项时展示的弹窗*/
+    /**点击菜单中关于项展示的弹窗*/
     public static void showAbout(Context context) {
         AlertDialog alertDialog1 = new AlertDialog.Builder(context)
                 .setTitle("G3公告板 V0.9.9")

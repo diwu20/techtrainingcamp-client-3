@@ -37,7 +37,6 @@ public class ScaleBitmap {
             }
             Log.e("gacmy","scale:"+scale+" scaleWidth:"+scaleWidth+" scaleHeight:"+scaleHeight);
 
-
         }else if(w < h){
             /**比例宽度小于高度的情况*/
             float scale = h/w;
@@ -53,8 +52,9 @@ public class ScaleBitmap {
                 x = 0;
                 scaleWidth = width;
             }
+
         }else{
-            //比例宽高相等的情况
+            /**比例宽高相等的情况*/
             if(width > height){
                 x= (width-height)/2;
                 y = 0;
